@@ -140,9 +140,9 @@ This deck itself uses Inter, a restrained palette and an 8-point rhythm.`,
       c.t('Home  Find  Events  Me', x, y + 0.98, 2.7, 0.2, { size: 9.5, color: K.mute }); }
     // layout
     { const x = qx[1] + 0.25, y = qy[1] + 0.5;
-      for (let i = 0; i < 6; i++) c.rect(x + i * 0.9, y, 0.78, 1.3, { fill: K.lavL });
-      c.rect(x + 0.9, y + 0.1, 2.5, 0.28, { fill: K.blueD, r: 0.04 }); c.rect(x + 0.9, y + 0.5, 1.6, 0.7, { fill: K.card, line: K.blueD, lw: 1, r: 0.04 }); c.rect(x + 2.7, y + 0.5, 1.6, 0.7, { fill: K.card, line: K.blueD, lw: 1, r: 0.04 });
-      c.t('8', x + 3.45, y + 0.12, 0.3, 0.2, { size: 9, bold: true, color: K.blueD }); c.t('16', x + 2.52, y + 0.76, 0.2, 0.2, { size: 8, bold: true, color: K.blueD });
+      for (let i = 0; i < 4; i++) c.rect(x + i * 0.9, y, 0.78, 1.3, { fill: K.lavL });
+      c.rect(x, y + 0.08, 3.48, 0.28, { fill: K.blueD, r: 0.04 }); c.rect(x, y + 0.5, 1.68, 0.7, { fill: K.card, line: K.blueD, lw: 1, r: 0.04 }); c.rect(x + 1.8, y + 0.5, 1.68, 0.7, { fill: K.card, line: K.blueD, lw: 1, r: 0.04 });
+      ['8 pt gaps between items', '16 pt padding in cards', 'Edges snap to columns'].forEach((t, i) => c.t(t, x + 3.85, y + 0.0 + i * 0.45, 1.75, 0.4, { size: 11, bold: true, color: K.blueD, valign: 'middle', ls: 1.0 }));
     }
   }
 
@@ -233,7 +233,7 @@ Ask students to validate each question with a quick usability test rather than a
     p.rect(10, 486, 280, 46, { fill: K.ink3, r: 8 }); p.rect(18, 492, 34, 34, { fill: K.lav, r: 5 }); p.t('Now playing', 62, 494, 130, 14, { size: 10, bold: true, color: K.paper }); p.t('Artist', 62, 510, 130, 12, { size: 8.5, color: K.grey }); p.icon('FiPlay', 262, 509, 16, 'white');
     p.rect(14, 544, 272, 46, { fill: K.ink3, r: 23 }); [['FiHome', 'Home', 1], ['FiSearch', 'Search', 0], ['FiMusic', 'Library', 0]].forEach((t, i) => { const cx = 14 + 45 + i * 91; p.icon(t[0], cx, 561, 16, t[2] ? 'white' : 'grey'); p.t(t[1], cx - 30, 573, 60, 12, { size: 8, color: t[2] ? K.white : K.grey, align: 'center', bold: !!t[2] }); });
     const nums = [[286, 5.45, 1], [100, 3.1, 2], [200, 4.1, 3], [284, 6.0, 4], [220, 2.5, 5]];
-    [[p.X(296), p.Y(566), 1], [p.X(296), p.Y(106), 2], [p.X(296), p.Y(300), 3], [p.X(296), p.Y(509), 4], [p.X(296), p.Y(52), 5]].forEach((n) => c.box(n[0] - 0.14, n[1] - 0.14, 0.28, 0.28, String(n[2]), { shape: 'ellipse', fill: K.lav, color: K.ink, size: 10, bold: true }));
+    [[3.35, p.Y(566), 1], [3.35, p.Y(106), 2], [3.35, p.Y(300), 3], [3.35, p.Y(509), 4], [3.35, p.Y(52), 5]].forEach((n) => c.box(n[0] - 0.14, n[1] - 0.14, 0.28, 0.28, String(n[2]), { shape: 'ellipse', fill: K.lav, color: K.ink, size: 10, bold: true }));
     const x0 = 3.75, w = 8.98;
     c.t('DESIGN DECISION', x0 + 0.55, 1.95, 1.9, 0.25, { size: 9, bold: true, color: K.lav, cs: 1.5, valign: 'middle' }); c.t('WHY IT MAY WORK', x0 + 2.75, 1.95, 2.2, 0.25, { size: 9, bold: true, color: K.lav, cs: 1.5, valign: 'middle' }); c.t('QUESTION TO TEST', x0 + 5.9, 1.95, 2.2, 0.25, { size: 9, bold: true, color: K.lav, cs: 1.5, valign: 'middle' });
     const rows = [
@@ -308,12 +308,22 @@ Tree testing can verify whether people can find items in a proposed structure be
     const c = S(s);
     const nw = 1.55, nh = 0.42;
     const node = (x, cy, t, hl) => { c.box(x, cy - nh / 2, nw, nh, t, { r: 0.08, fill: hl ? K.blueD : K.card, line: hl ? undefined : K.grey, lw: 1, color: hl ? K.white : K.ink, size: 11.5, bold: true }); };
-    const link = (x1, y1, x2, y2, hl) => c.path([[x1, y1], [(x1 + x2) / 2, y1], [(x1 + x2) / 2, y2], [x2, y2]], { color: hl ? K.blueD : K.grey, w: hl ? 3 : 1.25 });
+    const G = { color: K.grey, w: 1.25 }, Bl = { color: K.blueD, w: 3 };
+    const seg = (x1, y1, x2, y2, hl) => c.line(x1, y1, x2, y2, hl ? Bl : G);
+    // bracket: parent stub, one trunk (split where highlighted), child stubs: no stroke is drawn twice
+    const bracket = (px, py, cx2, kids, hlIdx) => {
+      const mid = (px + cx2) / 2, ys = [py, ...kids].sort((u, v) => u - v);
+      const hy = hlIdx === undefined ? null : kids[hlIdx];
+      seg(px, py, mid, py, hy !== null);
+      for (let i = 0; i < ys.length - 1; i++) { const lo = ys[i], hi = ys[i + 1]; if (hi - lo < 1e-6) continue; const on = hy !== null && Math.min(py, hy) <= lo + 1e-6 && Math.max(py, hy) >= hi - 1e-6; seg(mid, lo, mid, hi, on); }
+      kids.forEach((ky, i) => { if (Math.abs(ky - py) < 1e-6 && i !== hlIdx) { /* straight child: stub continues parent line */ } seg(mid, ky, cx2, ky, i === hlIdx); });
+    };
     const X = [0.6, 2.65, 4.7, 6.75, 8.8];
     const l1 = [['Home', 2.3], ['Events', 2.95], ['My tickets', 3.6], ['Clubs', 4.25], ['Profile', 4.9]];
-    link(X[0] + nw, 3.6, X[1], 2.3); link(X[0] + nw, 3.6, X[1], 2.95, true); link(X[0] + nw, 3.6, X[1], 3.6); link(X[0] + nw, 3.6, X[1], 4.25); link(X[0] + nw, 3.6, X[1], 4.9);
-    link(X[1] + nw, 2.95, X[2], 2.45); link(X[1] + nw, 2.95, X[2], 3.1, true); link(X[1] + nw, 3.6, X[2], 3.75); link(X[1] + nw, 4.25, X[2], 4.4); link(X[1] + nw, 4.9, X[2], 5.05);
-    link(X[2] + nw, 3.1, X[3], 3.1, true); link(X[3] + nw, 3.1, X[4], 3.1, true);
+    bracket(X[0] + nw, 3.6, X[1], l1.map((n) => n[1]), 1);
+    bracket(X[1] + nw, 2.95, X[2], [2.45, 3.1], 1);
+    bracket(X[1] + nw, 3.6, X[2], [3.75]); bracket(X[1] + nw, 4.25, X[2], [4.4]); bracket(X[1] + nw, 4.9, X[2], [5.05]);
+    seg(X[2] + nw, 3.1, X[3], 3.1, true); seg(X[3] + nw, 3.1, X[4], 3.1, true);
     node(X[0], 3.6, 'Gather', true);
     l1.forEach((n, i) => node(X[1], n[1], n[0], i === 1));
     [['Browse and filter', 2.45, false], ['Event details', 3.1, true], ['QR ticket', 3.75, false], ['Club page', 4.4, false], ['Settings', 5.05, false]].forEach((n) => node(X[2], n[1], n[0], n[2]));

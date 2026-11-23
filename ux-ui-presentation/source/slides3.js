@@ -27,10 +27,10 @@ Activity: have students sketch a four-panel storyboard in five minutes.`,
       const x = 0.6 + i * (pw + gp), y = 2.75;
       c.rect(x, y, pw, 1.9, { fill: K.paper, r: 0.1 });
       const cx = x + pw / 2;
-      if (i === 0) { c.rect(x + 0.18, y + 0.2, 0.62, 0.85, { fill: K.blue, r: 0.04 }); c.rect(x + 0.26, y + 0.3, 0.46, 0.08, { fill: K.white, r: 0.03 }); c.rect(x + 0.26, y + 0.46, 0.3, 0.05, { fill: K.lav, r: 0.025 }); c.ell(x + 1.05, y + 0.95, 0.14, { fill: K.ink }); c.rect(x + 0.93, y + 1.1, 0.24, 0.55, { fill: K.ink, r: 0.1 }); }
+      if (i === 0) { c.rect(x + 0.3, y + 0.5, 0.62, 0.75, { fill: K.blue, r: 0.04 }); c.rect(x + 0.38, y + 0.6, 0.46, 0.08, { fill: K.white, r: 0.03 }); c.rect(x + 0.38, y + 0.76, 0.3, 0.05, { fill: K.lav, r: 0.025 }); c.ell(x + 1.1, y + 1.0, 0.13, { fill: K.ink }); c.rect(x + 0.99, y + 1.15, 0.22, 0.5, { fill: K.ink, r: 0.1 }); }
       if (i === 1) { c.ell(x + 0.45, y + 0.8, 0.14, { fill: K.ink }); c.rect(x + 0.33, y + 0.95, 0.24, 0.6, { fill: K.ink, r: 0.1 }); c.rect(x + 0.75, y + 0.45, 0.5, 0.9, { fill: K.ink3, r: 0.06 }); c.rect(x + 0.79, y + 0.52, 0.42, 0.76, { fill: K.blue, r: 0.04 }); c.line(x + 0.58, y + 1.1, x + 0.75, y + 0.95, { color: K.ink, w: 2 }); }
       if (i === 2) { c.rect(x + 0.45, y + 0.25, 0.55, 1.0, { fill: K.ink3, r: 0.07 }); c.rect(x + 0.5, y + 0.33, 0.45, 0.84, { fill: K.white, r: 0.05 }); c.ell(cx, y + 0.65, 0.17, { fill: K.green }); c.icon('FiCheck', cx, y + 0.65, 0.2, 'white'); c.rect(x + 0.56, y + 0.98, 0.33, 0.1, { fill: K.blue, r: 0.05 }); c.t('✓ ✓', x + 0.1, y + 1.4, 1.25, 0.3, { size: 12, color: K.green, bold: true, align: 'center' }); }
-      if (i === 3) { c.rect(x + 0.15, y + 0.15, 0.55, 1.3, { fill: K.grey, r: 0.03 }); c.rect(x + 0.9, y + 0.5, 0.4, 0.4, { fill: K.white, line: K.ink, r: 0.03 }); [[0, 0], [1, 0], [0, 1], [1, 1], [0.5, 0.5]].forEach((q) => c.rect(x + 0.95 + q[0] * 0.2, y + 0.55 + q[1] * 0.2, 0.1, 0.1, { fill: K.ink })); c.ell(x + 0.95, y + 1.05, 0.12, { fill: K.ink }); c.rect(x + 0.85, y + 1.2, 0.2, 0.5, { fill: K.ink, r: 0.08 }); }
+      if (i === 3) { c.rect(x + 0.15, y + 0.5, 0.55, 1.1, { fill: K.grey, r: 0.03 }); c.rect(x + 0.9, y + 0.5, 0.4, 0.4, { fill: K.white, line: K.ink, r: 0.03 }); [[0, 0], [1, 0], [0, 1], [1, 1], [0.5, 0.5]].forEach((q) => c.rect(x + 0.95 + q[0] * 0.2, y + 0.55 + q[1] * 0.2, 0.1, 0.1, { fill: K.ink })); c.ell(x + 0.95, y + 1.05, 0.12, { fill: K.ink }); c.rect(x + 0.85, y + 1.2, 0.2, 0.5, { fill: K.ink, r: 0.08 }); }
       c.box(x + 0.08, y + 0.08, 0.26, 0.26, String(i + 1), { shape: 'ellipse', fill: K.ink, color: K.paper, size: 10, bold: true });
       c.t(cap[i], x, y + 1.98, pw, 0.55, { size: 11.5, color: K.paper, ls: 1.0 });
     }
@@ -82,7 +82,6 @@ Important: this map is a hypothesis for the persona Aisha. A real journey map mu
     const ey = 4.85, eh = 1.1;
     c.t('EMOTION', lx, ey, lw, eh, { size: 9.5, bold: true, color: K.mute, cs: 1.5, valign: 'middle' });
     c.rect(cx0 + 0.03, ey, 6 * cw - 0.06, eh, { fill: K.paper2, r: 0.08 });
-    c.line(cx0 + 0.1, ey + eh / 2, cx0 + 6 * cw - 0.1, ey + eh / 2, { color: K.line, w: 1, dash: 'dash' });
     c.icon('FiSmile', cx0 + 0.25, ey + 0.18, 0.2, 'green'); c.icon('FiFrown', cx0 + 0.25, ey + eh - 0.18, 0.2, 'red');
     const lv = [0.58, 0.52, 0.15, 0.38, 0.72, 0.92];
     const pts = lv.map((v, i) => [cx0 + i * cw + cw / 2, ey + eh - 0.15 - v * (eh - 0.3)]);
@@ -122,7 +121,7 @@ Discuss: which pain point in Gather would benefit the most students if solved we
     });
     // curb cut
     c.t('THE CURB-CUT EFFECT', 7.0, 1.95, 4, 0.22, { size: 10, bold: true, color: K.lav, cs: 2 });
-    ['Wheelchairs', 'Strollers', 'Luggage', 'Bicycles'].forEach((t, i) => { const x = 7.0 + i * 1.45; c.box(x, 2.3, 1.35, 0.34, t, { r: 0.17, fill: K.ink3, color: K.paper, size: 11, bold: true }); c.line(x + 0.675, 2.66, 9.55, 3.35, { color: K.grey, w: 0.75 }); });
+    ['Wheelchairs', 'Strollers', 'Luggage', 'Bicycles'].forEach((t, i) => { const x = 7.0 + i * 1.45; c.box(x, 2.3, 1.35, 0.34, t, { r: 0.17, fill: K.ink3, color: K.paper, size: 11, bold: true }); c.line(x + 0.675, 2.66, [9.2, 9.4, 9.6, 9.8][i], [3.64, 3.53, 3.42, 3.31][i], { color: K.grey, w: 0.75 }); });
     c.rect(7.0, 3.75, 2.0, 0.28, { fill: K.grey }); c.rect(10.0, 3.2, 2.73, 0.83, { fill: K.lav });
     c.poly([[9.0, 3.75], [10.0, 3.2], [10.0, 3.75]], { fill: K.blue }); c.poly([[9.0, 4.03], [9.0, 3.75], [10.0, 3.75], [10.0, 4.03]], { fill: K.grey });
     c.t('road', 7.1, 4.06, 1, 0.2, { size: 10, color: K.grey }); c.t('pavement', 11.6, 4.06, 1.1, 0.2, { size: 10, color: K.grey, align: 'right' });
@@ -160,7 +159,7 @@ A good flow reveals unnecessary steps and missing error paths before any screen 
     // row 2
     const cy2 = 4.0;
     proc(X(3), cy2 - bh / 2, 'Sign in with campus ID', true); arrow([[X(3) + bw / 2, r1 + bh + 0.15], [X(3) + bw / 2, cy2 - bh / 2]]); c.t('No', X(3) + bw / 2 + 0.08, r1 + bh + 0.18, 0.4, 0.2, { size: 10.5, bold: true, color: K.red });
-    arrow([[X(3) + bw, cy2], [X(3) + bw + 0.25, cy2], [X(3) + bw + 0.25, cy1 + 0.02]]);
+    arrow([[X(3) + 0.4, cy2 - bh / 2], [X(3) + 0.4, 2.85]]);
     dec(X(5), cy2 - bh / 2, 'Seats available?'); arrow([[X(5) + bw / 2, r1 + bh], [X(5) + bw / 2, cy2 - bh / 2 - 0.15]]);
     proc(X(4), cy2 - bh / 2, 'Join the waitlist', true); arrow([[X(5), cy2], [X(4) + bw, cy2]]); c.t('No', X(4) + bw + 0.1, cy2 - 0.28, 0.4, 0.2, { size: 10.5, bold: true, color: K.red });
     // row 3
@@ -228,7 +227,7 @@ The map shown is a hypothesis for Aisha. In your assignment you will populate it
     const q = [['SAYS', ['“I never know which events are for me.”', '“I would go if it was easy to sign up.”'], 0, 0], ['THINKS', ['Will I know anyone there?', 'Is registering worth the effort?'], 1, 0], ['DOES', ['Asks friends in the group chat', 'Abandons long forms'], 0, 1], ['FEELS', ['Anxious about missing out', 'Frustrated by repeated sign-ins'], 1, 1]];
     q.forEach((it) => {
       const x = ox + it[2] * (qw + 0.1), y = oy + it[3] * (qh + 0.1);
-      c.rect(x, y, qw, qh, { fill: [K.lavL, K.card, K.card, K.lavL][it[2] + it[3] * 2], line: K.line, lw: 0.75, r: 0.14 });
+      c.rect(x, y, qw, qh, { fill: [K.lavL, K.card, K.card, K.lavL][it[2] + it[3] * 2], r: 0.14 });
       c.t(it[0], x + (it[0] === 'FEELS' ? 0.65 : 0.25), y + 0.18, 2, 0.25, { size: 11, bold: true, color: K.blueD, cs: 2 });
       it[1].forEach((tx, j) => c.t(tx, x + 0.25, y + 0.62 + j * 0.74, qw - (it[3] === 0 && it[2] === 0 ? 0.9 : 0.5), 0.7, { size: 13, color: K.ink, ls: 1.05, italic: it[0] === 'SAYS' }));
     });

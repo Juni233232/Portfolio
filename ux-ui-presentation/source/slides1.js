@@ -21,8 +21,15 @@ Ask: "What app did you use today without thinking about it? Why was it easy?"`,
     c.t('Understanding\nthe Experience', 0.7, 4.7, 5.2, 1.1, { size: 30, bold: true, color: K.lav, ls: 1.0 });
     c.t('Visual Communication  ·  45 instructional hours  ·  Five units', 0.7, 6.55, 6.3, 0.3, { size: 12, color: K.grey });
     const b = browser(s, 6.9, 1.0, 5.85, 600, { dark: false });
-    gatherWebList(b, false);
-    const p = phone(s, 6.25, 3.1, 3.95);
+    b.rect(0, 0, 1000, 54, { fill: 'FFFFFF' }); b.line(0, 54, 1000, 54, { color: 'E2E0E8', w: 0.75 });
+    b.rect(28, 16, 22, 22, { fill: K.blue, r: 7 }); b.t('Gather', 58, 14, 120, 26, { size: 16, bold: true, color: K.ink, valign: 'middle' });
+    ['Events', 'Clubs', 'My tickets', 'Help'].forEach((tx, i) => b.t(tx, 420 + i * 82, 14, 80, 26, { size: 11, color: i === 0 ? K.ink : '6B6E78', bold: i === 0, valign: 'middle' }));
+    b.pill(850, 14, 70, 26, 'Sign in', { fill: K.blue, color: K.white, size: 10 }); b.ell(956, 27, 13, { fill: K.lav });
+    b.t('Find your next campus event', 40, 78, 600, 40, { size: 30, bold: true, color: K.ink });
+    b.t('Talks, workshops and socials from every faculty.', 40, 124, 600, 20, { size: 13, color: '6B6E78' });
+    b.rect(40, 156, 520, 40, { fill: 'EEEDF3', r: 20 }); b.t('Search events, clubs, talks', 66, 156, 400, 40, { size: 11, color: '6B6E78', valign: 'middle' });
+    [[K.blue, K.lav], [K.lav, K.blue], [K.ink, K.lav]].forEach((cl, i) => { const x = 40 + i * 316; b.rect(x, 232, 296, 368 - 16, { fill: cl[0], r: 14 }); b.ell(x + 236, 292, 40, { fill: cl[1], tr: 45 }); });
+    const p = phone(s, 6.25, 2.95, 3.95);
     gatherHome(p, false);
   }
 
@@ -170,27 +177,27 @@ Activity: ask students to name one UX decision and one UI decision visible on th
     const c = S(s);
     const p = phone(s, 5.3, 1.95, 4.75, { frame: K.ink3 });
     gatherRegister(p, false);
-    // left: UX
+    // left: UX  (horizontal leaders only, each at the height of its target, so no lines cross)
     c.t('UX', 0.6, 1.95, 1, 0.55, { size: 34, bold: true, color: K.blue });
     c.t('USER EXPERIENCE', 1.5, 2.1, 3, 0.25, { size: 10, bold: true, color: K.lav, cs: 2 });
-    c.t('How it works for a person trying to get something done', 0.6, 2.6, 3.9, 0.8, { size: 15, color: K.paper, ls: 1.1 });
-    const ux = [['Can I finish in two steps?', p.X(20), p.Y(97), 3.7], ['Does it save me effort?', p.X(20), p.Y(196), 4.6], ['Do I know where my data goes?', p.X(20), p.Y(444), 5.5]];
+    const ux = [['Can I finish in two steps?', 20, 97], ['Does it save me effort?', 16, 178], ['Do I know where my data goes?', 16, 444]];
     ux.forEach((u) => {
-      c.t(u[0], 0.6, u[3], 3.4, 0.35, { size: 14, bold: true, color: K.white, valign: 'middle' });
-      c.line(0.6, u[3] + 0.42, 4.5, u[3] + 0.42, { color: K.blue, w: 1 });
-      c.line(4.5, u[3] + 0.42, u[1], u[2], { color: K.blue, w: 1 }); c.ell(u[1], u[2], 0.06, { fill: K.blue });
+      const ty = p.Y(u[2]), tx = p.X(u[1]);
+      c.t(u[0], 0.6, ty - 0.175, 3.3, 0.35, { size: 14, bold: true, color: K.white, valign: 'middle' });
+      c.line(4.0, ty, tx, ty, { color: K.blue, w: 1.25 }); c.ell(tx, ty, 0.06, { fill: K.blue });
     });
+    c.t('How it works for a person trying to get something done', 0.6, 5.95, 3.9, 0.6, { size: 15, color: K.paper, ls: 1.1 });
     // right: UI
     c.t('UI', 12.0, 1.95, 0.73, 0.55, { size: 34, bold: true, color: K.lav, align: 'right' });
     c.t('USER INTERFACE', 8.9, 2.1, 3, 0.25, { size: 10, bold: true, color: K.lav, cs: 2, align: 'right' });
     c.t('How it looks and responds', 8.83, 2.6, 3.9, 0.5, { size: 15, color: K.paper, align: 'right', ls: 1.1 });
-    const ui = [['Rounded fields, clear borders', p.X(280), p.Y(228), 3.7], ['Familiar checkbox and labels', p.X(280), p.Y(358), 4.6], ['One strong action colour', p.X(280), p.Y(523), 5.5]];
+    const ui = [['Rounded fields, clear borders', 284, 244], ['Familiar checkbox and labels', 210, 358], ['One strong action colour', 284, 523]];
     ui.forEach((u) => {
-      c.t(u[0], 8.83, u[3], 3.9, 0.35, { size: 14, bold: true, color: K.white, valign: 'middle', align: 'right' });
-      c.line(8.83, u[3] + 0.42, 10.1, u[3] + 0.42, { color: K.lav, w: 1 });
-      c.line(10.1, u[3] + 0.42, u[1], u[2], { color: K.lav, w: 1 }); c.ell(u[1], u[2], 0.06, { fill: K.lav });
+      const ty = p.Y(u[2]), tx = p.X(u[1]);
+      c.t(u[0], 8.95, ty - 0.175, 3.78, 0.35, { size: 14, bold: true, color: K.white, valign: 'middle' });
+      c.line(tx, ty, 8.8, ty, { color: K.lav, w: 1.25 }); c.ell(tx, ty, 0.06, { fill: K.lav });
     });
-    c.t('UI is one layer of UX, not a synonym for it.', 0.6, 6.25, 4.4, 0.5, { size: 12, italic: true, color: K.grey });
+    c.t('UI is one layer of UX, not a synonym for it.', 8.95, 6.45, 3.78, 0.3, { size: 12, italic: true, color: K.grey });
   }
 
   // ---------------------------------------------------------------- 06 WHY UI/UX MATTERS
@@ -226,9 +233,9 @@ Ask: "Which of these moments would hurt most if it were badly designed?"`,
       const p = phone(s, x, 1.95, ph, { noShadow: false });
       if (i === 0) { // map
         p.rect(0, 0, 300, 600, { fill: 'E9EFE6', r: 32 });
-        p.rect(0, 150, 300, 40, { fill: 'FFFFFF' }); p.rect(120, 0, 36, 600, { fill: 'FFFFFF' }); p.rect(0, 380, 300, 30, { fill: 'FFFFFF' });
+        p.rect(0, 150, 300, 40, { fill: 'FFFFFF' }); p.rect(120, 110, 36, 490, { fill: 'FFFFFF' }); p.rect(0, 380, 300, 30, { fill: 'FFFFFF' });
         p.rect(170, 220, 100, 110, { fill: 'D7E5D0', r: 10 }); p.rect(20, 220, 80, 120, { fill: 'D7E5D0', r: 10 });
-        p.path([[138, 570], [138, 395], [225, 395], [225, 170], [138, 170], [138, 60]], { color: K.blue, w: 5 });
+        p.path([[138, 570], [138, 395], [225, 395], [225, 170], [138, 170], [138, 112]], { color: K.blue, w: 5 });
         p.rect(14, 36, 272, 74, { fill: K.ink, r: 16 }); p.icon('FiArrowLeft', 44, 73, 28, 'white');
         p.t('200 m', 76, 46, 150, 26, { size: 20, bold: true, color: K.white }); p.t('Turn left onto Campus Rd', 76, 76, 200, 28, { size: 10.5, color: K.lav });
         p.rect(14, 520, 272, 62, { fill: K.white, r: 18, shadow: { o: 0.2, b: 8, d: 2 } }); p.t('12 min', 34, 530, 140, 28, { size: 20, bold: true, color: K.green }); p.t('arrive 9:41', 34, 558, 140, 16, { size: 10, color: K.mute });
@@ -274,7 +281,7 @@ Link each quality to Gather on the right. Ask students to give a score out of fi
       ['FiSmile', 'Satisfaction', 'Does it feel good to use?', 'Instant QR ticket, no guesswork'],
     ];
     const pos = q.map((_, i) => [cx + R * Math.cos(-Math.PI / 2 + i * 2 * Math.PI / 5), cy + R * Math.sin(-Math.PI / 2 + i * 2 * Math.PI / 5)]);
-    pos.forEach((p) => c.line(cx, cy, p[0], p[1], { color: K.line, w: 2 }));
+    pos.forEach((p) => { const dx = p[0] - cx, dy = p[1] - cy, d = Math.hypot(dx, dy); c.line(cx + dx / d * 0.82, cy + dy / d * 0.82, p[0] - dx / d * (r + 0.02), p[1] - dy / d * (r + 0.02), { color: K.line, w: 2 }); });
     c.ell(cx, cy, 0.78, { fill: K.lav }); c.t('Experience', cx - 0.7, cy - 0.15, 1.4, 0.3, { size: 14, bold: true, color: K.ink, align: 'center', valign: 'middle' });
     q.forEach((it, i) => {
       const [x, y] = pos[i];

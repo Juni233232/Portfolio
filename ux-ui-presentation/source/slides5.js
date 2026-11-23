@@ -129,11 +129,11 @@ Mobile wireframing principles: design for one hand, with key actions in easy thu
 Use standard platform patterns such as a bottom navigation bar, which helps Jakob's Law. Check the screens against your flow and run the checklist on the right before moving to prototyping.`,
     });
     const c = S(s);
-    const ph = 3.9, pw = ph * 316 / 616, pitch = 2.5, y = 2.05;
+    const ph = 3.75, pw = ph * 316 / 616, pitch = 2.5, y = 2.35;
     [[gatherHome, 'Home', 'Browse and filter events'], [gatherDetail, 'Details', 'Key facts, one primary action'], [gatherRegister, 'Register', 'Short form, visible labels'], [gatherSuccess, 'Confirm', 'QR ticket and next steps']].forEach((sc, i) => {
       const x = 0.6 + i * pitch;
       const p = phone(s, x, y, ph, { frame: '9A9A98' }); sc[0](p, true);
-      c.box(x - 0.05, y - 0.12, 0.3, 0.3, String(i + 1), { shape: 'ellipse', fill: K.blueD, color: K.white, size: 11, bold: true });
+      c.box(x + 0.02, y - 0.4, 0.3, 0.3, String(i + 1), { shape: 'ellipse', fill: K.blueD, color: K.white, size: 11, bold: true });
       if (i < 3) c.line(x + pw + 0.08, y + ph / 2, x + pitch - 0.08, y + ph / 2, { color: K.blueD, w: 2, arrow: true });
       c.t(sc[1], x, y + ph + 0.12, pw + 0.3, 0.3, { size: 14, bold: true, color: K.ink }); c.t(sc[2], x, y + ph + 0.42, pitch - 0.2, 0.3, { size: 11.5, color: K.mute });
     });
@@ -272,9 +272,7 @@ Design critique is a structured conversation. A simple protocol is I like, I wis
     });
     const c = S(s);
     const mx = 1.05, my = 2.2, mw = 5.7, mh = 4.1;
-    c.rect(mx, my, mw, mh, { fill: K.card, line: K.line, lw: 0.75, r: 0.12 });
-    c.line(mx + mw / 2, my, mx + mw / 2, my + mh, { color: K.line, w: 1 }); c.line(mx, my + mh / 2, mx + mw, my + mh / 2, { color: K.line, w: 1 });
-    c.rect(mx, my, mw / 2, mh / 2, { fill: K.lavL, r: 0.12 });
+    [[0, 0, K.lavL], [1, 0, K.card], [0, 1, K.card], [1, 1, K.card]].forEach((q) => c.rect(mx + q[0] * (mw / 2 + 0.06), my + q[1] * (mh / 2 + 0.06), mw / 2 - 0.06, mh / 2 - 0.06, { fill: q[2], line: q[2] === K.lavL ? undefined : K.line, lw: 0.75, r: 0.12 }));
     [['QUICK WINS', mx + 0.15, my + 0.1], ['MAJOR PROJECTS', mx + mw / 2 + 0.15, my + 0.1], ['FILL-INS', mx + 0.15, my + mh / 2 + 0.1], ['RECONSIDER', mx + mw / 2 + 0.15, my + mh / 2 + 0.1]].forEach((q) => c.t(q[0], q[1], q[2], 2.4, 0.22, { size: 9.5, bold: true, color: K.blueD, cs: 1.5 }));
     const notes = [['Register button below the fold', mx + 0.2, my + 0.5, K.lav], ['Form asks for ID twice', mx + 0.85, my + 1.3, K.lav], ['Ticket not available offline', mx + mw / 2 + 0.4, my + 0.7, K.amber], ['Unclear filter icon', mx + 0.3, my + mh / 2 + 0.55, 'DCDAE6'], ['Add dark mode', mx + mw / 2 + 0.5, my + mh / 2 + 1.0, 'DCDAE6']];
     notes.forEach((n) => c.box(n[1], n[2], 1.85, 0.62, n[0], { r: 0.06, fill: n[3], color: K.ink, size: 11.5, bold: true, shadow: { o: 0.12, b: 4, d: 1 }, ls: 1.0, pad: 0.08 }));

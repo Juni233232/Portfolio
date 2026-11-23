@@ -77,7 +77,7 @@ const ICON_NAMES = [
   'FiBookOpen', 'FiEdit3', 'FiLock', 'FiBell', 'FiSettings', 'FiShield', 'FiTrendingUp', 'FiZap', 'FiSmile', 'FiFrown', 'FiMeh', 'FaTicketAlt',
   'FiBriefcase', 'FiCode', 'FiPenTool', 'FiSmartphone', 'FiMonitor', 'FiPlay', 'FiMusic', 'FiShare2', 'FiAlertTriangle', 'FiHelpCircle', 'FiList',
   'FiCreditCard', 'FiDollarSign', 'FiRefreshCw', 'FiFlag', 'FiMessageSquare', 'FiClipboard', 'FiSliders', 'FiMousePointer', 'FiMenu', 'FiInfo', 'FiPlus', 'FiVolume2',
-  'FaHome', 'FaRegCalendarAlt', 'FaUser', 'FiAward', 'FiHeadphones', 'FiCamera', 'FiDownload', 'FiBarChart2', 'FiPieChart', 'FiAnchor', 'FiGlobe', 'FiWifiOff', 'FiRepeat', 'FiSun', 'FiMoon', 'FiThumbsUp', 'FiScissors', 'FiTool',
+  'FiImage', 'FaHome', 'FaRegCalendarAlt', 'FaUser', 'FiAward', 'FiHeadphones', 'FiCamera', 'FiDownload', 'FiBarChart2', 'FiPieChart', 'FiAnchor', 'FiGlobe', 'FiWifiOff', 'FiRepeat', 'FiSun', 'FiMoon', 'FiThumbsUp', 'FiScissors', 'FiTool',
 ];
 const ICON_CACHE = {};
 async function warmIcons() {
@@ -174,7 +174,7 @@ class Cv {
   // image placeholder (wireframe X box)
   img(x, y, w, h, o = {}) {
     this.rect(x, y, w, h, { fill: o.fill || 'E6E4DC', line: o.line || 'B9B7AE', lw: 0.75, r: o.r });
-    if (!o.noX) { this.line(x, y, x + w, y + h, { color: 'B9B7AE', w: 0.75 }); this.line(x, y + h, x + w, y, { color: 'B9B7AE', w: 0.75 }); }
+    if (!o.noX) this.icon('FiImage', x + w / 2, y + h / 2, Math.min(w, h) * 0.26, 'grey');
   }
   pill(x, y, w, h, text, o = {}) { this.box(x, y, w, h, text, { r: h / 2, fill: o.fill, line: o.line, color: o.color, size: o.size || 11, bold: o.bold !== false }); }
   dot(cx, cy, r, fill) { this.ell(cx, cy, r, { fill }); }
@@ -238,7 +238,7 @@ function gatherHome(c, lo) {
     const xs = [16, 62, 114, 190], ws = [38, 44, 68, 52];
     c.pill(xs[i], 144, ws[i], 24, tx, { fill: i === 0 ? th.chipOn : th.chip, color: i === 0 ? th.chipOnT : th.ink, size: 10 });
   });
-  if (lo) { c.img(16, 182, 268, 136, { r: 12 }); } else {
+  if (lo) { c.img(16, 182, 268, 136, { r: 12, noX: true }); } else {
     c.rect(16, 182, 268, 136, { fill: K.blue, r: 16 });
     c.ell(250, 215, 44, { fill: K.lav, tr: 55 }); c.ell(222, 300, 30, { fill: K.lav, tr: 70 });
   }

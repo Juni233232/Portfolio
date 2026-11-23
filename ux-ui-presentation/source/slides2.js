@@ -149,9 +149,9 @@ Activity: test one screen of your own work against all five checks.`,
     const cardAt = (x, y, w, title) => { c.rect(x, y, w, ch, { fill: K.card, line: K.line, lw: 0.75, r: 0.14 }); c.t(title, x + 0.22, y + 0.14, w - 0.4, 0.3, { size: 15, bold: true, color: K.ink }); };
     // A readable text
     { const x = 0.6, y = y1; cardAt(x, y, cw, '1  Readable text');
-      c.rect(x + 0.22, y + 0.6, 1.6, 0.95, { fill: K.paper2, r: 0.08 }); c.t('Registration closes Friday at noon. Bring your student card to the door.', x + 0.3, y + 0.66, 1.45, 0.85, { size: 7.5, color: K.grey, ls: 0.85 }); tag(c, x + 1.7, y + 0.6, false);
-      c.rect(x + 2.0, y + 0.6, 1.66, 0.95, { fill: K.paper2, r: 0.08 }); c.t('Registration closes Friday at noon. Bring your student card to the door.', x + 2.08, y + 0.66, 1.5, 0.85, { size: 10.5, color: K.ink, ls: 1.35 }); tag(c, x + 3.54, y + 0.6, true);
-      c.t('Body text 16 px or larger, line height around 1.5, short lines.', x + 0.22, y + 1.68, cw - 0.4, 0.5, { size: 11.5, color: K.mute, ls: 1.0 }); }
+      c.rect(x + 0.22, y + 0.78, 1.6, 0.9, { fill: K.paper2, r: 0.08 }); c.t('Registration closes Friday at noon. Bring your student card.', x + 0.3, y + 0.84, 1.45, 0.8, { size: 7.5, color: K.grey, ls: 0.9 }); tag(c, x + 1.7, y + 0.64, false);
+      c.rect(x + 2.0, y + 0.78, 1.66, 0.9, { fill: K.paper2, r: 0.08 }); c.t('Registration closes Friday at noon. Bring your student card.', x + 2.08, y + 0.84, 1.5, 0.8, { size: 10, color: K.ink, ls: 1.25 }); tag(c, x + 3.54, y + 0.64, true);
+      c.t('Body text 16 px or larger, line height around 1.5, short lines.', x + 0.22, y + 1.78, cw - 0.4, 0.48, { size: 11.5, color: K.mute, ls: 1.0 }); }
     // B contrast
     { const x = 0.6 + cw + gx, y = y1; cardAt(x, y, cw, '2  Colour contrast');
       const rows = [[K.grey, K.paper, r1], [K.mute, K.paper, r2], [K.white, K.blue, r3], [K.white, K.blueD, r4]];
@@ -223,7 +223,7 @@ The Gather row shows one small example per stage. Ask students to propose a diff
       c.t(p[2], x + 0.2, 4.9, bw - 0.4, 1.6, { size: 14, bold: true, color: K.ink, ls: 1.05 });
     });
     const lx0 = 0.6 + bw / 2, lx1 = 0.6 + 4 * (bw + gap) + bw / 2;
-    c.path([[lx1, 3.7], [lx1, 4.0], [lx0, 4.0], [lx0, 3.72]], { color: K.grey, w: 1.5, arrow: true, dash: 'dash' });
+    c.path([[lx1, 3.7], [lx1, 4.0], [8.55, 4.0]], { color: K.grey, w: 1.5, dash: 'dash' }); c.path([[4.8, 4.0], [lx0, 4.0], [lx0, 3.72]], { color: K.grey, w: 1.5, arrow: true, dash: 'dash' });
     c.box(4.95, 3.86, 3.45, 0.28, 'Iterate: learn, then loop back to any stage', { fill: K.paper, color: K.mute, size: 11.5, bold: true });
   }
 
@@ -289,7 +289,7 @@ For Gather, imagine a sprint goal: any student can register for an event without
     days.forEach((d, i) => {
       const x = 0.6 + i * (bw + gap), dark = i < 2;
       c.rect(x, 1.95, bw, 3.05, { fill: K.card, line: K.line, lw: 0.75, r: 0.14 });
-      c.rect(x, 1.95, bw, 0.95, { fill: cols[i], r: 0.14 }); c.rect(x, 2.5, bw, 0.4, { fill: cols[i] });
+      c.shape('round2SameRect', x, 1.95, bw, 0.95, { fill: cols[i] });
       c.t(d[0], x + 0.2, 2.05, 1, 0.22, { size: 10, bold: true, color: dark ? K.white : K.ink, cs: 2 });
       c.t(d[1], x + 0.2, 2.28, bw - 0.3, 0.5, { size: 22, bold: true, color: dark ? K.white : K.ink });
       d[2].forEach((a, j) => { c.ell(x + 0.28, 3.28 + j * 0.62, 0.05, { fill: K.blueD }); c.t(a, x + 0.42, 3.07 + j * 0.62, bw - 0.55, 0.45, { size: 12.5, color: K.ink, valign: 'top', ls: 1.0 }); });

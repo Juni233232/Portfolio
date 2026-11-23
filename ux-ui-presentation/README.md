@@ -11,3 +11,6 @@ A 50-slide, 16:9 teaching deck covering all five units of SVCB3003 UI & UX Desig
 | `source/` | Generator (pptxgenjs). `lib.js` design system, `slides1-5.js` content, `build.js` to build, `render.sh` to render |
 
 Install the free Inter font before presenting. To rebuild: `cd source && npm install && NODE_PATH=$PWD/node_modules node build.js`.
+
+### Overlap audit
+`source/audit2.py`, `audit3.py` and `audit4.py` read the exported PDF and report words touching words, strokes crossing words, text spilling over shape edges, and lines crossing lines. Run `python3 source/audit2.py UX-UI-Design-Understanding-the-Experience.pdf` (and the others) after any edit.
