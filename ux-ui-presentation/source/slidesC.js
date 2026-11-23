@@ -27,7 +27,7 @@ module.exports = function (pres) {
       c.t(cap[i], px - 0.04, py + 1.58, 1.22, 0.45, { size: 11.5, color: K.paper, ls: 1.0 });
     }
     const mx = G.x + w + 0.59, my = G.y + 0.7;
-    c.rect(mx, my, 2.0, 1.5, { fill: K.blue, r: 0.18 }); c.t('Energetic', mx + 0.22, my + 1.0, 1.6, 0.4, { size: 17, bold: true, color: K.white });
+    c.rect(mx, my, 2.0, 1.5, { fill: K.blueD, r: 0.18 }); c.t('Energetic', mx + 0.22, my + 1.0, 1.6, 0.4, { size: 17, bold: true, color: K.white });
     c.rect(mx + 2.1, my, 1.3, 0.72, { fill: K.lav, r: 0.18 }); c.t('Aa', mx + 2.1, my, 1.3, 0.72, { size: 26, bold: true, color: K.ink, align: 'center', valign: 'middle' });
     c.rect(mx + 2.1, my + 0.78, 1.3, 0.72, { fill: K.ink3, r: 0.18 }); c.t('Inter Bold', mx + 2.1, my + 0.78, 1.3, 0.72, { size: 12, bold: true, color: K.paper, align: 'center', valign: 'middle' });
     c.rect(mx + 3.5, my, 1.52, 1.5, { fill: K.paper, r: 0.18 }); for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) c.ell(mx + 3.8 + i * 0.3, my + 0.32 + j * 0.3, 0.07, { fill: (i + j) % 3 === 0 ? K.blue : K.lav });
@@ -40,21 +40,21 @@ module.exports = function (pres) {
   {
     const s = mk(pres, { sec: 'u3', eyebrow: 'USER JOURNEY MAPPING', title: ['See the whole experience,', 'including the feelings.'] });
     const c = S(s);
-    const lx = G.x, lw = 1.3, x0 = 2.35, gap = 0.12, cw = (12.433 - x0 - 5 * gap) / 6;
+    const lx = G.x, lw = 1.5, x0 = 2.5, gap = 0.12, cw = (12.433 - x0 - 5 * gap) / 6;
     const cx = (i) => x0 + i * (cw + gap);
     const st = ['Discover', 'Decide', 'Register', 'Confirm', 'Attend', 'Follow up'];
     st.forEach((t, i) => c.box(cx(i), G.y, cw, 0.4, t, { r: 0.2, fill: i === 2 ? K.blueD : K.ink, color: K.white, size: 13, bold: true }));
-    c.t('AISHA\n(HYPOTHESIS)', lx, G.y, lw, 0.4, { size: 9.5, bold: true, color: K.mute, cs: 1, valign: 'middle', ls: 1.0 });
+    c.t('AISHA\n(HYPOTHESIS)', lx, G.y, lw, 0.4, { size: 11, bold: true, color: K.mute, cs: 0.3, valign: 'middle', ls: 0.95 });
     const rows = [['ACTIONS', 3.12, 0.74, ['Sees a poster, hears from friends', 'Compares events and times', 'Fills in her details', 'Waits for confirmation', 'Shows her ticket at the door', 'Shares photos, looks for more']], ['TOUCHPOINTS', 3.96, 0.42, ['Poster, chat', 'App, website', 'Mobile form', 'Email, app', 'QR ticket', 'App feed']]];
-    rows.forEach((r) => { c.t(r[0], lx, r[1], lw, r[2], { size: 9.5, bold: true, color: K.mute, cs: 1.5, valign: 'middle' }); r[3].forEach((t, i) => { c.rect(cx(i), r[1], cw, r[2], { fill: K.white, r: 0.16 }); c.t(t, cx(i) + 0.12, r[1], cw - 0.22, r[2], { size: 12, color: K.ink, valign: 'middle', ls: 1.0 }); }); });
+    rows.forEach((r) => { c.t(r[0], lx, r[1], lw, r[2], { size: 11, bold: true, color: K.mute, cs: 0.5, valign: 'middle' }); r[3].forEach((t, i) => { c.rect(cx(i), r[1], cw, r[2], { fill: K.white, r: 0.16 }); c.t(t, cx(i) + 0.12, r[1], cw - 0.22, r[2], { size: 12, color: K.ink, valign: 'middle', ls: 1.0 }); }); });
     const ey = 4.48, eh = 1.1;
-    c.t('EMOTION', lx, ey, lw, eh, { size: 9.5, bold: true, color: K.mute, cs: 1.5, valign: 'middle' });
+    c.t('EMOTION', lx, ey, lw, eh, { size: 11, bold: true, color: K.mute, cs: 0.5, valign: 'middle' });
     c.rect(x0, ey, 12.433 - x0, eh, { fill: K.paper2, r: 0.2 });
     c.icon('FiSmile', x0 + 0.22, ey + 0.2, 0.2, 'green'); c.icon('FiFrown', x0 + 0.22, ey + eh - 0.2, 0.2, 'red');
     const lv = [0.58, 0.52, 0.15, 0.38, 0.72, 0.92], pts = lv.map((v, i) => [cx(i) + cw / 2, ey + eh - 0.17 - v * (eh - 0.34)]);
     c.path(pts, { color: K.blueD, w: 2.75 }); pts.forEach((p, i) => c.ell(p[0], p[1], 0.09, { fill: i === 2 ? K.red : K.blueD, line: K.white, lw: 1.5 }));
     c.t('lowest point', pts[2][0] - 0.6, pts[2][1] - 0.42, 1.2, 0.2, { size: 10.5, bold: true, color: K.red, align: 'center' });
-    c.t('OPPORTUNITIES', lx, 5.7, lw + 0.2, 0.78, { size: 9.5, bold: true, color: K.blueD, cs: 1.5, valign: 'middle' });
+    c.t('OPPORTUNITIES', lx, 5.7, lw, 0.78, { size: 11, bold: true, color: K.blueD, cs: 0.5, valign: 'middle' });
     ['Clear, inviting poster', 'Relevance tags on events', 'Pre-fill saved details', 'Instant confirmation', 'Simple directions', 'Suggest next events'].forEach((t, i) => { c.rect(cx(i), 5.7, cw, 0.78, { fill: i === 2 ? K.lav : K.lavL, r: 0.16 }); c.t(t, cx(i) + 0.12, 5.7, cw - 0.22, 0.78, { size: 12, bold: true, color: K.ink, valign: 'middle', ls: 1.0 }); });
   }
 
@@ -114,7 +114,7 @@ module.exports = function (pres) {
     const s = mk(pres, { sec: 'u3', tone: 'dark', eyebrow: 'UX RESEARCH METHODS', title: ['Choose the method that', 'answers your question.'] });
     const c = S(s);
     const qw = 2.72, qh = 1.7, qx = G.x, qy = 3.0;
-    c.t('ATTITUDINAL: WHAT PEOPLE SAY', qx, 2.62, qw, 0.28, { size: 9.5, bold: true, color: K.lav, cs: 1, align: 'center', valign: 'middle' }); c.t('BEHAVIOURAL: WHAT PEOPLE DO', qx + qw + 0.2, 2.62, qw, 0.28, { size: 9.5, bold: true, color: K.lav, cs: 1, align: 'center', valign: 'middle' });
+    c.t('ATTITUDINAL', qx, 2.5, qw, 0.22, { size: 11, bold: true, color: K.lav, cs: 1, align: 'center' }); c.t('what people say', qx, 2.72, qw, 0.22, { size: 11, color: DM, align: 'center' }); c.t('BEHAVIOURAL', qx + qw + 0.2, 2.5, qw, 0.22, { size: 11, bold: true, color: K.lav, cs: 1, align: 'center' }); c.t('what people do', qx + qw + 0.2, 2.72, qw, 0.22, { size: 11, color: DM, align: 'center' });
     for (let i = 0; i < 4; i++) tile(c, qx + (i % 2) * (qw + 0.2), qy + Math.floor(i / 2) * (qh + 0.2), qw, qh, 'dark', { r: 0.24 });
     c.t('QUALITATIVE', qx + 0.22, qy + 0.14, 2, 0.2, { size: 9, bold: true, color: DM, cs: 1 }); c.t('QUANTITATIVE', qx + 0.22, qy + qh + 0.34, 2, 0.2, { size: 9, bold: true, color: DM, cs: 1 });
     [[0, 0, 'Interviews', 0.25, 0.5], [0, 0, 'Focus groups', 0.5, 1.05], [1, 0, 'Usability tests', 0.2, 0.5], [1, 0, 'Field observation', 0.4, 1.05], [0, 1, 'Surveys', 0.8, 0.8], [1, 1, 'Analytics, A/B', 0.5, 0.8]].forEach((ch) => { const w2 = ch[2].length * 0.088 + 0.38; pill(c, qx + ch[0] * (qw + 0.2) + ch[3], qy + ch[1] * (qh + 0.2) + ch[4], w2, 0.38, ch[2], { fill: ch[1] ? K.blue : K.lav, color: ch[1] ? K.white : K.ink, size: 12 }); });
@@ -152,7 +152,7 @@ module.exports = function (pres) {
   {
     const s = mk(pres, { sec: 'u3', tone: 'dark', eyebrow: 'USER SEGMENTATION AND PERSONAS', title: ['From groups of users', 'to one clear persona.'] });
     const c = S(s);
-    [['High engagement', '4 or more events last semester', K.blue, K.white, 'DDE4FF'], ['Moderate engagement', '1 to 3 events', K.lav, K.ink, '3B3566'], ['Low engagement', 'No events yet', null, K.paper, DM]].forEach((sg, i) => {
+    [['High engagement', '4 or more events last semester', K.blueD, K.white, 'DDE4FF'], ['Moderate engagement', '1 to 3 events', K.lav, K.ink, '3B3566'], ['Low engagement', 'No events yet', null, K.paper, DM]].forEach((sg, i) => {
       const y = G.y + i * 1.4;
       if (sg[2]) c.rect(G.x, y, 3.6, 1.2, { fill: sg[2], r: 0.26 }); else tile(c, G.x, y, 3.6, 1.2, 'dark', { r: 0.26 });
       c.t(sg[0], G.x + 0.3, y + 0.25, 3.1, 0.35, { size: 18, bold: true, color: sg[3] }); c.t(sg[1], G.x + 0.3, y + 0.66, 3.1, 0.3, { size: 13.5, color: sg[4] });
@@ -161,7 +161,7 @@ module.exports = function (pres) {
     c.rect(px, G.y, pw, G.h, { fill: K.paper, r: 0.3, shadow: { o: 0.3, b: 30, d: 8, a: 90 } });
     c.ell(px + 0.75, G.y + 0.75, 0.4, { fill: K.lav }); c.t('A', px + 0.35, G.y + 0.35, 0.8, 0.8, { size: 24, bold: true, color: K.ink, align: 'center', valign: 'middle' });
     c.t('Aisha Rahman', px + 1.35, G.y + 0.3, 3.6, 0.4, { size: 22, bold: true, color: K.ink }); c.t('20  ·  Year 2  ·  Visual Communication', px + 1.35, G.y + 0.72, 4.6, 0.3, { size: 13, color: K.mute });
-    pill(c, px + 1.35, G.y + 1.08, 2.0, 0.3, 'Moderate engagement', { fill: K.lav, color: K.ink, size: 11 }); pill(c, px + pw - 2.0, G.y + 0.3, 1.7, 0.28, 'FICTIONAL EXAMPLE', { line: K.red, color: K.red, size: 9, cs: 1 });
+    pill(c, px + 1.35, G.y + 1.08, 2.0, 0.3, 'Moderate engagement', { fill: K.lav, color: K.ink, size: 11 }); pill(c, px + pw - 2.45, G.y + 0.3, 2.15, 0.3, 'FICTIONAL EXAMPLE', { line: K.red, color: K.red, size: 11, cs: 0.5 });
     [['GOALS', ['Join events that help her portfolio', 'Register between classes']], ['FRUSTRATIONS', ['Events announced in many places', 'Long forms, repeated sign-ins']], ['BEHAVIOURS', ['Checks her phone between lectures', 'Asks friends before deciding']]].forEach((b, i) => {
       const x = px + 0.35 + i * 2.38;
       c.t(b[0], x, G.y + 1.7, 2.2, 0.25, { size: 10, bold: true, color: K.blueD, cs: 1.5 });

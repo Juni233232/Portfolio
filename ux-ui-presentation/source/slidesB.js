@@ -85,11 +85,11 @@ module.exports = function (pres) {
     const c = S(s);
     const w = 2.1, gap = (G.w - 5 * w) / 4;
     const T = ['Readable text', 'Contrast', 'Keyboard use', 'Labels', 'Interactions'];
-    const cap = ['Body text 16 px or larger, roomy line height.', 'AA needs 4.5:1 for body text and 3:1 for large text.', 'Everything works without a mouse. Focus stays visible.', 'Placeholders vanish. Keep a visible label.', 'Targets near 44 pt. Never use colour alone.'];
+    const cap = ['Body text 16 px or larger, roomy leading.', 'AA: 4.5:1 for body text, 3:1 for large.', 'No mouse needed. Focus stays visible.', 'Placeholders vanish. Keep a label.', 'Targets near 44 pt. Never colour alone.'];
     T.forEach((t, i) => {
       const x = G.x + i * (w + gap), y = G.y, ix = x + 0.25, iw = w - 0.5;
       tile(c, x, y, w, G.h, 'light');
-      c.t(String(i + 1), ix, y + 0.25, 0.4, 0.3, { size: 12, bold: true, color: K.blueD }); c.t(t, ix, y + 0.52, iw, 0.35, { size: 17, bold: true, color: K.ink });
+      c.t(t, ix, y + 0.35, iw, 0.35, { size: 17, bold: true, color: K.ink });
       const vy = y + 1.1;
       if (i === 0) {
         c.rect(ix, vy, iw, 0.62, { fill: K.paper2, r: 0.1 }); c.t('Registration closes Friday.', ix + 0.1, vy, iw - 0.2, 0.62, { size: 8, color: K.grey, valign: 'middle' }); tag(c, ix + iw - 0.1, vy, false, 0.12);
@@ -111,7 +111,7 @@ module.exports = function (pres) {
       if (i === 4) {
         [0, 1, 2, 3].forEach((k) => c.ell(ix + 0.12 + k * 0.22, vy + 0.15, 0.08, { fill: K.red })); tag(c, ix + iw - 0.1, vy + 0.15, false, 0.12);
         [0, 1].forEach((k) => c.ell(ix + 0.25 + k * 0.62, vy + 0.82, 0.22, { fill: K.blueD })); tag(c, ix + iw - 0.1, vy + 0.82, true, 0.12);
-        c.rect(ix, vy + 1.18, iw, 0.38, { fill: K.white, line: K.red, lw: 1.5, r: 0.08 }); c.icon('FiAlertTriangle', ix + 0.1, vy + 1.76, 0.16, 'red'); c.t('Enter a valid email', ix + 0.26, vy + 1.64, iw - 0.3, 0.24, { size: 10.5, bold: true, color: K.red, valign: 'middle' });
+        c.rect(ix, vy + 1.18, iw, 0.38, { fill: K.white, line: K.red, lw: 1.5, r: 0.08 }); c.icon('FiAlertTriangle', ix + 0.08, vy + 1.76, 0.15, 'red'); c.t('Enter a valid email', ix + 0.22, vy + 1.64, iw - 0.2, 0.24, { size: 10.5, bold: true, color: K.red, valign: 'middle' });
       }
       c.t(cap[i], ix, y + 3.1, iw, 0.8, { size: 12.5, color: K.mute, ls: 1.05 });
     });
@@ -194,7 +194,7 @@ module.exports = function (pres) {
     c.t('HOW TO RUN IT', 9.5, G.y + 0.25, 2.7, 0.25, { size: 10.5, bold: true, color: K.lav, cs: 2 });
     ['Pick direct and indirect competitors', 'Define criteria from user tasks', 'Test the same tasks on each', 'Record evidence', 'Mark the gaps: opportunities'].forEach((t, i) => {
       const y = G.y + 0.65 + i * 0.58;
-      c.box(9.5, y + 0.05, 0.34, 0.34, String(i + 1), { shape: 'ellipse', fill: i === 4 ? K.blue : K.ink3, color: K.white, size: 11.5, bold: true }); c.t(t, 10.0, y, 2.3, 0.44, { size: 13, color: K.paper, valign: 'middle', ls: 1.0 });
+      c.box(9.5, y + 0.05, 0.34, 0.34, String(i + 1), { shape: 'ellipse', fill: i === 4 ? K.blueD : K.ink3, color: K.white, size: 11.5, bold: true }); c.t(t, 10.0, y, 2.3, 0.44, { size: 13, color: K.paper, valign: 'middle', ls: 1.0 });
     });
   }
 

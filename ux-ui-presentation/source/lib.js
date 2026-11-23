@@ -97,6 +97,19 @@ async function warmIcons() {
 function lum(h) { const c = [0, 2, 4].map((i) => parseInt(h.substr(i, 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4))); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
 function ratio(a, b) { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
 
+// ---------- Apple design-system tokens (rukkiecodes/claude-apple-design-system) mapped onto the course palette ----------
+// Type ramp (micro, caption, callout, body, headline, title3, title2, title1, hero), radius scale (sm, md, lg, xl, pill),
+// weight ladder 400 / 600 / 700 (500 is banned), no shadows except the single soft drop under product imagery.
+const DS = {
+  ramp: [11, 13, 15, 17, 20, 28, 40, 56, 80],
+  radius: [0.08, 0.14, 0.22, 0.3],
+  semi: 'Inter SemiBold',
+  semiBelow: 19.5, // text under this size uses weight 600 for emphasis, headlines at or above use 700
+  productShadow: { o: 0.22, b: 30, d: 5, a: 45 }, // rgba(0,0,0,.22) 3px 5px 30px
+};
+const snapSize = (v) => DS.ramp.reduce((b, r) => (Math.abs(r - v) < Math.abs(b - v) - 1e-9 ? r : b), DS.ramp[0]);
+const snapRadius = (r, w, h) => (r >= Math.min(w, h) / 2 * 0.95 ? r : (r < 0.07 ? r : DS.radius.reduce((b, v) => (Math.abs(v - r) < Math.abs(b - r) - 1e-9 ? v : b), DS.radius[0])));
+
 // ---------- Canvas: draws in scaled "design units" ----------
 class Cv {
   constructor(slide, x, y, s, k) { this.sl = slide; this.x = x; this.y = y; this.s = s; this.k = k === undefined ? s * 72 : k; }
@@ -105,13 +118,32 @@ class Cv {
   W(v) { return v * this.s; }
   sub(ox, oy, sc = 1) { return new Cv(this.sl, this.X(ox), this.Y(oy), this.s * sc, this.k * sc); }
   _fill(o) { return o.fill ? { color: o.fill, transparency: o.tr || 0 } : undefined; }
+  // text options with design-system type rules: ramp snapping (slide-level), weight ladder, size-dependent tracking
+  _txt(o, runBase) {
+    const slideLevel = this.k === 1;
+    const raw = (o.size || 14) * this.k, pt = slideLevel ? snapSize(raw) : raw;
+    const semi = !!o.bold && pt < DS.semiBelow;
+    return { pt, semi, slideLevel };
+  }
+  _runs(text, o, pt0) {
+    return text.map((r) => {
+      const ro = r.options || {};
+      const rawSize = ro.size ? ro.size * this.k : (o.size || 14) * this.k;
+      const size = this.k === 1 ? snapSize(rawSize) : rawSize;
+      const bold = ro.bold !== undefined ? ro.bold : !!o.bold;
+      const semi = bold && size < DS.semiBelow;
+      const out = { ...ro, fontSize: size, size: undefined };
+      if (semi) { out.bold = false; out.fontFace = DS.semi; } else out.bold = bold;
+      return { text: r.text, options: out };
+    });
+  }
   _line(o) { return o.line ? { color: o.line, width: o.lw || 1, dashType: o.dash || 'solid', transparency: o.ltr || 0 } : undefined; }
   rect(x, y, w, h, o = {}) {
     const opt = { x: this.X(x), y: this.Y(y), w: this.W(w), h: this.W(h) };
     const f = this._fill(o); if (f) opt.fill = f; else opt.fill = { type: 'none' };
     const l = this._line(o); if (l) opt.line = l; else opt.line = { type: 'none' };
-    if (o.r) opt.rectRadius = Math.min(this.W(o.r), Math.min(opt.w, opt.h) / 2);
-    if (o.shadow) opt.shadow = { type: 'outer', color: '000000', opacity: o.shadow.o || 0.14, blur: o.shadow.b || 10, offset: o.shadow.d || 3, angle: o.shadow.a || 90 };
+    if (o.r) opt.rectRadius = Math.min(this.s >= 0.99 ? snapRadius(this.W(o.r), opt.w, opt.h) : this.W(o.r), Math.min(opt.w, opt.h) / 2);
+    if (o.shadow && o.product) opt.shadow = { type: 'outer', color: '000000', opacity: DS.productShadow.o, blur: DS.productShadow.b, offset: DS.productShadow.d, angle: DS.productShadow.a };
     if (o.rot) opt.rotate = o.rot;
     if (o.name) opt.objectName = o.name;
     this.sl.addShape(o.r ? 'roundRect' : (o.shape || 'rect'), opt);
@@ -122,7 +154,7 @@ class Cv {
     const f = this._fill(o); opt.fill = f || { type: 'none' };
     const l = this._line(o); opt.line = l || { type: 'none' };
     if (o.rot) opt.rotate = o.rot; if (o.flipH) opt.flipH = true; if (o.flipV) opt.flipV = true;
-    if (o.shadow) opt.shadow = { type: 'outer', color: '000000', opacity: o.shadow.o || 0.14, blur: o.shadow.b || 10, offset: o.shadow.d || 3, angle: o.shadow.a || 90 };
+    if (o.shadow && o.product) opt.shadow = { type: 'outer', color: '000000', opacity: DS.productShadow.o, blur: DS.productShadow.b, offset: DS.productShadow.d, angle: DS.productShadow.a };
     if (o.name) opt.objectName = o.name;
     this.sl.addShape(type, opt);
   }
@@ -144,22 +176,27 @@ class Cv {
   // elbow polyline of segments with optional arrow on the last one
   path(pts, o = {}) { for (let i = 0; i < pts.length - 1; i++) this.line(pts[i][0], pts[i][1], pts[i + 1][0], pts[i + 1][1], { ...o, arrow: o.arrow && i === pts.length - 2, arrow2: false }); }
   t(text, x, y, w, h, o = {}) {
-    const opt = { x: this.X(x), y: this.Y(y), w: this.W(w), h: this.W(h), margin: 0, isTextBox: true, fontSize: (o.size || 14) * this.k, color: o.color || K.ink, align: o.align || 'left', valign: o.valign || 'top', bold: !!o.bold, italic: !!o.italic };
-    if (o.cs) opt.charSpacing = o.cs; if (o.ls) opt.lineSpacingMultiple = o.ls; if (o.psa !== undefined) opt.paraSpaceAfter = o.psa; if (o.font) opt.fontFace = o.font;
+    const T = this._txt(o);
+    const opt = { x: this.X(x), y: this.Y(y), w: this.W(w), h: this.W(h), margin: 0, isTextBox: true, fontSize: T.pt, color: o.color || K.ink, align: o.align || 'left', valign: o.valign || 'top', bold: !!o.bold && !T.semi, italic: !!o.italic };
+    if (T.semi) opt.fontFace = DS.semi;
+    if (o.cs !== undefined) opt.charSpacing = o.cs; else if (T.pt >= 17 && T.slideLevel) opt.charSpacing = -0.012 * T.pt;
+    if (o.ls) opt.lineSpacingMultiple = o.ls; if (o.psa !== undefined) opt.paraSpaceAfter = o.psa; if (o.font) opt.fontFace = o.font;
     if (o.name) opt.objectName = o.name;
     if (o.fit) opt.fit = o.fit;
-    if (Array.isArray(text)) text = text.map((r) => ({ text: r.text, options: { ...r.options, fontSize: r.options && r.options.size ? r.options.size * this.k : undefined, size: undefined } }));
+    if (Array.isArray(text)) text = this._runs(text, o);
     this.sl.addText(text, opt);
   }
   // shape with embedded text
   box(x, y, w, h, text, o = {}) {
-    const opt = { x: this.X(x), y: this.Y(y), w: this.W(w), h: this.W(h), margin: o.pad !== undefined ? o.pad * this.k : 0, fontSize: (o.size || 14) * this.k, color: o.color || K.ink, align: o.align || 'center', valign: o.valign || 'middle', bold: !!o.bold, italic: !!o.italic, shape: o.r ? 'roundRect' : (o.shape || 'rect') };
+    const T = this._txt(o);
+    const opt = { x: this.X(x), y: this.Y(y), w: this.W(w), h: this.W(h), margin: o.pad !== undefined ? o.pad * this.k : 0, fontSize: T.pt, color: o.color || K.ink, align: o.align || 'center', valign: o.valign || 'middle', bold: !!o.bold && !T.semi, italic: !!o.italic, shape: o.r ? 'roundRect' : (o.shape || 'rect') };
+    if (T.semi) opt.fontFace = DS.semi;
     const f = this._fill(o); opt.fill = f || { type: 'none' }; const l = this._line(o); opt.line = l || { type: 'none' };
-    if (o.r) opt.rectRadius = Math.min(this.W(o.r), Math.min(opt.w, opt.h) / 2);
-    if (o.cs) opt.charSpacing = o.cs; if (o.ls) opt.lineSpacingMultiple = o.ls; if (o.psa !== undefined) opt.paraSpaceAfter = o.psa;
-    if (o.shadow) opt.shadow = { type: 'outer', color: '000000', opacity: o.shadow.o || 0.14, blur: o.shadow.b || 10, offset: o.shadow.d || 3, angle: o.shadow.a || 90 };
+    if (o.r) opt.rectRadius = Math.min(this.s >= 0.99 ? snapRadius(this.W(o.r), opt.w, opt.h) : this.W(o.r), Math.min(opt.w, opt.h) / 2);
+    if (o.cs !== undefined) opt.charSpacing = o.cs; else if (T.pt >= 17 && T.slideLevel) opt.charSpacing = -0.012 * T.pt;
+    if (o.ls) opt.lineSpacingMultiple = o.ls; if (o.psa !== undefined) opt.paraSpaceAfter = o.psa;
     if (o.name) opt.objectName = o.name;
-    if (Array.isArray(text)) text = text.map((r) => ({ text: r.text, options: { ...r.options, fontSize: r.options && r.options.size ? r.options.size * this.k : undefined, size: undefined } }));
+    if (Array.isArray(text)) text = this._runs(text, o);
     this.sl.addText(text, opt);
   }
   icon(name, cx, cy, size, color = 'ink') {
@@ -210,7 +247,7 @@ function phone(slide, x, y, h, o = {}) {
   // returns canvas of the 300x600 screen. total body = 316x616 units
   const s = h / 616;
   const body = new Cv(slide, x, y, s);
-  body.rect(0, 0, 316, 616, { fill: o.frame || K.ink, r: 40, shadow: o.noShadow ? undefined : { o: 0.25, b: 18, d: 6 } });
+  body.rect(0, 0, 316, 616, { fill: o.frame || K.ink, r: 40, shadow: !o.noShadow, product: true });
   const c = new Cv(slide, x + 8 * s, y + 8 * s, s);
   c.rect(0, 0, 300, 600, { fill: o.bg || 'FFFFFF', r: 32 });
   c.rect(112, 8, 76, 18, { fill: o.frame || K.ink, r: 9 });
@@ -316,7 +353,7 @@ function gatherSuccess(c, lo) {
 function browser(slide, x, y, w, hContent, o = {}) {
   const s = w / 1000; const chrome = 34;
   const b = new Cv(slide, x, y, s);
-  b.rect(0, 0, 1000, hContent + chrome, { fill: o.dark ? K.ink2 : 'FFFFFF', r: 14, line: o.dark ? K.ink3 : 'D3D1C8', lw: 1, shadow: o.noShadow ? undefined : { o: 0.18, b: 16, d: 5 } });
+  b.rect(0, 0, 1000, hContent + chrome, { fill: o.dark ? K.ink2 : 'FFFFFF', r: 14, line: o.dark ? K.ink3 : 'D3D1C8', lw: 1, shadow: !o.noShadow, product: true });
   b.rect(0, 0, 1000, chrome, { fill: o.bar || 'ECEAE3', r: 14 }); b.rect(0, 16, 1000, chrome - 16, { fill: o.bar || 'ECEAE3' });
   [K.red, K.amber, K.green].forEach((cl, i) => b.ell(18 + i * 16, 17, 4.5, { fill: cl }));
   b.rect(110, 8, 500, 18, { fill: 'FFFFFF', r: 9 }); b.t(o.url || 'gather.uni.edu/events', 124, 8, 460, 18, { size: 9, color: K.mute, valign: 'middle' });
@@ -354,7 +391,7 @@ function gatherWebDetail(c, lo) {
   c.t('Design Week Keynote', 40, 362, 560, 36, { size: 28, bold: true, color: th.ink });
   c.t('Thu 14 Nov  ·  10:00 to 11:30  ·  Hall B, Arts Building', 40, 404, 560, 18, { size: 12, color: th.sub });
   c.bars(40, 440, 540, 4, { gap: 16, h: 7, fill: lo ? 'D4D4D2' : 'D9D7E3' });
-  c.rect(640, 96, 320, 330, { fill: 'FFFFFF', line: lo ? 'C9C9C6' : 'E2E0E8', r: 16, shadow: lo ? undefined : { o: 0.1, b: 12, d: 3 } });
+  c.rect(640, 96, 320, 330, { fill: 'FFFFFF', line: lo ? 'C9C9C6' : 'E2E0E8', r: 16 });
   c.t('Reserve your place', 664, 114, 280, 24, { size: 16, bold: true, color: th.ink });
   c.t('Free  ·  Plenty of spots left', 664, 142, 280, 16, { size: 10, color: th.sub });
   c.rect(664, 176, 272, 38, { fill: 'FFFFFF', line: lo ? 'B9B9B6' : 'CFCDD8', r: 8 }); c.t('Full name', 678, 176, 240, 38, { size: 10, color: th.sub, valign: 'middle' });
@@ -369,4 +406,4 @@ function card(cv, x, y, w, h, o = {}) {
   cv.rect(x, y, w, h, { fill: o.fill || K.card, line: o.line === undefined ? K.line : o.line, lw: 0.75, r: o.r === undefined ? 0.14 : o.r, shadow: o.shadow });
 }
 
-module.exports = { pptxgen, K, THEME, SECS, defineLayouts, warmIcons, Cv, S, mkSlide, resetCounter, L, theme, phone, gatherHome, gatherDetail, gatherRegister, gatherSuccess, browser, gatherWebList, gatherWebDetail, card, ratio, TONES };
+module.exports = { DS, snapSize, pptxgen, K, THEME, SECS, defineLayouts, warmIcons, Cv, S, mkSlide, resetCounter, L, theme, phone, gatherHome, gatherDetail, gatherRegister, gatherSuccess, browser, gatherWebList, gatherWebDetail, card, ratio, TONES };

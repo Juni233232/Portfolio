@@ -84,7 +84,7 @@ module.exports = function (pres) {
   {
     const s = mk(pres, { sec: 'intro', eyebrow: 'THE LEARNING JOURNEY', title: ['Five units.', 'One continuous process.'] });
     const c = S(s);
-    const units = [['UNIT 1', 'Understand', 'Introduction of UX/UI Design', 'Audit an existing app', 1.75, K.lavL, K.ink], ['UNIT 2', 'Plan', 'A Strategy Plan', 'Find gaps, plan solutions', 2.2, K.lav, K.ink], ['UNIT 3', 'Research', 'Applied Design Fundamentals', 'Research and persona', 2.65, '9A92FF', K.ink], ['UNIT 4', 'Design', 'Emphasis in UX Design', 'Flows and wireframes', 3.1, K.blue, K.white], ['UNIT 5', 'Test', 'User Testing', 'Prototype, test, revise', 3.55, K.blueD, K.white]];
+    const units = [['UNIT 1', 'Understand', 'Introduction of UX/UI Design', 'Audit an existing app', 1.75, K.lavL, K.ink], ['UNIT 2', 'Plan', 'A Strategy Plan', 'Find gaps, plan solutions', 2.2, K.lav, K.ink], ['UNIT 3', 'Research', 'Applied Design Fundamentals', 'Research and persona', 2.65, '9A92FF', K.ink], ['UNIT 4', 'Design', 'Emphasis in UX Design', 'Flows and wireframes', 3.1, K.blueD, K.white], ['UNIT 5', 'Test', 'User Testing', 'Prototype, test, revise', 3.55, '1F38B0', K.white]];
     const w = 2.1, gap = (G.w - 5 * w) / 4, base = 6.55;
     units.forEach((u, i) => {
       const x = G.x + i * (w + gap), h = u[4], y = base - h;
@@ -157,7 +157,7 @@ module.exports = function (pres) {
       const x = G.x + i * (w + gap);
       tile(c, x, G.y, w, G.h, 'light');
       iconTile(c, x + 0.28, G.y + 0.3, 0.66, it[0], [K.blueD, K.ink, K.blue, K.ink, K.blueD][i]);
-      c.t(it[1], x + 0.28, G.y + 1.15, w - 0.4, 0.35, { size: 19, bold: true, color: K.ink }); c.t(it[2], x + 0.28, G.y + 1.58, w - 0.5, 0.95, { size: 14, color: K.mute, ls: 1.05 });
+      c.t(it[1], x + 0.28, G.y + 1.15, w - 0.4, 0.35, { size: 17, bold: true, color: K.ink }); c.t(it[2], x + 0.28, G.y + 1.58, w - 0.5, 0.95, { size: 14, color: K.mute, ls: 1.05 });
       c.t('IN GATHER', x + 0.28, G.y + 2.75, w - 0.4, 0.22, { size: 9.5, bold: true, color: K.blueD, cs: 1.5 }); c.t(it[3], x + 0.28, G.y + 3.02, w - 0.5, 0.8, { size: 13.5, bold: true, color: K.ink, ls: 1.05 });
     });
   }
@@ -180,7 +180,7 @@ module.exports = function (pres) {
     const s = mk(pres, { sec: 'u1', eyebrow: 'LAWS OF UX', title: ['Psychology', 'you can design with.'] });
     const c = S(s);
     const w = G.col(4), h = (G.h - G.gap) / 2;
-    const laws = [['Jakob’s Law', 'Users expect what they already know.'], ['Fitts’s Law', 'Bigger, closer targets are faster to hit.'], ['Hick’s Law', 'More choices mean slower decisions.'], ['Miller’s Law', 'Chunk information into small groups.'], ['Doherty Threshold', 'Respond within about 400 ms.'], ['Peak–End Rule', 'We recall the peak and the end.']];
+    const laws = [['Jakob’s Law', 'Users expect the familiar.'], ['Fitts’s Law', 'Bigger, closer is faster.'], ['Hick’s Law', 'More choices, slower decisions.'], ['Miller’s Law', 'Chunk information into groups.'], ['Doherty Threshold', 'Respond within about 400 ms.'], ['Peak–End Rule', 'People recall the peak and end.']];
     laws.forEach((lw, i) => {
       const x = G.x + (i % 3) * (w + G.gap), y = G.y + Math.floor(i / 3) * (h + G.gap);
       tile(c, x, y, w, h, 'light');
@@ -237,8 +237,8 @@ module.exports = function (pres) {
     const stages = [['Browse events', 4.4], ['View details', 3.8], ['Start the form', 3.2], ['Submit', 2.6], ['Attend', 2.0]], cx = G.x + 2.2;
     stages.forEach((st, i) => {
       const y = G.y + 0.05 + i * 0.74, w = st[1], nw = i < 4 ? stages[i + 1][1] : w - 0.5;
-      c.poly([[cx - w / 2, y], [cx + w / 2, y], [cx + nw / 2, y + 0.64], [cx - nw / 2, y + 0.64]], { fill: [K.blueD, K.blue, '6A82FF', '9A92FF', K.lav][i] });
-      c.t(st[0], cx - w / 2, y, w, 0.64, { size: 15, bold: true, color: i < 4 ? K.white : K.ink, align: 'center', valign: 'middle' });
+      c.poly([[cx - w / 2, y], [cx + w / 2, y], [cx + nw / 2, y + 0.64], [cx - nw / 2, y + 0.64]], { fill: ['1F38B0', K.blueD, '3A5CF0', '9A92FF', K.lav][i] });
+      c.t(st[0], cx - w / 2, y, w, 0.64, { size: 15, bold: true, color: i < 3 ? K.white : K.ink, align: 'center', valign: 'middle' });
     });
     ['Hard to find events?', 'Unclear details?', 'Long, repetitive form?', 'No reminder or ticket?'].forEach((f, i) => { const y = G.y + 0.05 + (i + 1) * 0.74 - 0.05; c.ell(G.x + 4.85, y, 0.06, { fill: K.red }); c.t(f, G.x + 5.0, y - 0.17, 2.4, 0.34, { size: 13.5, bold: true, color: K.red, valign: 'middle' }); });
     c.t('Illustrative funnel shape, not real data', G.x, 6.4, 4.5, 0.25, { size: 10.5, color: K.mute });

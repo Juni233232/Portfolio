@@ -39,7 +39,7 @@ module.exports = function (pres) {
     c.t('UNITY', G.x + 0.35, G.y + 0.28, 2, 0.25, { size: 11, bold: true, color: K.blueD, cs: 2 }); c.t('VARIETY', x2 + 0.35, G.y + 0.28, 2, 0.25, { size: 11, bold: true, color: K.blueD, cs: 2 });
     c.t('Inconsistent', G.x + 0.35, G.y + 0.75, 2.2, 0.25, { size: 12.5, bold: true, color: K.red }); c.t('Consistent', G.x + 3.0, G.y + 0.75, 2.2, 0.25, { size: 12.5, bold: true, color: K.green });
     const bx = G.x + 0.35, by = G.y + 1.15;
-    c.box(bx, by, 1.6, 0.4, 'Register', { r: 0.2, fill: K.blue, color: K.white, size: 12, bold: true }); c.box(bx, by + 0.5, 1.2, 0.32, 'Save', { r: 0.03, fill: K.green, color: K.white, size: 10, bold: true });
+    c.box(bx, by, 1.6, 0.4, 'Register', { r: 0.2, fill: '3A5CF0', color: K.white, size: 12, bold: true }); c.box(bx, by + 0.5, 1.2, 0.32, 'Save', { r: 0.03, fill: K.green, color: K.white, size: 10, bold: true });
     c.box(bx, by + 0.92, 1.75, 0.46, 'Share', { r: 0.1, line: K.red, color: K.red, size: 13, bold: true }); c.box(bx, by + 1.48, 1.1, 0.38, 'JOIN', { r: 0.19, fill: K.ink, color: K.amber, size: 11, bold: true });
     ['Register', 'Save', 'Share', 'Join'].forEach((t, i) => c.box(G.x + 3.0, by + i * 0.52, 1.8, 0.4, t, { r: 0.2, fill: K.blueD, color: K.white, size: 12, bold: true }));
     c.t('One colour, one shape, one type style.', G.x + 0.35, G.y + 3.25, w - 0.7, 0.3, { size: 13.5, color: K.mute });

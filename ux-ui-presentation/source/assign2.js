@@ -5,10 +5,9 @@ module.exports = function assign(pres, o) {
   const s = mk(pres, { sec: o.sec, tone: 'lav', v: 'top', eyebrow: o.eyebrow, title: o.title });
   const c = S(s);
   tile(c, G.x, G.y, 3.9, G.h, 'lav');
-  c.t('ASSIGNMENT', G.x + 0.35, G.y + 0.3, 3, 0.25, { size: 11, bold: true, color: K.blueD, cs: 2 });
-  c.t(o.num, G.x + 0.3, G.y + 0.55, 3.3, 1.5, { size: 92, bold: true, color: K.ink });
-  c.t(o.tag, G.x + 0.35, G.y + 2.2, 3.25, 0.9, { size: 16, bold: true, color: K.ink, ls: 1.05 });
-  c.t(o.think, G.x + 0.35, G.y + 3.15, 3.25, 0.7, { size: 13, color: '47426B', ls: 1.05 });
+  c.t('Assignment ' + o.num.replace(/^0/, '') + ' of 5', G.x + 0.35, G.y + 0.35, 3.2, 0.3, { size: 15, bold: true, color: K.blueD });
+  c.t(o.tag, G.x + 0.35, G.y + 0.85, 3.2, 1.9, { size: 20, bold: true, color: K.ink, ls: 1.1 });
+  c.t(o.think, G.x + 0.35, G.y + 2.95, 3.2, 0.8, { size: 13, color: '47426B', ls: 1.1 });
   const n = o.steps.length, gap = 0.14, h = (G.h - gap * (n - 1)) / n, x = 5.1, w = 12.433 - x;
   o.steps.forEach((st, i) => {
     const y = G.y + i * (h + gap);

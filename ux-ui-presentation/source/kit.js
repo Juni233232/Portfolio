@@ -3,7 +3,6 @@ const fs = require('fs'), path = require('path');
 const L = require('./lib');
 const { K, SECS } = L;
 const NOTES = JSON.parse(fs.readFileSync(path.join(__dirname, 'assets/notes.json'), 'utf8'));
-const img = (n) => 'image/jpeg;base64,' + fs.readFileSync(path.join(__dirname, 'assets', n)).toString('base64');
 
 // Grid: 0.9in side margins, 12 columns, 0.3in gutters. Content zone for 'top' layouts: y 2.6 to 6.6.
 const G = { x: 0.9, w: 11.533, y: 2.6, h: 4.0, gap: 0.3, r: 0.3 };
@@ -12,12 +11,12 @@ G.cx = (i) => G.x + i * ((G.w - 11 * 0.3) / 12 + 0.3);         // x of column i 
 
 const TONE = {
   light: { bg: { color: K.paper }, fg: K.ink, mute: K.mute, eyebrow: K.blueD, accent: K.blueD },
-  dark: { bg: 'bg_dark.jpg', fg: K.paper, mute: 'A9ACB4', eyebrow: K.lav, accent: K.lav },
-  lav: { bg: 'bg_lav.jpg', fg: K.ink, mute: '47426B', eyebrow: K.blueD, accent: K.blueD },
+  dark: { bg: { color: K.ink }, fg: K.paper, mute: 'A9ACB4', eyebrow: K.lav, accent: K.lav },
+  lav: { bg: { color: K.lav }, fg: K.ink, mute: '47426B', eyebrow: '1F38B0', accent: '1F38B0' },
 };
 
 function defineLayouts(pres) {
-  const mkBg = (t, sec) => (typeof t.bg === 'object' ? t.bg : { data: img(['u2', 'u4', 'end'].includes(sec) && t.bg === 'bg_dark.jpg' ? 'bg_dark2.jpg' : t.bg) });
+  const mkBg = (t) => t.bg;
   for (const [sk, sec] of Object.entries(SECS)) {
     for (const [tk, t] of Object.entries(TONE)) {
       for (const v of ['top', 'split', 'center']) {
@@ -25,22 +24,22 @@ function defineLayouts(pres) {
         const ti = v === 'top' ? { x: 0.9, y: 0.95, w: 11.53, h: 1.4, fontSize: 40, align: 'left' } : v === 'split' ? { x: 0.9, y: 1.5, w: 4.7, h: 3.4, fontSize: 38, align: 'left' } : { x: 0.9, y: 1.3, w: 11.53, h: 1.8, fontSize: 56, align: 'center' };
         pres.defineSlideMaster({
           title: `${sk}-${tk}-${v}`,
-          background: mkBg(t, sk),
-          slideNumber: { x: 11.43, y: 6.95, w: 1.0, h: 0.3, fontSize: 10, color: t.mute, align: 'right' },
+          background: mkBg(t),
+          slideNumber: { x: 11.43, y: 6.95, w: 1.0, h: 0.3, fontSize: 11, color: t.mute, align: 'right' },
           objects: [
-            { text: { text: `SVCB3003  ·  ${sec.foot}`, options: { x: 0.9, y: 6.98, w: 8, h: 0.26, fontSize: 9.5, color: t.mute, margin: 0, valign: 'middle' } } },
-            { placeholder: { options: { name: 'eyebrow', type: 'body', ...eb, fontSize: 12, bold: true, color: t.eyebrow, charSpacing: 2, margin: 0, valign: 'middle' }, text: '' } },
-            { placeholder: { options: { name: 'title', type: 'title', ...ti, bold: true, color: t.fg, charSpacing: -0.8, lineSpacingMultiple: 0.93, margin: 0, valign: 'top' }, text: '' } },
+            { text: { text: `SVCB3003  ·  ${sec.foot}`, options: { x: 0.9, y: 6.98, w: 8, h: 0.26, fontSize: 11, color: t.mute, margin: 0, valign: 'middle' } } },
+            { placeholder: { options: { name: 'eyebrow', type: 'body', ...eb, fontSize: 11, fontFace: 'Inter SemiBold', bold: false, color: t.eyebrow, charSpacing: 2, margin: 0, valign: 'middle' }, text: '' } },
+            { placeholder: { options: { name: 'title', type: 'title', ...ti, bold: true, color: t.fg, charSpacing: -0.5, lineSpacingMultiple: 0.93, margin: 0, valign: 'top' }, text: '' } },
           ],
         });
       }
     }
   }
   pres.defineSlideMaster({
-    title: 'cover', background: { data: img('bg_hero.jpg') },
+    title: 'cover', background: { color: K.ink },
     objects: [
-      { placeholder: { options: { name: 'eyebrow', type: 'body', x: 1.2, y: 0.75, w: 10.93, h: 0.3, align: 'center', fontSize: 12, bold: true, color: K.lav, charSpacing: 3, margin: 0, valign: 'middle' }, text: '' } },
-      { placeholder: { options: { name: 'title', type: 'title', x: 0.9, y: 1.1, w: 11.53, h: 1.5, align: 'center', fontSize: 84, bold: true, color: K.paper, charSpacing: -2, margin: 0, valign: 'top' }, text: '' } },
+      { placeholder: { options: { name: 'eyebrow', type: 'body', x: 1.2, y: 0.75, w: 10.93, h: 0.3, align: 'center', fontSize: 11, fontFace: 'Inter SemiBold', bold: false, color: K.lav, charSpacing: 3, margin: 0, valign: 'middle' }, text: '' } },
+      { placeholder: { options: { name: 'title', type: 'title', x: 0.9, y: 1.1, w: 11.53, h: 1.5, align: 'center', fontSize: 80, bold: true, color: K.paper, charSpacing: -1.5, margin: 0, valign: 'top' }, text: '' } },
     ],
   });
 }
@@ -64,13 +63,13 @@ function mk(pres, o) {
 const reset = () => { counter = 0; curSec = null; };
 
 // ---- components ----
-// tile: light = white card with a soft shadow, dark = frosted glass, lav = frosted white
+// tile: light = white card + 1px hairline (no shadow), dark = solid surface tile, lav = white card. Depth comes from surface change.
 function tile(c, x, y, w, h, tn, o = {}) {
   const r = o.r === undefined ? G.r : o.r;
-  if (o.fill) return c.rect(x, y, w, h, { fill: o.fill, r, shadow: tn === 'light' && !o.flat ? { o: 0.1, b: 26, d: 7, a: 90 } : undefined });
-  if (tn === 'light') return c.rect(x, y, w, h, { fill: 'FFFFFF', r, shadow: o.flat ? undefined : { o: 0.075, b: 26, d: 7, a: 90 } });
-  if (tn === 'dark') return c.rect(x, y, w, h, { fill: 'FFFFFF', tr: 91, line: 'FFFFFF', ltr: 86, lw: 0.75, r });
-  return c.rect(x, y, w, h, { fill: 'FFFFFF', tr: 42, r, shadow: { o: 0.05, b: 20, d: 5, a: 90 } });
+  if (o.fill) return c.rect(x, y, w, h, { fill: o.fill, r });
+  if (tn === 'light') return c.rect(x, y, w, h, { fill: 'FFFFFF', line: 'E0E0E0', lw: 0.75, r });
+  if (tn === 'dark') return c.rect(x, y, w, h, { fill: '25272D', r });
+  return c.rect(x, y, w, h, { fill: 'FFFFFF', r });
 }
 function iconTile(c, x, y, sz, icon, fill, ic = 'white') {
   c.rect(x, y, sz, sz, { fill, r: sz * 0.28 });
