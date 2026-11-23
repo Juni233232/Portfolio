@@ -52,3 +52,10 @@ References and verification notes for the SVCB3003 UI & UX Design presentation (
 
 The deck is set in Inter (free, from rsms.me/inter or Google Fonts). Install Inter before presenting so the layout matches the PDF exactly; otherwise PowerPoint substitutes another font and text may reflow.
 
+
+# 6. Design language
+
+- The deck follows Apple's published design principles: clarity (legible type, restrained ornament), deference (the interface supports the content) and depth (layering, soft shadows, translucent materials). Source: Apple Human Interface Guidelines, Design principles (developer.apple.com/design/human-interface-guidelines).
+- Apple-style conventions used: large two-tone headlines with tight tracking, one accent blue, generous whitespace, large rounded bento tiles, frosted-glass panels, glow backgrounds on dark slides and a calm light/dark rhythm. These are design-language conventions observed on apple.com and keynotes, not Apple specifications.
+- Inter is used as the typeface because it is free and widely available; Apple's own SF Pro is not freely redistributable. To use SF Pro, change the two font names in source/lib.js (THEME) and rebuild.
+- Spacing system: 0.9 in side margins, 12-column grid with 0.3 in gutters, tile corner radius 0.3 in, content zone 4 in tall under a two-line headline.

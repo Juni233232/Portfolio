@@ -105,7 +105,7 @@ class Cv {
   W(v) { return v * this.s; }
   sub(ox, oy, sc = 1) { return new Cv(this.sl, this.X(ox), this.Y(oy), this.s * sc, this.k * sc); }
   _fill(o) { return o.fill ? { color: o.fill, transparency: o.tr || 0 } : undefined; }
-  _line(o) { return o.line ? { color: o.line, width: (o.lw || 1) * (o.lwScale === false ? 1 : 1), dashType: o.dash || 'solid' } : undefined; }
+  _line(o) { return o.line ? { color: o.line, width: o.lw || 1, dashType: o.dash || 'solid', transparency: o.ltr || 0 } : undefined; }
   rect(x, y, w, h, o = {}) {
     const opt = { x: this.X(x), y: this.Y(y), w: this.W(w), h: this.W(h) };
     const f = this._fill(o); if (f) opt.fill = f; else opt.fill = { type: 'none' };
