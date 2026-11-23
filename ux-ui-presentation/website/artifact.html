@@ -1,0 +1,758 @@
+<title>UX Masterclass</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="SVCB3003 UI and UX Design: 50 slides, five units, five assignments and interactive labs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+<style>
+:root{
+  --bg:#F6F5F1; --surface:#FFFFFF; --surface2:#ECEAE3; --line:rgba(16,17,20,.12);
+  --ink:#101114; --mute:#5C5F69; --accent:#2B4BDB; --on-accent:#FFFFFF; --bright:#476BFF;
+  --lav:#C8B9FF; --lav-soft:#E6E0FF; --lav-ink:#1F38B0; --ok:#17704B; --bad:#B3321F;
+  --nav:rgba(246,245,241,.78); --scrim:rgba(16,17,20,.55); --product-shadow:0 28px 60px rgba(16,17,20,.2);
+  /* Gather phone: product artwork, same in both themes */
+  --ph-bg:#FFFFFF; --ph-ink:#101114; --ph-mute:#5C5F69; --ph-line:#E0E0E0; --ph-fill:#F2F1EC; --ph-accent:#2B4BDB; --ph-bezel:#101114;
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,sans-serif;
+  --ease:cubic-bezier(.32,.72,0,1);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#101114; --surface:#1A1C21; --surface2:#23262C; --line:rgba(246,245,241,.14);
+  --ink:#F6F5F1; --mute:#A9ACB4; --accent:#8EA2FF; --on-accent:#101114; --lav-soft:#26234A; --lav-ink:#C8B9FF;
+  --ok:#5FD3A0; --bad:#FF8B7C; --nav:rgba(16,17,20,.72); --scrim:rgba(0,0,0,.65); --product-shadow:0 28px 60px rgba(0,0,0,.5);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101114; --surface:#1A1C21; --surface2:#23262C; --line:rgba(246,245,241,.14);
+  --ink:#F6F5F1; --mute:#A9ACB4; --accent:#8EA2FF; --on-accent:#101114; --lav-soft:#26234A; --lav-ink:#C8B9FF;
+  --ok:#5FD3A0; --bad:#FF8B7C; --nav:rgba(16,17,20,.72); --scrim:rgba(0,0,0,.65); --product-shadow:0 28px 60px rgba(0,0,0,.5);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.47 var(--font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3,h4,p,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+a{color:var(--accent);text-decoration:none}
+img{max-width:100%;display:block}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.wrap{width:100%;max-width:1180px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{padding-block:96px}
+@media (max-width:720px){section{padding-block:64px}}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.h2{font-size:40px;line-height:1.08;font-weight:700;letter-spacing:-.02em;text-wrap:balance;margin-top:12px}
+.h2 span{color:var(--mute)}
+.lede{font-size:20px;line-height:1.4;color:var(--mute);max-width:640px;margin-top:16px;text-wrap:pretty}
+@media (max-width:720px){.h2{font-size:28px}.lede{font-size:17px}}
+.mute{color:var(--mute)}
+.sec-head{margin-bottom:48px}
+@media (max-width:720px){.sec-head{margin-bottom:32px}}
+
+/* controls */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 22px;border-radius:999px;font-size:17px;font-weight:600;line-height:1;transition:transform .12s var(--ease),background-color .2s,opacity .2s;white-space:nowrap}
+.btn:active{transform:scale(.96);transition-duration:.05s}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
+.btn-ghost{box-shadow:inset 0 0 0 1px var(--line);color:var(--ink)}
+.btn-link{color:var(--accent);padding:0 6px}
+@media (hover:hover){.btn-primary:hover{opacity:.9}.btn-ghost:hover{background:var(--surface2)}}
+
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:28px}
+@media (max-width:720px){.tile{padding:22px;border-radius:24px}}
+
+/* nav */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--nav);-webkit-backdrop-filter:saturate(1.6) blur(20px);backdrop-filter:saturate(1.6) blur(20px);z-index:30}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--nav);-webkit-backdrop-filter:saturate(1.6) blur(20px);backdrop-filter:saturate(1.6) blur(20px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:20px;min-height:52px}
+.brand{font-weight:700;font-size:17px;letter-spacing:-.01em;color:var(--ink);white-space:nowrap;min-height:44px;display:flex;align-items:center}
+.brand i{font-style:normal;color:var(--accent)}
+.links{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.links::-webkit-scrollbar{display:none}
+.links a{display:flex;align-items:center;min-height:44px;padding:0 12px;font-size:13px;font-weight:600;color:var(--mute);white-space:nowrap;border-radius:999px;transition:color .2s}
+@media (hover:hover){.links a:hover{color:var(--ink)}}
+
+/* hero */
+.hero{padding-block:72px 96px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.hero h1{font-size:80px;line-height:1;font-weight:700;letter-spacing:-.035em;text-wrap:balance;margin-top:16px}
+.hero h1 span{color:var(--mute)}
+.hero .lede{margin-top:24px;font-size:20px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:32px}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:40px}
+.fact{padding:8px 14px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);font-size:13px;font-weight:600;color:var(--mute)}
+@media (max-width:960px){.hero .wrap{grid-template-columns:1fr;gap:48px}.hero h1{font-size:56px}}
+@media (max-width:520px){.hero{padding-block:40px 64px}.hero h1{font-size:40px}.hero .lede{font-size:17px}}
+
+/* phone */
+.stage{display:flex;flex-direction:column;align-items:center;gap:20px}
+.phone{position:relative;width:min(300px,78vw);aspect-ratio:300/620;background:var(--ph-bezel);border-radius:46px;padding:10px;box-shadow:var(--product-shadow)}
+.screen{position:relative;width:100%;height:100%;background:var(--ph-bg);border-radius:36px;overflow:hidden;color:var(--ph-ink)}
+.island{position:absolute;top:10px;left:50%;width:82px;height:22px;border-radius:12px;background:var(--ph-bezel);transform:translateX(-50%);z-index:5}
+.ps{position:absolute;inset:0;padding:48px 18px 18px;display:flex;flex-direction:column;gap:12px;background:var(--ph-bg);transition:transform .45s var(--ease),opacity .3s ease;will-change:transform}
+.ps[data-pos="before"]{transform:translateX(-26%);opacity:0;pointer-events:none}
+.ps[data-pos="after"]{transform:translateX(100%);pointer-events:none}
+.ps[data-pos="after"]{box-shadow:none}
+.ps *{font-family:var(--font)}
+.ps-top{display:flex;justify-content:space-between;align-items:center}
+.ps-top b{font-size:20px;font-weight:700;letter-spacing:-.02em}
+.ps-av{width:32px;height:32px;border-radius:50%;background:var(--ph-accent);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+.ps-search{height:36px;border-radius:999px;background:var(--ph-fill);color:var(--ph-mute);font-size:13px;display:flex;align-items:center;padding:0 14px}
+.ps h4{font-size:15px;font-weight:700}
+.pc{display:flex;gap:12px;align-items:center;width:100%;text-align:left;border:1px solid var(--ph-line);border-radius:16px;padding:10px;background:var(--ph-bg);transition:transform .12s var(--ease)}
+.pc:active{transform:scale(.97);transition-duration:.05s}
+.pc-img{flex:none;width:52px;height:52px;border-radius:12px;background:var(--ph-fill);display:grid;place-items:center;color:var(--ph-mute)}
+.pc b{display:block;font-size:13px;font-weight:600;line-height:1.25}
+.pc small{display:block;font-size:11px;color:var(--ph-mute);margin-top:2px}
+.pc em{font-style:normal;font-size:11px;font-weight:600;margin-left:auto;color:var(--ph-accent)}
+.back{align-self:flex-start;min-height:44px;margin:-8px 0 -6px -8px;padding:0 8px;font-size:13px;font-weight:600;color:var(--ph-accent);display:flex;align-items:center;gap:2px}
+.ph-hero{height:112px;border-radius:18px;background:var(--ph-fill);display:grid;place-items:center;color:var(--ph-mute)}
+.ps h3{font-size:20px;line-height:1.15;font-weight:700;letter-spacing:-.015em}
+.ph-meta{font-size:13px;color:var(--ph-mute);line-height:1.4}
+.ph-rows{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ph-rows div{border:1px solid var(--ph-line);border-radius:12px;padding:8px 10px;font-size:11px;color:var(--ph-mute)}
+.ph-rows b{display:block;font-size:15px;color:var(--ph-ink);font-weight:600}
+.pbtn{margin-top:auto;min-height:48px;border-radius:999px;background:var(--ph-accent);color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;transition:transform .12s var(--ease);width:100%}
+.pbtn:active{transform:scale(.96);transition-duration:.05s}
+.pf{display:grid;gap:4px}
+.pf label{font-size:11px;font-weight:600;color:var(--ph-mute)}
+.pf input{font:400 16px var(--font);height:44px;border-radius:12px;border:1px solid var(--ph-line);padding:0 12px;background:var(--ph-bg);color:var(--ph-ink);width:100%}
+.pf input:focus-visible{outline:2px solid var(--ph-accent);outline-offset:1px}
+.pf input[aria-invalid="true"]{border-color:#B3321F}
+.perr{font-size:11px;color:#B3321F;font-weight:600;min-height:16px;display:flex;gap:4px;align-items:center}
+.ok-badge{width:56px;height:56px;border-radius:50%;background:var(--ph-accent);color:#fff;display:grid;place-items:center;margin:4px auto 0}
+.ps-center{text-align:center}
+.qr{width:140px;height:140px;margin:0 auto;border:1px solid var(--ph-line);border-radius:16px;padding:12px;background:#fff}
+.dots{display:flex;gap:4px}
+.dots button{width:44px;height:44px;display:grid;place-items:center}
+.dots button span{display:block;width:8px;height:8px;border-radius:99px;background:var(--line);box-shadow:inset 0 0 0 1px var(--mute);transition:width .3s var(--ease),background .2s}
+.dots button[aria-current="true"] span{width:24px;background:var(--accent);box-shadow:none}
+.cap{max-width:320px;text-align:center;min-height:68px}
+.cap b{display:block;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.cap span{font-size:15px;color:var(--ink)}
+
+/* outcomes */
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.out{display:flex;flex-direction:column;gap:12px;min-height:168px}
+.out .tag{font-size:13px;font-weight:600;color:var(--accent)}
+.out p{font-size:20px;line-height:1.25;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.out.wide{grid-column:span 3;background:var(--lav-soft);border-color:transparent;min-height:0;flex-direction:row;align-items:center;justify-content:space-between;gap:24px}
+.out.wide .tag{color:var(--lav-ink)}
+@media (max-width:900px){.bento{grid-template-columns:1fr 1fr}.out.wide{grid-column:span 2}}
+@media (max-width:560px){.bento{grid-template-columns:1fr}.out.wide{grid-column:span 1;flex-direction:column;align-items:flex-start}.out{min-height:0}}
+
+/* journey */
+.journey{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.jn{display:flex;flex-direction:column;gap:8px;text-align:left;padding:22px;transition:transform .15s var(--ease)}
+.jn:active{transform:scale(.97);transition-duration:.05s}
+.jn .eyebrow{color:var(--accent)}
+.jn b{font-size:20px;line-height:1.2;font-weight:700;letter-spacing:-.01em}
+.jn span{font-size:15px;color:var(--mute)}
+@media (hover:hover){.jn:hover{transform:translateY(-3px)}}
+@media (max-width:960px){.journey{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.journey{grid-template-columns:1fr}}
+
+/* units */
+.unit{border-top:1px solid var(--line)}
+.unit:nth-of-type(even){background:var(--surface2)}
+.unit-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:32px}
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.topic{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;min-height:44px;transition:transform .15s var(--ease)}
+.topic:active{transform:scale(.97);transition-duration:.05s}
+@media (hover:hover){.topic:hover{transform:translateY(-3px)}}
+.topic .eyebrow{font-size:11px}
+.topic b{font-size:17px;line-height:1.25;font-weight:600;letter-spacing:-.01em}
+.topic span.i{font-size:15px;line-height:1.4;color:var(--mute)}
+.assign{margin-top:16px;background:var(--lav-soft);border-radius:28px;padding:28px;display:grid;grid-template-columns:1fr 1.2fr;gap:28px;border:0}
+.assign .eyebrow{color:var(--lav-ink)}
+.assign h3{font-size:28px;line-height:1.12;font-weight:700;letter-spacing:-.02em;margin-top:8px;text-wrap:balance}
+.assign p{font-size:15px;color:var(--ink);margin-top:10px;max-width:420px}
+.assign .btn{margin-top:18px;margin-left:-6px}
+.steps{display:grid;gap:8px;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;background:var(--surface);border-radius:16px;padding:12px 16px;font-size:15px;font-weight:600;line-height:1.35}
+.steps li::before{content:counter(s);flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--on-accent);font-size:13px;font-weight:700;display:grid;place-items:center;margin-top:-1px}
+@media (max-width:820px){.assign{grid-template-columns:1fr;padding:22px;border-radius:24px}}
+
+/* labs */
+.labs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.lab h3{font-size:28px;line-height:1.12;font-weight:700;letter-spacing:-.02em;margin-top:8px}
+.lab>p{font-size:15px;color:var(--mute);margin-top:8px}
+.lab .body{margin-top:20px;display:grid;gap:16px}
+.lab.full{grid-column:span 2}
+@media (max-width:900px){.labs{grid-template-columns:1fr}.lab.full{grid-column:span 1}}
+.row{display:flex;flex-wrap:wrap;gap:12px}
+.field{display:grid;gap:6px;flex:1;min-width:140px}
+.field label,.field .lbl{font-size:13px;font-weight:600;color:var(--mute)}
+.field .pair{display:flex;gap:8px}
+input[type=color]{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--bg);padding:4px;cursor:pointer}
+input[type=text]{font:400 17px var(--font);height:44px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:0 12px;width:100%;min-width:0}
+input[type=range]{width:100%;height:44px;accent-color:var(--accent);margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 16px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);font-size:15px;font-weight:600;color:var(--ink);transition:transform .12s var(--ease),background .2s}
+.chip:active{transform:scale(.96);transition-duration:.05s}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);box-shadow:none}
+.sample{border-radius:20px;padding:20px 22px;display:grid;gap:4px;border:1px solid var(--line);transition:background-color .2s,color .2s}
+.sample b{font-size:40px;line-height:1.1;font-weight:700;letter-spacing:-.02em}
+.sample span{font-size:17px}
+.ratio{font-size:56px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.ratio small{font-size:20px;font-weight:600;color:var(--mute);letter-spacing:0}
+.checks{display:grid;gap:6px}
+.checks li{display:flex;justify-content:space-between;gap:12px;font-size:15px;padding:10px 14px;border-radius:12px;background:var(--bg)}
+.pass,.fail{font-weight:700;white-space:nowrap}
+.pass{color:var(--ok)}.fail{color:var(--bad)}
+.tt{display:grid;place-items:center;min-height:132px;border-radius:20px;background:var(--bg);border:1px dashed var(--line)}
+.tt .t{border-radius:999px;background:var(--accent);color:var(--on-accent);font-weight:600;font-size:13px;display:grid;place-items:center;transition:width .12s,height .12s}
+.menu{display:flex;flex-wrap:wrap;gap:8px;min-height:100px;align-content:flex-start}
+.menu span{padding:8px 14px;border-radius:999px;background:var(--bg);font-size:15px;font-weight:600;box-shadow:inset 0 0 0 1px var(--line)}
+.meter{height:12px;border-radius:99px;background:var(--bg);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line)}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .35s var(--ease)}
+.kv{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.kv b{font-weight:700}
+.note{font-size:13px;color:var(--mute)}
+.sus-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--mute);font-weight:600;padding-right:2px}
+.sus{display:grid;gap:10px}
+.sus fieldset{border:0;margin:0;padding:12px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;min-width:0}
+.sus .q{font-size:15px;min-width:0}
+.sus .opts{display:flex;gap:4px}
+.sus .opts label{position:relative;display:block}
+.sus .opts input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.sus .opts span{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--line);font-size:15px;font-weight:600;transition:transform .12s var(--ease),background .2s}
+.sus .opts input:checked+span{background:var(--accent);color:var(--on-accent);box-shadow:none}
+.sus .opts input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.sus .opts input:active+span{transform:scale(.92)}
+@media (max-width:640px){.sus fieldset{grid-template-columns:1fr}.sus .opts{justify-content:space-between}}
+.score{display:flex;flex-wrap:wrap;gap:20px;align-items:center;padding-top:8px}
+
+/* gallery */
+.gal-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.thumb{display:flex;flex-direction:column;gap:8px;text-align:left;transition:transform .15s var(--ease)}
+.thumb img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;box-shadow:0 0 0 1px var(--line);background:var(--surface2)}
+.thumb span{font-size:13px;line-height:1.3;color:var(--mute);font-weight:600}
+.thumb:active{transform:scale(.97);transition-duration:.05s}
+@media (hover:hover){.thumb:hover{transform:translateY(-3px)}}
+
+/* design system */
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.three h3{font-size:20px;line-height:1.2;font-weight:700;letter-spacing:-.01em;margin-top:8px}
+.three ul{display:grid;gap:10px;margin-top:16px}
+.three li{font-size:15px;line-height:1.4;padding-left:18px;position:relative}
+.three li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+@media (max-width:900px){.three{grid-template-columns:1fr}}
+.pal{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
+.sw{border-radius:20px;border:1px solid var(--line);overflow:hidden;background:var(--surface)}
+.sw i{display:block;height:72px;border-bottom:1px solid var(--line)}
+.sw div{padding:12px 14px;font-size:13px;line-height:1.35}
+.sw b{display:block;font-size:15px;font-weight:600}
+.pairs{display:grid;gap:8px;margin-top:16px}
+.pairs li{display:flex;align-items:center;gap:14px;padding:10px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-size:15px}
+.pairs .pv{width:56px;height:40px;border-radius:10px;display:grid;place-items:center;font-weight:700;font-size:17px;flex:none}
+.pairs .r{margin-left:auto;font-weight:700;white-space:nowrap}
+.ramp{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;margin-top:16px}
+.ramp span{color:var(--mute);font-weight:600}
+
+/* resources */
+.dls{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.dl{display:flex;flex-direction:column;gap:6px;color:var(--ink);transition:transform .15s var(--ease)}
+.dl:active{transform:scale(.98);transition-duration:.05s}
+@media (hover:hover){.dl:hover{transform:translateY(-3px)}}
+.dl .ext{font-size:13px;font-weight:600;letter-spacing:.08em;color:var(--accent)}
+.dl b{font-size:20px;line-height:1.2;font-weight:700;letter-spacing:-.01em}
+.dl .d{font-size:15px;color:var(--mute)}
+.dl .st{font-size:13px;color:var(--mute);margin-top:auto;padding-top:10px;display:flex;justify-content:space-between;gap:8px}
+.dl .go{color:var(--accent);font-weight:600}
+.refs{display:grid;gap:12px;margin-top:16px}
+.refs li{font-size:15px;line-height:1.45;padding:16px 18px;border-radius:18px;background:var(--surface);border:1px solid var(--line)}
+.refs li b{font-weight:600}
+.refs .u{display:block;font-size:13px;color:var(--mute);margin-top:4px}
+.sub{font-size:28px;line-height:1.12;font-weight:700;letter-spacing:-.02em;margin-top:64px}
+@media (max-width:720px){.sub{font-size:20px;margin-top:48px}}
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.vgrid h4{font-size:17px;font-weight:700}
+.vgrid ul{display:grid;gap:8px;margin-top:12px}
+.vgrid li{font-size:15px;line-height:1.4;color:var(--mute)}
+@media (max-width:900px){.vgrid{grid-template-columns:1fr}}
+details.more{margin-top:12px}
+details.more summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600;color:var(--accent);list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::after{content:"+";margin-left:8px;font-weight:600}
+details.more[open] summary::after{content:"\2212"}
+
+footer{padding-block:48px 64px;border-top:1px solid var(--line);font-size:13px;color:var(--mute)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer p{max-width:560px}
+
+/* viewer */
+.vw{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));background:var(--scrim);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);opacity:0;visibility:hidden;transition:opacity .25s ease,visibility 0s linear .25s}
+.vw.on{opacity:1;visibility:visible;transition-delay:0s}
+.vp{width:min(1080px,100%);max-height:100%;overflow:auto;background:var(--bg);border-radius:28px;border:1px solid var(--line);padding:20px;transform:scale(.96) translateY(12px);transition:transform .4s var(--ease);overscroll-behavior:contain}
+.vw.on .vp{transform:none}
+.vbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.vbar .eyebrow{font-size:11px}
+.icon-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink);transition:transform .12s var(--ease),background .2s;flex:none}
+.icon-btn:active{transform:scale(.92);transition-duration:.05s}
+.icon-btn[disabled]{opacity:.35;pointer-events:none}
+@media (hover:hover){.icon-btn:hover{background:var(--surface2)}}
+.vimg{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line);background:var(--surface2);aspect-ratio:16/9}
+.vimg img{width:100%;height:100%;object-fit:cover}
+.vnav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px}
+.vtxt{margin-top:18px;display:grid;gap:8px}
+.vtxt h3{font-size:28px;line-height:1.12;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+.vtxt p.i{font-size:17px;color:var(--mute)}
+.notes{margin-top:8px;border-top:1px solid var(--line);padding-top:12px}
+.notes summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600;color:var(--accent);list-style:none}
+.notes summary::-webkit-details-marker{display:none}
+.notes summary::after{content:"+";margin-left:8px}
+.notes[open] summary::after{content:"\2212"}
+.notes div{display:grid;gap:12px;font-size:15px;line-height:1.55;max-width:70ch}
+@media (max-width:640px){.vtxt h3{font-size:20px}.vp{border-radius:22px;padding:14px}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;transition-delay:0s!important;animation:none!important}
+}
+</style>
+
+
+<a class="sr" href="#main" data-jump="main">Skip to content</a>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" data-jump="top" aria-label="UX Masterclass, back to top">UX<i>.</i>Masterclass</a>
+    <nav class="links" aria-label="Sections">
+      <a href="#learn" data-jump="learn">Learn</a>
+      <a href="#units" data-jump="units">Units</a>
+      <a href="#labs" data-jump="labs">Labs</a>
+      <a href="#slides" data-jump="slides">Slides</a>
+      <a href="#system" data-jump="system">Design</a>
+      <a href="#resources" data-jump="resources">Resources</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">SVCB3003 · UI &amp; UX design</p>
+      <h1>Understand<br><span>the experience.</span></h1>
+      <p class="lede">Fifty slides, five units and five assignments that take you from how people think to a tested prototype. One product follows you all the way: Gather, an event registration platform for a university.</p>
+      <div class="cta">
+        <button class="btn btn-primary" data-jump="units" type="button">Start learning</button>
+        <button class="btn btn-ghost" data-jump="slides" type="button">Browse 50 slides</button>
+        <button class="btn btn-link" data-jump="resources" type="button">Downloads</button>
+      </div>
+      <ul class="facts" aria-label="Course at a glance">
+        <li class="fact">45 instructional hours</li><li class="fact">5 units</li><li class="fact">50 slides</li><li class="fact">5 assignments</li><li class="fact">4 interactive labs</li>
+      </ul>
+    </div>
+    <div class="stage">
+      <div class="phone" id="phone" aria-label="Gather prototype, an interactive phone screen">
+        <div class="island" aria-hidden="true"></div>
+        <div class="screen" id="screens"></div>
+      </div>
+      <div class="dots" id="dots" role="group" aria-label="Gather screens"></div>
+      <p class="cap" id="cap" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<section id="learn">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">What will you learn?</p>
+      <h2 class="h2">By the end, <span>you will build real experiences.</span></h2>
+      <p class="lede">Six outcomes. Each one is practised in a unit, and the last one is the capstone.</p>
+    </div>
+    <div class="bento" id="outcomes"></div>
+  </div>
+</section>
+
+<section id="journey" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The learning journey</p>
+      <h2 class="h2">Five units. <span>One continuous process.</span></h2>
+    </div>
+    <div class="journey" id="journeyList"></div>
+  </div>
+</section>
+
+<div id="units"></div>
+
+<section id="labs">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Try it yourself</p>
+      <h2 class="h2">Four labs. <span>Hands on, no setup.</span></h2>
+      <p class="lede">Check contrast, size a touch target, feel Hick's law and score a product with the System Usability Scale.</p>
+    </div>
+    <div class="labs">
+      <article class="tile lab" id="labContrast">
+        <p class="eyebrow">Unit 2 · Accessibility</p>
+        <h3>Contrast checker</h3>
+        <p>WCAG asks for 4.5:1 on body text and 3:1 on large text and interface parts.</p>
+        <div class="body">
+          <div class="chips" id="presets" role="group" aria-label="Colour presets"></div>
+          <div class="row">
+            <div class="field"><label for="fgHex">Text colour</label><div class="pair"><input type="color" id="fgPick" aria-label="Pick text colour"><input type="text" id="fgHex" maxlength="7" inputmode="text" autocomplete="off" spellcheck="false"></div></div>
+            <div class="field"><label for="bgHex">Background</label><div class="pair"><input type="color" id="bgPick" aria-label="Pick background colour"><input type="text" id="bgHex" maxlength="7" inputmode="text" autocomplete="off" spellcheck="false"></div></div>
+          </div>
+          <div class="sample" id="sample"><b>Aa</b><span>Registration closes Friday.</span></div>
+          <p class="ratio" id="ratio" aria-live="polite"></p>
+          <ul class="checks" id="checks"></ul>
+        </div>
+      </article>
+
+      <article class="tile lab" id="labTouch">
+        <p class="eyebrow">Unit 1 · Fitts's law</p>
+        <h3>Touch target sizer</h3>
+        <p>Bigger, nearer targets are easier to hit. Apple suggests about 44 pt, Material Design 48 dp.</p>
+        <div class="body">
+          <div class="field"><label for="tsize">Button height: <b id="tsizeV">44</b> px</label><input type="range" id="tsize" min="24" max="72" value="44"></div>
+          <div class="tt"><div class="t" id="tBtn">Register</div></div>
+          <p class="kv"><span>Verdict</span><b id="tVerdict"></b></p>
+          <p class="note">One CSS pixel is close to one point on a phone. Treat the guideline as a minimum, and add space between targets.</p>
+        </div>
+      </article>
+
+      <article class="tile lab" id="labHick">
+        <p class="eyebrow">Unit 1 · Hick's law</p>
+        <h3>More choices, more thinking</h3>
+        <p>Decision time grows with the number of options. Drag to add menu items to Gather's navigation.</p>
+        <div class="body">
+          <div class="field"><label for="hn">Menu items: <b id="hnV">5</b></label><input type="range" id="hn" min="2" max="12" value="5"></div>
+          <div class="menu" id="menu" aria-hidden="true"></div>
+          <div class="meter" role="img" aria-label="Relative decision effort"><i id="hmeter"></i></div>
+          <p class="kv"><span>Relative effort, log₂(n + 1)</span><b id="hval"></b></p>
+          <p class="note">A simple model, not a stopwatch. Real timing depends on familiarity, grouping and layout.</p>
+        </div>
+      </article>
+
+      <article class="tile lab">
+        <p class="eyebrow">Unit 5 · Usability testing</p>
+        <h3>Gather's mini test</h3>
+        <p>Try the prototype above, then say how you found it. Answer all ten statements to see your SUS score.</p>
+        <div class="body">
+          <div class="score"><p class="ratio" id="susScore">–<small> / 100</small></p><p id="susNote" class="note" aria-live="polite">Answer all 10 to see a score.</p></div>
+          <button class="btn btn-ghost" type="button" id="susReset" style="justify-self:start">Clear answers</button>
+          <p class="note">Scale: 1 is strongly disagree, 5 is strongly agree. Statements from Brooke (1996).</p>
+        </div>
+      </article>
+
+      <article class="tile lab full" id="susTile" aria-label="System Usability Scale statements">
+        <div class="sus-scale" aria-hidden="true"><span>1 Strongly disagree</span><span>5 Strongly agree</span></div>
+        <div class="sus" id="sus"></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="slides" style="background:var(--surface2)">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The full deck</p>
+      <h2 class="h2">All 50 slides. <span>With teaching notes.</span></h2>
+      <p class="lede">Open any slide. Use the arrow keys to move, and Escape to close.</p>
+    </div>
+    <div class="gal-bar" id="galBar" role="group" aria-label="Filter slides"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section id="system">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">How it is designed</p>
+      <h2 class="h2">An Apple-inspired system. <span>Checked, not assumed.</span></h2>
+      <p class="lede">The deck and this site share one set of tokens: one accent, flat surfaces, hairlines, three font weights, and a type ramp. The numbers below are computed live.</p>
+    </div>
+    <div class="three">
+      <article class="tile"><p class="eyebrow">Design tokens</p><h3>One accent, flat surfaces</h3>
+        <ul><li>One accent blue. Lavender only as a soft surface.</li><li>Pill buttons and hairline borders, no chrome shadows.</li><li>A soft shadow only under the product mockup.</li><li>Weights 400, 600 and 700 only.</li></ul></article>
+      <article class="tile"><p class="eyebrow">Fluid motion</p><h3>Feels instant, stays interruptible</h3>
+        <ul><li>Press feedback starts on touch, before release.</li><li>Phone screens and the slide viewer use springy, cancellable transitions.</li><li>Reduced motion switches movement off.</li><li>Every page is complete before any animation runs.</li></ul></article>
+      <article class="tile"><p class="eyebrow">HIG review</p><h3>Accessible by default</h3>
+        <ul><li>Contrast of 4.5:1 for small text, 3:1 for large text.</li><li>Touch targets of at least 44 px.</li><li>Meaning is never carried by colour alone.</li><li>Sentence case, visible labels, clear focus rings.</li></ul></article>
+    </div>
+    <h3 class="sub">Palette</h3>
+    <div class="pal" id="pal"></div>
+    <h3 class="sub">Contrast, computed</h3>
+    <ul class="pairs" id="pairs"></ul>
+    <h3 class="sub">Type ramp</h3>
+    <p class="lede" style="margin-top:8px">Inter, set at fixed steps so hierarchy stays consistent.</p>
+    <div class="ramp" id="ramp"></div>
+  </div>
+</section>
+
+<section id="resources" style="background:var(--surface2)">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Resources</p>
+      <h2 class="h2">Take it with you. <span>Slides, PDF and references.</span></h2>
+      <p class="lede" id="dlNote">Pick a file to download.</p>
+    </div>
+    <div class="dls" id="dls"></div>
+
+    <h3 class="sub">Course references</h3>
+    <ul class="refs">
+      <li><b>Yablonski, J.</b> Laws of UX: Using Psychology to Design Better Products &amp; Services. O'Reilly Media.<span class="u">Used for the laws of UX and Gestalt (slides 9 and 35).</span></li>
+      <li><b>Garrett, J. J.</b> The Elements of User Experience: User-Centered Design for the Web and Beyond (2nd ed.). New Riders, 2011.<span class="u">Used for the five planes and information architecture (slides 8 and 39).</span></li>
+      <li><b>Marsh, J.</b> UX for Beginners: A Crash Course in 100 Short Lessons. O'Reilly Media, 2016.<span class="u">Used for UX versus UI and wireframing (slides 5 and 43).</span></li>
+      <li><b>Kraft, C.</b> User Experience Innovation: User Centered Design that Works. Apress, 2012.<span class="u">Used for user and business needs, and research (slides 15 and 27).</span></li>
+      <li><b>Tullis, T. and Albert, B.</b> Measuring the User Experience (2nd ed.). Morgan Kaufmann, 2013.<span class="u">Used for metrics, SUS and task success (slides 12, 30, 36 and 47).</span></li>
+    </ul>
+    <details class="more">
+      <summary>Supplementary sources named in the slides</summary>
+      <ul class="refs">
+        <li><b>Norman, D.</b> The Design of Everyday Things (revised ed.). Basic Books, 2013.</li>
+        <li><b>W3C.</b> Web Content Accessibility Guidelines (WCAG) 2.2, SC 1.4.3 and 1.4.11.</li>
+        <li><b>ISO 9241-11.</b> Usability as effectiveness, efficiency and satisfaction.</li>
+        <li><b>Nielsen, J. and Molich, R.</b> Ten usability heuristics, Nielsen Norman Group.</li>
+        <li><b>Microsoft Inclusive Design</b> toolkit, and the <b>Center for Universal Design</b>, NC State University (1997).</li>
+        <li><b>Stanford d.school</b> design thinking modes, and the <b>Design Council</b> Double Diamond (2004).</li>
+        <li><b>Knapp, Zeratsky and Kowitz.</b> Sprint. Simon &amp; Schuster, 2016.</li>
+        <li><b>Brignull, H.</b> Deceptive Patterns (deceptive.design). <b>Brooke, J.</b> System Usability Scale (1996). <b>Cooper, A.</b> personas.</li>
+        <li><b>Apple Human Interface Guidelines</b> (44 pt targets) and <b>Material Design</b> (48 dp targets).</li>
+      </ul>
+    </details>
+
+    <h3 class="sub">Verification and honesty</h3>
+    <div class="vgrid">
+      <article class="tile"><h4>Checked during production</h4><ul>
+        <li>Garrett's five planes and chapter mapping.</li><li>WCAG contrast thresholds of 4.5:1 and 3:1.</li><li>Nielsen's ten heuristic names.</li><li>The five sprint days and Friday testing.</li><li>The five d.school modes.</li><li>Laws of UX definitions, including the 400 ms Doherty threshold.</li></ul></article>
+      <article class="tile"><h4>Please verify before citing</h4><ul>
+        <li>Miller's "7 plus or minus 2", presented as commonly quoted.</li><li>IDEO and the T-shaped designer.</li><li>The curb-cut history.</li><li>Apple 44 pt and Material 48 dp values.</li><li>Book edition years.</li></ul></article>
+      <article class="tile"><h4>Nothing invented</h4><ul>
+        <li>No research findings, quotes or statistics were made up.</li><li>Illustrative items are labelled: the funnel, competitor ratings, the Aisha journey, empathy map and persona, the issue matrix.</li><li>Gather and every screen are original illustrations.</li><li>Align the outcome wording with your official course outline.</li></ul></article>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Built for SVCB3003 UI &amp; UX Design, an undergraduate Visual Communication course. Set in Inter. Gather is a fictional product.</p>
+    <p>Deck and site generated with Claude.</p>
+  </div>
+</footer>
+
+<div class="vw" id="vw" aria-hidden="true">
+  <div class="vp" id="vp" role="dialog" aria-modal="true" aria-labelledby="vTitle" tabindex="-1">
+    <div class="vbar">
+      <p class="eyebrow" id="vCount"></p>
+      <button class="icon-btn" type="button" id="vClose" aria-label="Close slide viewer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="vimg"><img id="vImg" alt="" width="1280" height="720"></div>
+    <div class="vnav">
+      <button class="icon-btn" type="button" id="vPrev" aria-label="Previous slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <p class="eyebrow" id="vEye" style="text-align:center"></p>
+      <button class="icon-btn" type="button" id="vNext" aria-label="Next slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="vtxt">
+      <h3 id="vTitle"></h3>
+      <p class="i" id="vIdea"></p>
+      <details class="notes" id="vNotes"><summary>Teaching notes</summary><div id="vNotesBody"></div></details>
+    </div>
+  </div>
+</div>
+
+<script>
+const SLIDES=[{"n": 1, "eyebrow": "SVCB3003  ·  UI & UX DESIGN", "title": "UI/UX Design: Understanding the Experience", "idea": "One product, two screens: a phone and a browser. Gather will follow you through every unit.", "notes": "Welcome to SVCB3003 UI & UX Design. Over 45 instructional hours and five units, you will learn how designers understand people, structure ideas, and turn them into interfaces that work on phones and on the web.\n\nPoint to the cover: the phone and the browser window are the same product, a university event registration platform we will call Gather. We will return to Gather in almost every unit, so you can watch one idea travel from research, to personas, to flows, to wireframes, to a tested prototype.\n\nCourse references: Yablonski, Laws of UX; Garrett, The Elements of User Experience; Marsh, UX for Beginners; Kraft, User Experience Innovation; Tullis and Albert, Measuring the User Experience.\n\nAsk: \"What app did you use today without thinking about it? Why was it easy?\""}, {"n": 2, "eyebrow": "WHAT WILL YOU LEARN?", "title": "By the end, you will build real experiences.", "idea": "Six outcomes, from explaining UX and UI to building working mobile and web prototypes.", "notes": "This course moves from understanding to making. Read the six outcomes aloud and connect each one to a unit: outcomes one and two come from Unit 1, three from Unit 2, four from Unit 3, five from Unit 4, and the sixth, the capstone, is built in Units 4 and 5.\n\nStress that the final outcome is practical: you will create mobile and web wireframes and working prototypes. Everything before that exists to make those wireframes smarter, more inclusive, and testable.\n\nThe outcomes here are written to match the course description; instructors should align the wording with the official course outline if it differs.\n\nTeaching tip: ask students to rate their confidence in each outcome from one to five now, and again at the end of the course."}, {"n": 3, "eyebrow": "DESIGN IS EVERYWHERE", "title": "Good design is invisible. Bad design is a mystery.", "idea": "When design works you do not notice it. When it fails, people blame themselves.", "notes": "Start with the everyday, because design is not only screens. Don Norman's The Design of Everyday Things (supplementary reading, not on the course list) gave us a vocabulary: affordances are what an object lets you do; signifiers tell you where to act; mapping is how controls relate to results; feedback tells you what just happened.\n\nWalk through the four vignettes. The door whose handle says pull but whose sign says push has conflicting signals. The stove with four knobs and four burners forces you to guess the mapping. A toggle without a clear state label leaves you unsure whether it shows what is on, or what will happen if you tap. An error that says only \"Invalid input\" gives no help.\n\nEach one is a UX problem in the physical or digital world. Close with the reflection prompt and let students share two or three examples."}, {"n": 4, "eyebrow": "THE LEARNING JOURNEY", "title": "Five units. One continuous process.", "idea": "Five units move from understanding, to strategy, research, craft and testing.", "notes": "Use this slide as the map for the whole course. Each unit is a step up: Unit 1 builds the vocabulary and mindset; Unit 2 turns that mindset into a strategy, using design thinking, sprints and competitive analysis; Unit 3 gives you research and empathy tools to understand users; Unit 4 teaches the visual and structural decisions that shape the interface, ending in wireframes; and Unit 5 makes those wireframes interactive, tests them, and improves them.\n\nNotice the Gather milestone under each step. Your assignments follow the same rhythm, so by Unit 5 you will have documented an evidence-based design.\n\nThe process is not a straight line. Real teams loop back after testing, which is why \"iterate\" sits above the staircase. Ask students: \"Which step do you expect to be hardest?\""}, {"n": 5, "eyebrow": "UNIT 1  ·  UX VS UI", "title": "Same product. Two different questions.", "idea": "UX asks how it works for a person. UI asks how it looks and responds.", "notes": "Here is the same registration screen seen through two lenses. User Experience, UX, covers the whole journey: how easy it is to find the event, how many steps registration takes, whether you trust what happens with your data, and how you recover from a mistake. User Interface, UI, is the layer you see and touch: colour, type, spacing, buttons, fields, and how they respond.\n\nA helpful analogy is a restaurant. UI is the menu design, plates and lighting. UX is whether you are seated quickly, understand the menu, receive your order correctly, and leave wanting to return.\n\nKey message: UI is part of UX, not a synonym for it. A beautiful interface can still deliver a poor experience, and a plain interface can work wonderfully. Marsh's UX for Beginners offers a gentle introduction to this distinction.\n\nActivity: ask students to name one UX decision and one UI decision visible on this screen."}, {"n": 6, "eyebrow": "WHY UI/UX MATTERS", "title": "Design decides whether people succeed.", "idea": "Design decides whether people finish the task or give up.", "notes": "Why does this field exist? Because interfaces sit between people and the things they need to do: travel somewhere, talk to a friend, pay a bill, join an event. When the interface is clear, people succeed and barely notice it. When it is confusing, they lose time, make mistakes, or give up.\n\nPurpose: UI/UX design helps people reach their goals with less effort and more confidence. Significance: it shapes trust, cost, safety and inclusion. Influence: it affects real users every day, in small moments.\n\nThe three schematic screens on the right show moments where UX is felt. A map must be readable at a glance while moving. A chat app reassures you through message status. A payment screen must make the total and the way back obvious. These are simplified original drawings, not official screenshots.\n\nAsk: \"Which of these moments would hurt most if it were badly designed?\""}, {"n": 7, "eyebrow": "FUNDAMENTALS OF USER EXPERIENCE", "title": "Five qualities of a good experience.", "idea": "Usability, usefulness, accessibility, clarity and satisfaction: five questions to ask of any product.", "notes": "Introduce the five qualities as the questions a good experience must answer. Usability: can people complete tasks effectively and efficiently? The international standard ISO 9241-11 defines usability as effectiveness, efficiency and satisfaction for specified users and goals in a specified context. Usefulness: does it solve a real need, or is it a clever feature nobody wants? Accessibility: can people with different abilities and situations use it? Clarity: is it obvious what each element is and what to do next? Satisfaction: does the experience feel good, building confidence?\n\nThese overlap. A product can be usable but not useful, or delightful but inaccessible. Great experiences satisfy all five at once.\n\nLink each quality to Gather on the right. Ask students to give a score out of five on each quality for an app they use daily, and say which is weakest."}, {"n": 8, "eyebrow": "THE FIVE PLANES OF UX", "title": "Five planes. Abstract to concrete.", "idea": "Garrett's planes: Strategy, Scope, Structure, Skeleton, Surface. Decide the abstract first.", "notes": "Jesse James Garrett's The Elements of User Experience describes five planes, built from the bottom up. Each plane depends on the ones beneath it, and decisions at lower planes constrain what is possible above.\n\nStrategy: user needs and product objectives, the \"why\". Scope: functional specifications and content requirements, the \"what\". Structure: interaction design and information architecture, how pieces fit together and behave. Skeleton: interface design, navigation design and information design, the layout of controls and content. Surface: visual design, what the product looks and feels like.\n\nNotice how beginners often jump straight to Surface, picking colours before knowing the strategy. The framework warns against that. If strategy is unclear, a beautiful surface cannot rescue it.\n\nIn Gather: strategy is helping students find events and helping the university grow participation. The surface we see on the cover is the last thing we decide."}, {"n": 9, "eyebrow": "LAWS OF UX", "title": "Psychology you can design with.", "idea": "Jakob, Fitts, Hick, Miller, Doherty and Peak-End: psychology you can apply on a screen.", "notes": "Jon Yablonski's Laws of UX collects principles from psychology that explain how people perceive, decide and remember. They are best treated as useful heuristics, not strict laws of nature.\n\nJakob's Law: users spend most of their time on other products, so they expect yours to work the same way. Fitts's Law: the time to reach a target depends on its distance and size, so make important targets large and close. Hick's Law: the time to decide increases with the number and complexity of choices. Miller's Law: working memory is limited, often quoted as around seven items plus or minus two, so chunk information. The Doherty Threshold: productivity soars when a system and its user interact at a pace of under roughly 400 ms. The Peak-End Rule: people judge an experience largely by its most intense point and its end.\n\nChallenge students to find one example of each law in their phone's home screen."}, {"n": 10, "eyebrow": "PRODUCT DEVELOPMENT LIFE CYCLE", "title": "UX takes part in every stage.", "idea": "Discover, define, design, develop, test, launch and learn: UX has a job at every stage.", "notes": "Many people imagine UX as a design step in the middle. In reality UX contributes at every stage of the product development life cycle.\n\nDiscover: teams explore the opportunity; UX runs interviews, observation and competitor reviews. Define: teams agree scope and requirements; UX writes personas, problem statements and user stories. Design: UX creates flows, wireframes, prototypes and the visual interface. Develop: engineers build; UX supplies specs and checks the build matches, including accessibility. Test: quality assurance and usability testing find problems; UX triages them. Launch and learn: the team releases, monitors analytics and feedback, and feeds learning into the next cycle.\n\nThe cycle varies between companies; some use agile sprints instead of long phases. The point is that UX involvement early is cheaper than fixing problems late.\n\nBottom row shows what Gather would produce at each stage."}, {"n": 11, "eyebrow": "THE UX DESIGNER’S ROLE", "title": "Be deep in one thing. Curious about many.", "idea": "A T-shaped designer goes deep in one skill and stays curious about the rest.", "notes": "UX design is a team sport, and designers shape their careers along a spectrum. Specialists have deep expertise in one craft, such as UX research, interaction design, content design or accessibility. Generalists have broad skills across research, design and prototyping; they thrive in small teams and start-ups. T-shaped designers combine both: the vertical bar is depth in one area, the horizontal bar is the ability to understand and collaborate across disciplines. The T-shape metaphor was popularised by the design firm IDEO.\n\nCareer applications: UX appears in mobile apps, websites, games, healthcare, finance, education, government services, e-commerce and emerging areas such as AR and VR. Titles vary by company, so focus on the skills, not just the label.\n\nReflection: which letter do you want to become, and what is your first deep skill?"}, {"n": 12, "eyebrow": "GOOD UX IS GOOD BUSINESS", "title": "Every point of friction has a cost.", "idea": "Every confusing step loses some people. An illustrative funnel shows where.", "notes": "Good UX is not only about delight; it is about outcomes. When an experience is clear, people engage more, complete more tasks, trust the product and recommend it.\n\nThe funnel shows a typical registration journey for Gather. At each step some people drop away. Friction, such as hard-to-find events, unclear details, a long form or no reminder, widens the leak. Removing friction narrows it. The shape here is illustrative only; we are not presenting real data, because every product is different.\n\nThe four cards connect design quality to business outcomes and show how you can measure each one: engagement (return visits, feature use), conversion (task completion, drop-off), trust (drop-off at sensitive steps, feedback) and satisfaction (System Usability Scale, Net Promoter Score, support tickets). Tullis and Albert's Measuring the User Experience details these metrics.\n\nKey point: always measure before claiming a UX improvement worked."}, {"n": 13, "eyebrow": "UNIT 1  ·  ASSIGNMENT", "title": "Audit an app you already use.", "idea": "Audit an existing app: features, users, intentions, strengths and weaknesses, with evidence.", "notes": "Unit 1 assignment: choose an existing application and audit it. Students identify its features, intended users and design intentions, then evaluate strengths and weaknesses.\n\nCoach students to separate observation from opinion. \"The search bar is at the top\" is an observation. \"The search is hard to reach with one hand\" is an interpretation that needs evidence, perhaps a reference to Fitts's Law or a quick test with a classmate.\n\nEncourage annotated screenshots and clear evidence for each judgement. Remind them to choose a product they can analyse in depth rather than a very complex one. The hypothetical audit card on this slide shows the level of detail expected; the format and length of submission are set by the instructor.\n\nSuccess criteria: balanced analysis (both strengths and weaknesses), evidence from the interface, and links to concepts from this unit such as the five planes and the laws of UX."}, {"n": 14, "eyebrow": "UNIT 2  ·  DESIGN FOR EVERYONE", "title": "Three ways to open the door.", "idea": "Universal, inclusive and equity-focused design: three ways to open the door.", "notes": "Universal, inclusive and equity-focused design are related but different, and students often mix them up.\n\nUniversal design aims for one design usable by as many people as possible without special adaptation. The Center for Universal Design at North Carolina State University published seven principles in 1997, such as equitable use, flexibility in use, and simple and intuitive use.\n\nInclusive design is a practice and a process. Microsoft's Inclusive Design toolkit frames three ideas: recognise exclusion, solve for one and extend to many, and learn from human diversity. The aim is multiple ways in, such as registering by app, QR code or at a desk.\n\nEquity-focused design recognises that people start from different places. Equal access is not always fair, so we give more support where barriers are greater, for example a low-data mode for students with weak connections.\n\nAsk: \"Which of these would you choose first for Gather, and why?\""}, {"n": 15, "eyebrow": "USER-CENTRED AND BUSINESS-CENTRED DESIGN", "title": "Great products balance two sets of needs.", "idea": "Users need to succeed and the business needs to sustain. Good products serve both.", "notes": "User-centred design starts from people: their goals, tasks, contexts and limitations. Business-centred thinking starts from the organisation: revenue, brand, risk, cost and strategy. Neither is wrong. Problems appear when one side dominates. A product that serves only business goals feels manipulative; one that ignores business realities may never be built or sustained.\n\nThe overlap is the sweet spot, where meeting user needs also creates organisational value. Christian Kraft's User Experience Innovation discusses how UX and business strategy can reinforce each other.\n\nThe sliders show three real trade-offs in Gather. Collecting more data helps reporting but slows sign-up. Sponsor visibility helps funding but can clutter the interface. More reminders may raise attendance but can annoy. Good designers do not pretend trade-offs do not exist; they make a decision, record the reasoning, and test it.\n\nDiscussion: whose needs does your favourite app serve first?"}, {"n": 16, "eyebrow": "ACCESSIBILITY IN UX", "title": "Anyone can be disabled by a design.", "idea": "Disability can be permanent, temporary or situational. Design can disable anyone.", "notes": "Accessibility means designing so people with different abilities can perceive, understand, navigate and interact with a product. The key idea on this slide, from Microsoft's Inclusive Design toolkit, is that disability is not only permanent. It is a mismatch between a person and their environment.\n\nRead across a row. Someone with one arm has a permanent touch limitation; someone with an arm injury has a temporary one; a person holding a baby has a situational one. The same solution, such as one-handed use, helps all three. This is why accessible design benefits everyone.\n\nThe bottom strip shows the four principles of the Web Content Accessibility Guidelines, WCAG: content must be Perceivable, Operable, Understandable and Robust. We apply them in the next slide.\n\nAsk: \"When was the last time you were temporarily or situationally limited when using your phone?\""}, {"n": 17, "eyebrow": "ACCESSIBILITY IN PRACTICE", "title": "Five accessibility checks you can run today.", "idea": "Five checks: readable text, contrast, keyboard, labels and touch targets.", "notes": "Turn principles into habits with five practical checks.\n\nReadable text: use body text of at least 16 px, generous line spacing, and short lines. Colour contrast: WCAG AA requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text and user-interface components. The ratios in the contrast card are calculated from this deck's own palette. Notice that white text on our electric blue reaches only 4.36:1, so we use it only for large, bold labels and use a deeper blue for small text.\n\nKeyboard navigation: everything should work with Tab, Enter and arrow keys, with a visible focus ring. Labels: never rely on a placeholder alone; it disappears. Interactions: make touch targets comfortably large (Apple suggests 44 points, Material Design 48 dp) and never communicate error by colour alone.\n\nActivity: test one screen of your own work against all five checks."}, {"n": 18, "eyebrow": "DESIGN THINKING", "title": "Five modes. You will loop through them.", "idea": "Empathise, define, ideate, prototype, test. Expect to loop back.", "notes": "Design thinking is a human-centred approach to solving problems. The version taught by the Stanford d.school has five modes: Empathise, Define, Ideate, Prototype and Test. IDEO and the Interaction Design Foundation describe similar sequences.\n\nEmpathise: understand people by observing and interviewing them. Define: synthesise what you learned into a clear problem statement. Ideate: generate many possible solutions before choosing. Prototype: make quick, inexpensive versions to think with. Test: put prototypes in front of users and learn.\n\nThe key message is that the process is iterative, not linear. Testing often reveals that you misunderstood the problem and sends you back to empathise. The return arrow on the slide represents that loop, and you can jump to any stage when needed.\n\nThe Gather row shows one small example per stage. Ask students to propose a different example for each stage."}, {"n": 19, "eyebrow": "DIVERGENT VS CONVERGENT THINKING", "title": "Widen the field. Then narrow it.", "idea": "Diverge to generate many options, then converge to choose with reasons.", "notes": "Great design alternates between two modes of thinking. Divergent thinking opens up possibilities: you generate many ideas, defer judgement and value quantity. Convergent thinking narrows: you compare ideas against criteria, combine the best, and decide.\n\nThe British Design Council's Double Diamond (2004) shows this twice. The first diamond is about the problem: Discover widens what you know through research, then Define narrows to a clear problem. The second diamond is about the solution: Develop widens by exploring ideas and prototypes, then Deliver narrows to a tested solution.\n\nA common mistake is converging too early, picking the first good idea. Another is never converging, endlessly brainstorming. Good facilitators name the mode out loud: \"For the next ten minutes we are diverging, no criticism.\"\n\nIn Gather, the team might sketch 20 registration ideas, then shortlist three using an impact versus effort comparison."}, {"n": 20, "eyebrow": "THE FIVE-DAY DESIGN SPRINT", "title": "Months of debate, compressed into one week.", "idea": "Map, sketch, decide, prototype, test: five days from question to evidence.", "notes": "The design sprint was developed by Jake Knapp at Google Ventures and described in the book Sprint (Knapp, Zeratsky and Kowitz, 2016). It is a structured five-day process for answering critical questions through design and testing with real customers.\n\nMonday, Map: agree a long-term goal, map the challenge and choose a target. Tuesday, Sketch: gather inspiration and sketch solutions individually. Wednesday, Decide: review the sketches, vote and storyboard the winning idea. Thursday, Prototype: build a realistic prototype, a facade just good enough to test. Friday, Test: interview about five users while the team watches and notes patterns.\n\nBenefits: fast decisions, learning before heavy investment, a shared understanding in the team and early evidence from users. Limitations: it needs commitment of the whole team and works best for focused questions.\n\nFor Gather, imagine a sprint goal: any student can register for an event without help."}, {"n": 21, "eyebrow": "COMPETITIVE ANALYSIS", "title": "Compare the options. Find the gaps.", "idea": "Compare the same tasks across products to find gaps and chances.", "notes": "Competitive analysis means studying similar products to understand what they do well, where they cause problems and where opportunities remain. Competitors are not only direct rivals. For event registration, indirect alternatives include a group chat announcement or a campus web page.\n\nThe method: choose a set of competitors, define criteria from real user tasks, test the same tasks on each product, record evidence such as screenshots and task times, then look for gaps. Gaps become opportunities.\n\nThe grid on the slide is an illustrative example to show the technique. The ratings are hypotheses, not research findings, and the Gather column shows a design target, not a measured result. In your own assignment, you must base ratings on evidence from your own testing.\n\nWarn against copying competitors blindly. The goal is to understand patterns, avoid known problems, and find where you can offer something better for your users."}, {"n": 22, "eyebrow": "UNIT 2  ·  ASSIGNMENT", "title": "Find what is broken. Fix it creatively.", "idea": "Assignment 2: find disadvantages, analyse competitors, propose solutions.", "notes": "Unit 2 assignment: identify disadvantages in an existing product, perform a competitor analysis, and propose creative, user-focused solutions.\n\nRemind students that the strongest submissions start from evidence, not opinions. Each disadvantage should be backed by a screenshot, a task attempt or a user comment. The competitor analysis should compare the same tasks across products, with clear criteria. The proposed solutions must link back to the problems found; avoid adding features simply because they are fashionable.\n\nEncourage students to apply ideas from the unit: design thinking, divergent and convergent thinking, inclusive design, and the balance between user and business needs. A short sketch of each proposed solution helps the instructor see the thinking.\n\nThe mini grid on this slide is a hypothetical illustration of format. The exact submission format is set by the instructor."}, {"n": 23, "eyebrow": "UNIT 3  ·  STORYBOARDING AND MOOD BOARDS", "title": "Storyboards tell it. Mood boards feel it.", "idea": "A storyboard shows the sequence. A mood board sets tone and feeling.", "notes": "Before drawing screens, designers often create two kinds of visual stories.\n\nA storyboard is a sequence of panels showing a person moving through a scenario: the context, what they do, and how they feel. It originated in film and animation and is widely used in UX to align a team on the user's story. Keep drawings simple; stick figures are fine. Each panel should answer: where are they, what do they want, what happens next?\n\nA mood board is a collage that explores the look, feel and tone of a product: colours, typography, imagery, textures and keywords. It helps teams agree on a direction before investing in detailed UI, and it makes visual decisions intentional rather than arbitrary.\n\nIn Gather, the storyboard follows Aisha from seeing a poster to scanning a QR ticket. The mood board explores a feeling that is energetic, friendly and trustworthy.\n\nActivity: have students sketch a four-panel storyboard in five minutes."}, {"n": 24, "eyebrow": "USER JOURNEY MAPPING", "title": "See the whole experience, including the feelings.", "idea": "A journey map follows one person through a task, including how they feel.", "notes": "A user journey map visualises the steps a person takes to reach a goal, together with what they think and feel at each step. It turns scattered research into a single story.\n\nTypical layers: stages across the top; the actions the user takes; the touchpoints they use, such as a poster, app or email; their thoughts; an emotional curve showing highs and lows; and opportunities for design improvement.\n\nThe emotional curve is the most powerful part. The lowest point marks the biggest pain, which becomes the highest priority opportunity. Notice here that the dip happens at registration, when a long form causes frustration.\n\nImportant: this map is a hypothesis for the persona Aisha. A real journey map must be built from research evidence, using interviews, observation and surveys, as you will do in the Unit 3 assignment. Compare it with a user flow: a journey shows feelings and context; a flow shows system steps."}, {"n": 25, "eyebrow": "USER PAIN POINTS AND THE CURB-CUT EFFECT", "title": "Fix a pain point. Many people benefit.", "idea": "Process, functional, financial and support pain points. Fixing one often helps many people.", "notes": "A pain point is a specific problem users experience when trying to reach a goal. A helpful way to sort them is into four categories: process pain points (too many steps or an unclear path), functional pain points (something is broken or slow), financial pain points (costs, fees or surprises), and support pain points (difficulty getting help). Categorising pain points helps teams see patterns and decide priorities.\n\nThe curb-cut effect is the idea that designs created for a specific group often benefit many others. Curb cuts, the ramps built into pavements, were campaigned for by disability rights activists, yet they also help people with strollers, luggage, bicycles and deliveries.\n\nDigital equivalents: captions help deaf users but also viewers in noisy places; large tap targets help people with motor impairments and anyone using one hand; dark mode and voice input help many contexts.\n\nDiscuss: which pain point in Gather would benefit the most students if solved well?"}, {"n": 26, "eyebrow": "USER FLOWS", "title": "Map the path: registering for an event.", "idea": "A user flow shows steps and decisions from start to success, here for registering.", "notes": "A user flow is a diagram of the steps a user takes to complete a task, including decisions and alternative paths. It focuses on logic and screens rather than feelings, which is the difference from a journey map.\n\nStandard flowchart conventions: rounded shapes mark where the flow starts or ends; rectangles are steps or screens; diamonds are decisions with labelled yes and no branches; arrows show direction.\n\nRead the Gather flow aloud. A student opens the app, browses or searches, views details and the system asks: are they logged in? If not, they sign in with a campus ID and rejoin the flow. They choose a session and ticket, complete details, and the system checks seats. If seats are available they receive a confirmation and QR ticket plus a reminder; if not, they join a waitlist and are notified if a place opens.\n\nA good flow reveals unnecessary steps and missing error paths before any screen is drawn. This flow becomes the basis for the wireframes in Unit 4."}, {"n": 27, "eyebrow": "UX RESEARCH METHODS", "title": "Choose the method that answers your question.", "idea": "Attitudinal or behavioural, qualitative or quantitative: pick the method that answers your question.", "notes": "Research methods differ in two key ways, often shown on a landscape of methods popularised by the Nielsen Norman Group. Attitudinal methods capture what people say; behavioural methods capture what people do. Qualitative methods explain why and how; quantitative methods measure how many and how much.\n\nInterviews are one-to-one conversations that reveal motivations and context. Surveys collect opinions from many people cheaply. Observation and field studies watch behaviour in real settings. Usability studies ask people to complete tasks with a design to expose where it fails. Other methods include focus groups, diary studies, card sorting and analytics.\n\nKey message: what people say and what they do often differ, so combine methods. Early in a project, use qualitative methods to explore; later, use quantitative methods to measure. Christian Kraft's User Experience Innovation and Joel Marsh's UX for Beginners both discuss user research in practical terms."}, {"n": 28, "eyebrow": "EMPATHY TOOLS", "title": "What people say, think, do and feel.", "idea": "An empathy map captures what people say, think, do and feel.", "notes": "Empathy tools help you step into someone else's experience.\n\nThe empathy map, popularised by XPLANE, organises what you know about a user into four areas: what they say, think, do and feel. Gaps and contradictions between the quadrants, for example saying \"I'm fine\" while feeling anxious, are often where the best insights live.\n\nInterviews are a core empathy tool. Ask open questions that invite stories, such as \"Tell me about the last event you went to\", rather than closed questions that invite yes or no. Follow up with \"why\" to dig deeper, and stay silent to give people time to think.\n\nObservation reveals behaviour that people forget or cannot describe. Watch what they do, not only what they say. Always listen for motivations: goals, needs and context.\n\nThe map shown is a hypothesis for Aisha. In your assignment you will populate it with real research."}, {"n": 29, "eyebrow": "USER SEGMENTATION AND PERSONAS", "title": "From groups of users to one clear persona.", "idea": "Group users by behaviour, then write one persona grounded in what you found.", "notes": "User segmentation divides your audience into groups that share needs, behaviours or characteristics. Segments can be based on demographics, but in UX, behaviour and familiarity are usually more useful. For Gather we might segment by how often students attended events last semester: high, moderate and low engagement.\n\nAlways write explicit criteria before you recruit, so that each participant clearly belongs in one segment. The criteria shown are examples.\n\nA persona is a fictional but research-based character that represents a segment. Alan Cooper popularised personas in software design. A good persona includes a name and photo, context, goals, frustrations, behaviours and a quote, so the team can make decisions by asking \"what would Aisha need?\"\n\nWarning: this persona is a proto-persona based on assumptions. A real persona must be built from your own research findings, as in the Unit 3 assignment. Never invent research and present it as fact."}, {"n": 30, "eyebrow": "USABILITY, HEURISTIC ANALYSIS AND FIELD TESTING", "title": "Three ways to find usability problems.", "idea": "Usability testing, heuristic review and field testing each catch different problems.", "notes": "These three evaluation approaches answer different questions.\n\nUsability testing observes real users attempting realistic tasks with a design, usually in a lab or remotely. It shows where people actually struggle and yields measures such as success rate and time on task.\n\nHeuristic evaluation is an expert inspection. Evaluators review an interface against recognised principles, most famously Jakob Nielsen's ten usability heuristics, and list problems with severity ratings. It is fast and cheap, but experts are not real users.\n\nField testing, or field studies, observes people using a product in their real environment, such as a student registering on a crowded bus. It captures context, interruptions and constraints that a lab cannot.\n\nUse heuristics early to catch obvious problems, usability tests to learn how users behave, and field tests to check real-world fit. Tullis and Albert's Measuring the User Experience explains the metrics.\n\nThe ten heuristics are shown at the bottom for reference."}, {"n": 31, "eyebrow": "UNIT 3  ·  ASSIGNMENT", "title": "Research real users. Build a persona.", "idea": "Assignment 3: plan research, recruit, segment users and write a persona.", "notes": "Unit 3 assignment: create a user research plan, recruit respondents, prepare questions and task scenarios, record answers, segment users into high, moderate and low engagement or familiarity groups using explicit criteria, and develop a persona from the findings.\n\nStress three points. First, write the segmentation criteria before recruiting and justify them; for example, number of events attended last semester or time since first using a registration app. Second, ethics: get informed consent, protect privacy and explain how data will be used. Third, evidence: every goal, frustration and quote in the persona must trace back to something a participant said or did. Do not invent quotes.\n\nEncourage students to recruit a small but varied group and to plan at least one realistic task scenario, such as \"You want to register for a workshop on Friday. Show me how you would do that.\"\n\nThe criteria shown on this slide are examples only. The submission format is set by the instructor."}, {"n": 32, "eyebrow": "UNIT 4  ·  VISUAL HIERARCHY, SCALE AND PROPORTION", "title": "Make the important thing look important.", "idea": "Scale, contrast and weight tell people what matters first.", "notes": "Visual hierarchy is the arrangement of elements so that people see them in order of importance. It guides the eye and reduces effort. The main tools are scale (size), contrast (weight and colour), position, spacing and proportion.\n\nCompare the two screens. In the before version every line has the same size, weight and colour, so the eye has nowhere to land, and the call to action is a tiny link. In the after version, the title is large, the date and place are clearly grouped, a spacious hero draws attention, and the Register button is the strongest element on the screen.\n\nScale signals importance. Contrast separates levels. Proportion means using consistent ratios between sizes and spaces, such as a type scale where each step is about 1.25 times the previous one, so the design feels orderly rather than random.\n\nTry the squint test: blur your eyes. What stands out first? If it is not the most important element, adjust the hierarchy."}, {"n": 33, "eyebrow": "UNITY AND VARIETY", "title": "Be consistent. Then vary on purpose.", "idea": "Keep patterns consistent so the product feels like one thing, then vary with purpose.", "notes": "Unity and variety are a pair of design principles that must be balanced.\n\nUnity means the parts of a design belong together: they share colour, typography, spacing, shape and behaviour. Consistency reduces learning effort, because once a person understands one button they understand them all. It also builds trust and a recognisable identity. Repetition, such as identical cards in a list, creates rhythm.\n\nVariety adds interest and signals importance. A design with only unity can feel monotonous; a design with only variety feels chaotic. The key word is meaningful: vary something to communicate, for example highlighting a featured event with an inverted colour, not just for decoration.\n\nOn the left, the four buttons look unrelated, so users must wonder whether they behave differently. On the right they form a family. On the cards, three are identical and one is different, so the difference means something. This links to Jakob's Law and consistency in Nielsen's heuristics."}, {"n": 34, "eyebrow": "TYPOGRAPHY, COLOUR, ICONOGRAPHY AND LAYOUT", "title": "Four decisions behind every interface.", "idea": "Type, colour, icons and layout are four decisions that shape every screen.", "notes": "These four areas are the foundations of interface design decisions.\n\nTypography: choose one or two typefaces and a type scale, a set of sizes related by a ratio. Body text is commonly set at 16 px or more with a line height around 1.5 and line lengths of about 45 to 75 characters. Hierarchy comes from size and weight.\n\nColour: define roles, not just swatches. Primary for key actions, secondary for supporting elements, neutrals for text and backgrounds, and semantic colours for success, warning and error. A simple guide is the 60-30-10 rule: mostly neutral, some secondary, a little accent. Always check contrast.\n\nIconography: use one consistent style, with the same stroke, corner and size. Pair icons with labels unless the meaning is universal.\n\nLayout: use a grid and a spacing system, such as multiples of 8, so alignment and rhythm are consistent. Group related items with proximity.\n\nThis deck itself uses Inter, a restrained palette and an 8-point rhythm."}, {"n": 35, "eyebrow": "GESTALT PRINCIPLES", "title": "The brain groups what it sees.", "idea": "Proximity, similarity, continuity, closure, figure-ground and common region.", "notes": "Gestalt psychology studies how people perceive whole patterns rather than isolated parts. Designers use these principles to make interfaces easy to scan and understand without extra explanation.\n\nProximity: items that are close together are seen as a group, so keep labels near their fields. Similarity: items that look alike are seen as related, which is why links share a colour. Continuity: the eye follows smooth lines and curves, which is why a partly visible carousel card invites scrolling. Closure: we complete incomplete shapes, so a loading ring or a simple logo can be minimal. Figure-ground: we separate a focal object from its background, as with a dialog over a dimmed page. Common region: items inside the same boundary are seen as a group, which is why cards work.\n\nYablonski's Laws of UX covers several of these as named laws. Ask students to find one example of each in a familiar app."}, {"n": 36, "eyebrow": "UX EVALUATION METHODS", "title": "Evaluate early, again, and after launch.", "idea": "Early on sketches, in the middle on prototypes, late on the live product.", "notes": "Evaluation checks whether a design works. Different methods suit different stages, and the sooner you evaluate, the cheaper fixes are.\n\nEarly, with sketches and concepts: heuristic evaluation, where experts review against principles; cognitive walkthrough, where evaluators step through tasks as a new user would; and concept interviews. Middle, with prototypes: usability testing, first-click tests that measure whether people start in the right place, and card sorting or tree testing for information architecture. Late, with a live product: A/B testing to compare versions, analytics to see behaviour at scale, surveys such as the System Usability Scale, and field studies.\n\nTullis and Albert's Measuring the User Experience groups metrics into performance, self-reported, behavioural and physiological, and issue-based metrics. Choose methods based on your question, your stage and your resources, and combine qualitative insight with quantitative evidence."}, {"n": 37, "eyebrow": "UX CASE STUDY", "title": "Reading a familiar interface: a music app home.", "idea": "A teaching read of a familiar music app home screen. Observations to test, not facts.", "notes": "This case study analyses a pattern familiar from music streaming apps such as Spotify. The screen is an original schematic redrawn for teaching, not official artwork, and the analysis is our interpretation, not proven fact.\n\nUse a four-step lens: observe what is on the screen, interpret why it may work using a principle, question what could go wrong, and propose an improvement to test.\n\nFor example, bottom tab navigation keeps main destinations within easy thumb reach, which relates to Fitts's Law, and mirrors the placement in many apps, which relates to Jakob's Law. Shortcut tiles may reduce effort for returning users. Horizontal shelves pack many choices into limited space, so we should ask whether the amount of choice becomes overwhelming, which connects to Hick's Law. A persistent mini-player keeps system status visible. Grey secondary text on a dark background must still meet contrast requirements.\n\nAsk students to validate each question with a quick usability test rather than assuming the answer."}, {"n": 38, "eyebrow": "USER STORIES AND USE CASES", "title": "Write requirements from the user’s side.", "idea": "A user story, its acceptance criteria and a use case, all written from the user's side.", "notes": "User stories and use cases turn research into clear requirements.\n\nA user story is a short statement from the user's perspective: \"As a [role], I want [goal], so that [benefit].\" The benefit is vital because it explains why. Good stories are often checked against the INVEST criteria: independent, negotiable, valuable, estimable, small and testable.\n\nAcceptance criteria define when the story is done. A common format is Given, When, Then: given a starting state, when the user acts, then a specific, testable result happens.\n\nA use case is more detailed. It names an actor, preconditions, the main flow step by step, alternate flows for exceptions, and the postcondition. A scenario is a short narrative of a person in context, used to bring requirements to life.\n\nFor Gather, the story, criteria and use case on this slide all describe the same feature, registering for an event. Notice how the alternate flow, a full event, matches the flow chart from Unit 3."}, {"n": 39, "eyebrow": "INFORMATION ARCHITECTURE", "title": "Organise content so people can find it.", "idea": "Group, label and link content so people can find it without thinking.", "notes": "Information architecture, IA, is the structural design of content: how it is grouped, labelled, ordered and linked so people can find and understand it. Garrett places information architecture on the Structure plane.\n\nFour ideas to teach. Grouping: put related content together, ideally informed by card sorting, where users group topics themselves. Labels: use words users understand, not internal jargon. Content hierarchy: decide what is primary and what is secondary. Navigation structure: choose a pattern that fits the content, such as hierarchy for deep content, a flat tab bar for a few main areas, hub-and-spoke where users return to a home, and a sequence for step-by-step tasks like checkout.\n\nThe sitemap shows Gather's structure. The blue path is a route map: the path one user takes through the structure for one task. Compare it with a user flow, which adds decisions and system logic.\n\nTree testing can verify whether people can find items in a proposed structure before you design any screens."}, {"n": 40, "eyebrow": "UNIT 4  ·  ASSIGNMENT", "title": "Map the experience. Then wireframe it.", "idea": "Assignment 4: choose a method, map a flow, then wireframe at two fidelities.", "notes": "Unit 4 assignment: choose a method, create a route map or user flow, then design low-fidelity and high-fidelity wireframes for the proposed experience.\n\nExplain the sequence. The method, for example card sorting or a user flow, gives structure to the experience. The route map or flow shows how a user will move through it. Low-fidelity wireframes explore layout and content priority quickly in greys, without colour distractions. High-fidelity wireframes add typography, colour, imagery and realistic content, applying the hierarchy, Gestalt and consistency principles from this unit.\n\nStudents should be able to trace each wireframe back to a step in their flow, and explain their visual hierarchy choices. They should also reference the user research and persona from Unit 3.\n\nRemind students to design for both mobile and web in Unit 5. The submission format is set by the instructor."}, {"n": 41, "eyebrow": "UNIT 5  ·  PROBLEM AND HYPOTHESIS STATEMENTS", "title": "Define the problem. Make a testable bet.", "idea": "Name the problem, then state a hypothesis you can actually test.", "notes": "Before testing anything, you need to know what you are testing and what would count as success.\n\nA problem statement describes who has a need and why, based on research insight. A common structure is: [User] needs [need] because [insight]. It is not a solution in disguise. A related tool is the How Might We question, which turns the problem into an invitation to ideate, such as \"How might we help students register without missing deadlines?\"\n\nA hypothesis is a testable prediction: We believe that [change] for [users] will [outcome]. We will know we are right when [measure]. It must be specific and falsifiable. If the test result could not prove you wrong, it is not a hypothesis.\n\nThe weak statement \"Make registration better\" has no user, no change and no measure. The strong version can be tested in a usability session. The criterion of four of five participants is an example of a planned success criterion you set in advance, not a finding.\n\nAsk students to rewrite a vague goal as a hypothesis."}, {"n": 42, "eyebrow": "COMPETITIVE SCOPE AND DECEPTIVE PATTERNS", "title": "Draw the boundary. Stay honest.", "idea": "Map direct, indirect and alternative competitors, and spot four deceptive patterns.", "notes": "Two ideas about boundaries.\n\nFirst, competitive scope. You cannot analyse everything, so decide where to draw the line and say why. Direct competitors solve the same problem for the same users; indirect competitors solve it differently, such as a campus web page; alternatives are non-digital substitutes like posters and word of mouth. Document your scope and reasons so others can challenge it.\n\nSecond, ethics. Deceptive patterns, also called dark patterns, are interface tricks that push people into choices they did not intend. Harry Brignull coined the term dark patterns in 2010 and maintains the site deceptive.design. Examples shown: confirmshaming (guilt-trip wording on the decline button), pre-ticked opt-ins, fake urgency, and roach motels where joining is easy but leaving is hard.\n\nDesigners are responsible for the effects of their work. Ethical UX respects user autonomy, is honest, and makes consequences clear. Ask: would this still work if the user fully understood what we are doing?"}, {"n": 43, "eyebrow": "LOW-FIDELITY VS HIGH-FIDELITY WIREFRAMES", "title": "Fidelity: how finished should it look?", "idea": "Low fidelity is fast and cheap to change. High fidelity looks real and tests detail.", "notes": "Fidelity describes how closely a wireframe resembles the final product. Choosing the right level saves time and gets better feedback.\n\nLow-fidelity wireframes use greys, boxes, placeholder images and basic text. Their purpose is to explore structure, layout and content priority quickly. Because they look unfinished, people give feedback on the idea rather than on colours, and they are cheap to change. Use them early, in team discussions and sketching sessions.\n\nHigh-fidelity wireframes add real typography, colour, imagery, spacing and realistic content. They show the near-final look and feel, so they suit stakeholder reviews, usability testing that needs realism, and hand-off to developers. They take longer to create and change.\n\nBoth phones show the same Gather event screen. Notice the layout is identical; only the level of detail changes. A good workflow moves from low to high fidelity as decisions firm up. Joel Marsh's UX for Beginners explains wireframing for newcomers."}, {"n": 44, "eyebrow": "MOBILE WIREFRAMING", "title": "Four screens carry the whole registration.", "idea": "Four mobile screens carry Gather registration: home, detail, form, success.", "notes": "This is the mobile wireframe set for Gather, drawn at low fidelity. It follows the user flow from Unit 3: Home, Event details, Register, and Confirmation. Each screen has one clear job.\n\nHome helps students browse and filter events. Details presents key facts and one primary action. Register is a short form with visible labels and the information pre-filled. Confirmation shows the QR ticket and next steps.\n\nMobile wireframing principles: design for one hand, with key actions in easy thumb reach near the bottom; keep one primary action per screen; prioritise content because space is limited; use real content, not lorem ipsum, so you can judge hierarchy and length; make it obvious how to go back.\n\nUse standard platform patterns such as a bottom navigation bar, which helps Jakob's Law. Check the screens against your flow and run the checklist on the right before moving to prototyping."}, {"n": 45, "eyebrow": "WEB WIREFRAMING", "title": "The same experience, rebuilt for a wide screen.", "idea": "The same task redesigned for a wide screen with a different layout.", "notes": "Now the equivalent desktop experience for the event details screen. The content and flow are the same as on mobile, but the layout uses horizontal space: a large hero and description on the left, and a sticky registration panel on the right so the primary action stays visible while scrolling.\n\nResponsive considerations. Design mobile first: start with the smallest screen, decide what is essential, then add space and secondary content as the screen grows. Use breakpoints where the layout genuinely breaks, not simply at device names. On desktop expect mouse and keyboard, so provide hover and visible focus states. On tablet and phone expect touch, so targets must be larger. Content priority must stay the same across sizes: the registration action is never hidden.\n\nThe three diagrams show how the grid reflows: three columns, two columns, then one. Also test text size and zoom to 200 percent."}, {"n": 46, "eyebrow": "PROTOTYPING", "title": "A prototype tests behaviour, not pictures.", "idea": "Prototypes test behaviour: can a person finish the task?", "notes": "A prototype is an interactive simulation of a product, built to learn something before investing in development. Wireframes show what screens contain; prototypes show how they behave.\n\nNavigation: hotspots, the blue dashed areas on the screens, link one screen to another so people can tap through a flow. Transitions: motion between screens, such as a slide or fade, explains change and keeps orientation. Keep them short; interface animations are commonly a few hundred milliseconds. Interaction states: every control should be designed for default, hover, focus, pressed, disabled, loading, error and success, because real users encounter all of them.\n\nFidelity has two dimensions: visual detail and interaction depth. Paper prototypes are great for quick checks; clickable wireframes test flow; high-fidelity prototypes test feel; coded prototypes test technical feasibility. Match fidelity to your question. Tools such as Figma support all of these.\n\nIn Unit 5 you will build an interactive prototype of Gather and test it."}, {"n": 47, "eyebrow": "USABILITY TESTING", "title": "Watch real people try real tasks.", "idea": "Give people real tasks, watch quietly, and record what happens.", "notes": "Usability testing puts a prototype or product in front of representative users and observes them completing realistic tasks. The five steps are: recruit participants who match your target users; brief them, explaining that you are testing the design and not them; give task scenarios; observe and note what happens without helping; and measure.\n\nScenario and task: a scenario gives context without revealing how to do the task, for example \"You are a first-year student and a friend mentions Design Week. Find the keynote and register.\" Avoid leading words such as \"tap the Register button\".\n\nMeasures from Tullis and Albert's Measuring the User Experience: task success, time on task and errors; self-reported measures such as the Single Ease Question, SEQ, after each task and the System Usability Scale, SUS, at the end; plus observations and quotes. Small rounds of around five participants often reveal many major problems; repeat after each redesign.\n\nThe results grid is an empty template. We deliberately show no invented results. Fill it with your own data."}, {"n": 48, "eyebrow": "FEEDBACK, DESIGN CRITIQUE AND ITERATION", "title": "Turn feedback into the next, better version.", "idea": "Critique with I like, I wish, What if. Prioritise by impact and effort, then iterate.", "notes": "Feedback is only valuable when it changes the design. The workflow is: observe, prioritise, redesign, retest.\n\nAnalysing feedback: group observations into themes, note how many participants hit each problem, and separate what people did from what they said. Prioritising: weigh the impact on users against the effort to fix. The matrix on the left is a simple tool: quick wins with high impact and low effort come first; major projects need planning; fill-ins can wait; and low-impact, high-effort items should be reconsidered. Usability problems are often also rated by severity, considering frequency, impact and persistence.\n\nThe findings in the matrix are hypothetical, to demonstrate the method. Your own matrix must come from your test data.\n\nDesign critique is a structured conversation. A simple protocol is I like, I wish, What if: strengths first, then constructive improvements, then new ideas. Critique the design against goals, not the designer. Then redesign, retest, and repeat."}, {"n": 49, "eyebrow": "UNIT 5  ·  ASSIGNMENT", "title": "Prototype it. Test it. Improve it with evidence.", "idea": "Assignment 5, the capstone: wireframes, prototype, test, document and revise.", "notes": "Unit 5 assignment, the capstone: create low- and high-fidelity wireframes, build an interactive prototype, conduct usability testing, document findings, and revise the design based on evidence.\n\nThis is where the course outcome is demonstrated: students should be able to create mobile and web wireframes and working prototypes. Expect the work to cover both mobile and web, and to show a clear traceable chain from hypothesis, to test, to finding, to design change.\n\nGrading focus (set by the instructor): quality of the wireframes and prototype; a rigorous test plan with realistic tasks; honest documentation, including problems that were found; and revisions that are justified by evidence. Remind students not to invent data. A modest test with real participants is better than a polished fake one.\n\nSuggest a before and after comparison of at least one screen so the improvement is visible."}, {"n": 50, "eyebrow": "CONCLUSION  ·  FROM IDEA TO EXPERIENCE", "title": "From idea to experience.", "idea": "From idea to experience: the whole process in one loop.", "notes": "Close the course by walking around the loop once. Research: understand people through interviews, observation and surveys. Define: write the problem and a testable hypothesis. Ideate: diverge, then converge on solutions. Structure: information architecture, user flows and route maps. Wireframe: low then high fidelity, for mobile and web. Prototype: make it interactive. Test: put it in front of users and measure. Iterate: use the evidence to improve, and start again.\n\nKey takeaways. One: UX is the whole experience and UI is one layer of it. Two: start with people, using research, empathy and inclusive design. Three: structure comes before surface. Four: prototype and test early; evidence beats opinion. Five: design is never finished, only iterated.\n\nReinforce the final outcome: students should now be able to create mobile and web wireframes and working prototypes, and to justify their decisions with evidence.\n\nCourse references: Yablonski, Laws of UX; Garrett, The Elements of User Experience; Marsh, UX for Beginners; Kraft, User Experience Innovation; Tullis and Albert, Measuring the User Experience. Thank students and invite questions."}];
+const FILES=[{"file": "UX-UI-Design-Understanding-the-Experience.pptx", "ext": "PPTX", "label": "Presentation, 50 slides", "desc": "Editable PowerPoint with speaker notes on every slide.", "size": "806 KB", "b64": "files/UX-UI-Design-Understanding-the-Experience.pptx.b64.txt"}, {"file": "UX-UI-Design-Understanding-the-Experience.pdf", "ext": "PDF", "label": "Presentation, 50 pages", "desc": "The same deck as a PDF, ready to share or print.", "size": "1.5 MB"}, {"file": "UX-UI-Design-contact-sheet.jpg", "ext": "JPG", "label": "Contact sheet", "desc": "All 50 slides on one image, for a quick overview.", "size": "1.1 MB"}, {"file": "References-and-Verification-Notes.docx", "ext": "DOCX", "label": "References and verification", "desc": "Sources, what was checked, and content integrity notes.", "size": "40 KB", "b64": "files/References-and-Verification-Notes.docx.b64.txt"}, {"file": "References-and-Verification-Notes.md", "ext": "MD", "label": "References, plain text", "desc": "The same notes as a Markdown file.", "size": "9 KB"}];
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+
+/* ---------- navigation ---------- */
+function jump(id){const el=document.getElementById(id);if(!el)return;const top=id==='top'?0:el.getBoundingClientRect().top+scrollY-52;scrollTo({top,behavior:RM.matches?'auto':'smooth'})}
+document.addEventListener('click',e=>{const j=e.target.closest('[data-jump]');if(j){e.preventDefault();jump(j.dataset.jump)}});
+
+/* ---------- course data ---------- */
+const OUTCOMES=[
+ ['Unit 1','Explain what UX and UI are, and why both matter'],
+ ['Units 1 and 2','Apply UX laws and accessibility practice'],
+ ['Unit 2','Plan with design thinking and sprints'],
+ ['Unit 3','Research users and build personas'],
+ ['Unit 4','Use hierarchy, Gestalt, type and colour'],
+];
+const CAPSTONE=['Units 4 and 5','Create mobile and web wireframes and working prototypes'];
+const GROUPS=[
+ {id:'start',tag:'Start here',name:'Welcome',line:'Why design matters, what you will learn, and how the five units fit together.',from:1,to:4},
+ {id:'u1',unit:1,tag:'Unit 1',name:'Introduction of UX/UI design',line:'What UX and UI are, why they matter, and the planes and laws that explain good experiences.',from:5,to:12,a:13,
+  steps:[['Choose an existing application','Pick an app you can screenshot and use freely.'],['Identify its key features','List what it lets people do, screen by screen.'],['Describe the intended users','Who is it for? What goals and contexts?'],['Infer the design intentions','What problem is each choice solving?'],['Evaluate strengths and weaknesses','Support every judgement with evidence.']],
+  brief:'Look closely at one existing product, as a designer would. Back every judgement with evidence from the interface.'},
+ {id:'u2',unit:2,tag:'Unit 2',name:'A strategy plan',line:'Design for everyone with accessibility, design thinking, sprints and competitive analysis.',from:14,to:21,a:22,
+  steps:[['Identify disadvantages in a product','Usability problems and unmet needs, with evidence.'],['Select relevant competitors','Direct rivals and indirect alternatives.'],['Perform a competitor analysis','Compare the same tasks on every product.'],['Find problems and opportunities','Where all fail users, where one excels.'],['Propose creative, user-focused solutions','Explain which user problem each solves.']],
+  brief:'Turn analysis of existing products into new, user-focused ideas. Start from evidence, not opinion.'},
+ {id:'u3',unit:3,tag:'Unit 3',name:'Applied design fundamentals',line:'Understand people with storyboards, journeys, flows, research methods, empathy and personas.',from:23,to:30,a:31,
+  steps:[['Create a user research plan',''],['Recruit respondents',''],['Prepare questions and task scenarios',''],['Record the answers',''],['Segment users into high, moderate and low groups','Write the criteria before you recruit.'],['Develop a persona from the findings','Every goal and quote must trace to evidence.']],
+  brief:'Plan, run and analyse your own research. Evidence first, and no invented quotes.'},
+ {id:'u4',unit:4,tag:'Unit 4',name:'Emphasis in UX design',line:'Make it clear with hierarchy, unity, type, colour, Gestalt, evaluation, stories and structure.',from:32,to:39,a:40,
+  steps:[['Choose a method','Card sorting, user flow, journey or route map.'],['Create a route map or user flow','Show the main task path and key decisions.'],['Design low-fidelity wireframes','Layout and priority in greys. Fast to change.'],['Design high-fidelity wireframes','Add type, colour, imagery and real content.'],['Walk through your own flow','Check that every screen supports the path.']],
+  brief:'Structure your idea, then design it at two levels of fidelity. Trace every wireframe back to a step in your flow.'},
+ {id:'u5',unit:5,tag:'Unit 5',name:'User testing',line:'Prove it works with hypotheses, wireframes, prototypes, usability tests and iteration.',from:41,to:48,a:49,
+  steps:[['Create low- and high-fidelity wireframes','Mobile and web, for your proposed experience.'],['Build an interactive prototype','Link screens, add transitions and key states.'],['Conduct usability testing','Recruit users, set tasks, observe and measure.'],['Document your findings','Tasks, measures, observations and issues.'],['Revise the design from the evidence','Show which finding caused each change.']],
+  brief:'The capstone: build, test and revise a complete experience. A modest real test beats a polished fake one.'},
+ {id:'end',tag:'Wrap up',name:'From idea to experience',line:'The whole process in one loop.',from:50,to:50},
+];
+const byN=n=>SLIDES[n-1];
+function topic(s){if(s.n===1)return 'Course introduction';
+  let t=s.eyebrow.replace(/^(UNIT \d\s+·\s+|CONCLUSION\s+·\s+)/,'').toLowerCase();
+  t=t.charAt(0).toUpperCase()+t.slice(1);
+  return t.replace(/\bux\b/gi,'UX').replace(/\bui\b/gi,'UI').replace(/\bwcag\b/gi,'WCAG')}
+
+/* outcomes */
+$('#outcomes').innerHTML=OUTCOMES.map(o=>`<article class="tile out"><span class="tag">${esc(o[0])}</span><p>${esc(o[1])}</p></article>`).join('')+
+ `<article class="tile out wide"><div><span class="tag">${CAPSTONE[0]} · capstone</span><p style="margin-top:12px;max-width:520px">${CAPSTONE[1]}</p></div><button class="btn btn-primary" type="button" data-open="49">See the capstone</button></article>`;
+
+/* journey */
+$('#journeyList').innerHTML=GROUPS.filter(g=>g.unit).map(g=>`<button class="tile jn" type="button" data-jump="${g.id}"><span class="eyebrow">${g.tag}</span><b>${esc(g.name)}</b><span>${esc(g.line)}</span></button>`).join('');
+
+/* units */
+const unitsEl=$('#units');
+unitsEl.innerHTML=GROUPS.map((g,i)=>{
+  const cards=[];for(let n=g.from;n<=g.to;n++){const s=byN(n);cards.push(`<button class="topic" type="button" data-open="${n}"><span class="eyebrow">Slide ${n}</span><b>${esc(topic(s))}</b><span class="i">${esc(s.idea)}</span></button>`)}
+  let a='';
+  if(g.a){a=`<div class="assign"><div><p class="eyebrow">Assignment ${g.unit} of 5</p><h3>${esc(byN(g.a).title)}</h3><p>${esc(g.brief)}</p><button class="btn btn-link" type="button" data-open="${g.a}">View the slide and notes</button></div><ol class="steps">${g.steps.map(s=>`<li><span>${esc(s[0])}${s[1]?`<br><span class="mute" style="font-weight:400">${esc(s[1])}</span>`:''}</span></li>`).join('')}</ol></div>`}
+  return `<section class="unit" id="${g.id}"><div class="wrap"><div class="unit-head"><div><p class="eyebrow">${g.tag}</p><h2 class="h2">${esc(g.name)}</h2><p class="lede">${esc(g.line)}</p></div></div><div class="topics">${cards.join('')}</div>${a}</div></section>`}).join('');
+
+/* gallery */
+const FILTERS=[['all','All 50',1,50],['start','Welcome',1,4],['u1','Unit 1',5,13],['u2','Unit 2',14,22],['u3','Unit 3',23,31],['u4','Unit 4',32,40],['u5','Unit 5',41,49],['end','Wrap up',50,50]];
+let filter='all';
+function renderGallery(){
+  const f=FILTERS.find(x=>x[0]===filter);
+  $('#galBar').innerHTML=FILTERS.map(x=>`<button class="chip" type="button" data-f="${x[0]}" aria-pressed="${x[0]===filter}">${x[1]}</button>`).join('');
+  $('#grid').innerHTML=SLIDES.filter(s=>s.n>=f[2]&&s.n<=f[3]).map(s=>`<button class="thumb" type="button" data-open="${s.n}"><img loading="lazy" decoding="async" width="480" height="270" src="slides/${String(s.n).padStart(2,'0')}-t.jpg" alt="Slide ${s.n}: ${esc(s.title)}"><span>${s.n}. ${esc(s.title)}</span></button>`).join('');
+}
+renderGallery();
+$('#galBar').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(!b)return;filter=b.dataset.f;renderGallery();$(`[data-f="${filter}"]`).focus({preventScroll:true})});
+
+/* ---------- viewer ---------- */
+const vw=$('#vw'),vp=$('#vp');let cur=1,lastFocus=null;
+const pad=n=>String(n).padStart(2,'0');
+function show(n){
+  cur=Math.max(1,Math.min(50,n));const s=byN(cur);
+  $('#vImg').src=`slides/${pad(cur)}.jpg`;$('#vImg').alt=`Slide ${cur}: ${s.title}`;
+  $('#vCount').textContent=`Slide ${cur} of 50`;$('#vEye').textContent=s.eyebrow;
+  $('#vTitle').textContent=s.title;$('#vIdea').textContent=s.idea;
+  $('#vNotesBody').innerHTML=s.notes.split(/\n\n+/).map(p=>`<p>${esc(p)}</p>`).join('');
+  $('#vPrev').disabled=cur===1;$('#vNext').disabled=cur===50;
+  [cur-1,cur+1].forEach(k=>{if(k>=1&&k<=50){const i=new Image();i.src=`slides/${pad(k)}.jpg`}});
+}
+function openV(n,trigger){lastFocus=trigger||document.activeElement;show(n);vw.classList.add('on');vw.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';vp.scrollTop=0;setTimeout(()=>$('#vClose').focus(),30)}
+function closeV(){vw.classList.remove('on');vw.setAttribute('aria-hidden','true');document.body.style.overflow='';if(lastFocus&&lastFocus.focus)lastFocus.focus({preventScroll:true})}
+document.addEventListener('click',e=>{const o=e.target.closest('[data-open]');if(o){openV(+o.dataset.open,o)}});
+$('#vClose').addEventListener('click',closeV);
+vw.addEventListener('click',e=>{if(e.target===vw)closeV()});
+$('#vPrev').addEventListener('click',()=>show(cur-1));$('#vNext').addEventListener('click',()=>show(cur+1));
+document.addEventListener('keydown',e=>{
+  if(!vw.classList.contains('on'))return;
+  if(e.key==='Escape'){closeV();return}
+  if(e.key==='ArrowLeft'){show(cur-1);e.preventDefault()}
+  if(e.key==='ArrowRight'){show(cur+1);e.preventDefault()}
+  if(e.key==='Tab'){const f=$$('button:not([disabled]),summary,a[href]',vp);if(!f.length)return;const a=f[0],z=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){z.focus();e.preventDefault()}else if(!e.shiftKey&&document.activeElement===z){a.focus();e.preventDefault()}else if(!vp.contains(document.activeElement)){a.focus();e.preventDefault()}}
+});
+/* swipe on the image */
+(()=>{let x0=null;const el=$('.vimg');el.addEventListener('pointerdown',e=>{x0=e.clientX});el.addEventListener('pointerup',e=>{if(x0===null)return;const d=e.clientX-x0;x0=null;if(Math.abs(d)>50)show(cur+(d<0?1:-1))});el.addEventListener('pointercancel',()=>{x0=null})})();
+
+/* ---------- Gather phone ---------- */
+const ICON_IMG='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>';
+const CHEV='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+function qrSvg(){let r=[];const N=13;let s=7;const rnd=()=>(s=(s*9301+49297)%233280)/233280;
+  const fin=(x,y)=>{for(let i=0;i<7;i++)for(let j=0;j<7;j++){const edge=i===0||j===0||i===6||j===6,core=i>=2&&i<=4&&j>=2&&j<=4;if(edge||core)r.push([x+i,y+j])}};
+  fin(0,0);fin(N-7,0);fin(0,N-7);
+  for(let i=0;i<N;i++)for(let j=0;j<N;j++){const inF=(i<8&&j<8)||(i>=N-8&&j<8)||(i<8&&j>=N-8);if(!inF&&rnd()>.5)r.push([i,j])}
+  return `<svg viewBox="0 0 ${N} ${N}" width="100%" height="100%" role="img" aria-label="Ticket QR code, illustration" shape-rendering="crispEdges">${r.map(c=>`<rect x="${c[0]}" y="${c[1]}" width="1" height="1" fill="#101114"/>`).join('')}</svg>`}
+const EVENTS=[['Design Week Keynote','Thu 14 Nov · 10:00 · Hall B','Free'],['Open Studio Night','Fri 15 Nov · 18:00 · Studio 2','Free'],['Film Society Screening','Sat 16 Nov · 19:30 · Cinema','Free']];
+const SCR=['home','detail','register','success'];
+const CAPS={home:['Usefulness','Students find events they care about.'],detail:['Clarity','One clear button per screen.'],register:['Usability','Register in two steps. Labels stay visible.'],success:['Satisfaction','Instant QR ticket, no guesswork.']};
+const NAMES={home:'Events',detail:'Event details',register:'Register',success:'Ticket'};
+let pi=0;
+$('#screens').innerHTML=`
+<section class="ps" data-s="home"><div class="ps-top"><b>Gather</b><span class="ps-av" aria-hidden="true">AR</span></div><div class="ps-search" aria-hidden="true">Search events</div><h4>This week</h4>
+ ${EVENTS.map((e,i)=>`<button class="pc" type="button" data-go="detail"><span class="pc-img">${ICON_IMG}</span><span><b>${e[0]}</b><small>${e[1]}</small></span><em>${e[2]}</em></button>`).join('')}</section>
+<section class="ps" data-s="detail"><button class="back" type="button" data-go="home">${CHEV}Events</button><div class="ph-hero" aria-hidden="true">${ICON_IMG}</div><h3>Design Week Keynote</h3><p class="ph-meta">Thu 14 Nov · 10:00 to 11:30<br>Hall B, Arts Building. Open to all students.</p><div class="ph-rows"><div>Spots left<b>Plenty</b></div><div>Cost<b>Free</b></div></div><button class="pbtn" type="button" data-go="register">Register for this event</button></section>
+<section class="ps" data-s="register"><button class="back" type="button" data-go="detail">${CHEV}Details</button><h3>Your details</h3>
+ <form id="regForm" novalidate style="display:flex;flex-direction:column;gap:12px;flex:1"><div class="pf"><label for="rName">Full name</label><input id="rName" value="Aisha Rahman" autocomplete="off"></div>
+ <div class="pf"><label for="rMail">University email</label><input id="rMail" value="aisha@student.edu" autocomplete="off" inputmode="email" aria-describedby="rErr"><p class="perr" id="rErr" role="alert"></p></div>
+ <button class="pbtn" type="submit">Confirm registration</button></form></section>
+<section class="ps ps-center" data-s="success"><div class="ok-badge"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></div><h3>You are registered</h3><p class="ph-meta">Design Week Keynote<br>Thu 14 Nov · Hall B</p><div class="qr">${qrSvg()}</div><button class="pbtn" type="button" data-go="home">Done</button></section>`;
+$('#dots').innerHTML=SCR.map((s,i)=>`<button type="button" data-dot="${i}" aria-label="Screen ${i+1} of 4: ${NAMES[s]}"><span></span></button>`).join('');
+function setPhone(i,user){
+  pi=i;
+  $$('.ps').forEach(el=>{const k=SCR.indexOf(el.dataset.s);const pos=k<i?'before':k>i?'after':'on';el.dataset.pos=pos;if(pos==='on'){el.removeAttribute('inert');el.removeAttribute('aria-hidden')}else{el.setAttribute('inert','');el.setAttribute('aria-hidden','true')}});
+  $$('#dots button').forEach((b,k)=>b.setAttribute('aria-current',k===i?'true':'false'));
+  const c=CAPS[SCR[i]];$('#cap').innerHTML=`<b>${c[0]}</b><span>${c[1]}</span>`;
+}
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]');
+  if(g&&g.closest('.ps')){setPhone(SCR.indexOf(g.dataset.go))}
+  const d=e.target.closest('[data-dot]');if(d)setPhone(+d.dataset.dot);
+});
+$('#regForm').addEventListener('submit',e=>{e.preventDefault();const m=$('#rMail'),er=$('#rErr');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.value.trim())){m.setAttribute('aria-invalid','true');er.textContent='! Enter a valid email address.';m.focus();return}
+  m.removeAttribute('aria-invalid');er.textContent='';setPhone(3)});
+$('#rMail').addEventListener('input',()=>{$('#rMail').removeAttribute('aria-invalid');$('#rErr').textContent=''});
+setPhone(0);
+
+/* ---------- contrast lab ---------- */
+const lum=h=>{const c=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4));return .2126*c[0]+.7152*c[1]+.0722*c[2]};
+const ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
+const validHex=h=>/^#[0-9a-fA-F]{6}$/.test(h);
+const PRE=[['White on electric blue','#FFFFFF','#476BFF'],['White on deep blue','#FFFFFF','#2B4BDB'],['Ink on paper','#101114','#F6F5F1'],['Grey text on paper','#5C5F69','#F6F5F1'],['Deep blue on lavender','#1F38B0','#C8B9FF']];
+let fg='#FFFFFF',bg='#476BFF';
+$('#presets').innerHTML=PRE.map((p,i)=>`<button class="chip" type="button" data-pre="${i}" aria-pressed="false">${p[0]}</button>`).join('');
+function updC(skipHex){
+  const r=ratio(fg,bg);$('#sample').style.background=bg;$('#sample').style.color=fg;
+  if(!skipHex){$('#fgHex').value=fg.toUpperCase();$('#bgHex').value=bg.toUpperCase()}
+  $('#fgPick').value=fg.toLowerCase();$('#bgPick').value=bg.toLowerCase();
+  $('#ratio').innerHTML=`${r.toFixed(2)}<small> : 1</small>`;
+  const rows=[['Body text, AA (4.5:1)',r>=4.5],['Large text, AA (3:1)',r>=3],['Interface parts, AA (3:1)',r>=3],['Body text, AAA (7:1)',r>=7]];
+  $('#checks').innerHTML=rows.map(x=>`<li><span>${x[0]}</span><span class="${x[1]?'pass':'fail'}">${x[1]?'✓ Pass':'✗ Fail'}</span></li>`).join('');
+  $$('#presets .chip').forEach((b,i)=>b.setAttribute('aria-pressed',String(PRE[i][1].toUpperCase()===fg.toUpperCase()&&PRE[i][2].toUpperCase()===bg.toUpperCase())));
+}
+$('#presets').addEventListener('click',e=>{const b=e.target.closest('[data-pre]');if(!b)return;const p=PRE[+b.dataset.pre];fg=p[1];bg=p[2];updC()});
+[['fg','fgPick','fgHex'],['bg','bgPick','bgHex']].forEach(([k,p,h])=>{
+  $('#'+p).addEventListener('input',e=>{if(k==='fg')fg=e.target.value;else bg=e.target.value;updC()});
+  $('#'+h).addEventListener('input',e=>{let v=e.target.value.trim();if(v&&v[0]!=='#')v='#'+v;if(validHex(v)){if(k==='fg')fg=v;else bg=v;updC(true)}});
+});
+updC();
+
+/* ---------- touch target lab ---------- */
+function updT(){const v=+$('#tsize').value;$('#tsizeV').textContent=v;const b=$('#tBtn');b.style.height=v+'px';b.style.width=Math.max(96,v*2.2)+'px';
+  $('#tVerdict').innerHTML=v>=48?'<span class="pass">✓ Meets Apple and Material</span>':v>=44?'<span class="pass">✓ Meets Apple (44 pt)</span>':'<span class="fail">✗ Too small for touch</span>'}
+$('#tsize').addEventListener('input',updT);updT();
+
+/* ---------- Hick lab ---------- */
+const ITEMS=['Events','Search','Saved','Tickets','Calendar','Friends','Clubs','Map','Alerts','Help','Profile','Settings'];
+function updH(){const n=+$('#hn').value;$('#hnV').textContent=n;$('#menu').innerHTML=ITEMS.slice(0,n).map(i=>`<span>${i}</span>`).join('');const v=Math.log2(n+1);$('#hval').textContent=v.toFixed(2);$('#hmeter').style.width=(v/Math.log2(13)*100)+'%'}
+$('#hn').addEventListener('input',updH);updH();
+
+/* ---------- SUS lab ---------- */
+const SUS=['I think that I would like to use this system frequently.','I found the system unnecessarily complex.','I thought the system was easy to use.','I think that I would need the support of a technical person to be able to use this system.','I found the various functions in this system were well integrated.','I thought there was too much inconsistency in this system.','I would imagine that most people would learn to use this system very quickly.','I found the system very cumbersome to use.','I felt very confident using the system.','I needed to learn a lot of things before I could get going with this system.'];
+$('#sus').innerHTML=SUS.map((q,i)=>`<fieldset><legend class="sr">${i+1}. ${esc(q)}</legend><p class="q" aria-hidden="true"><b>${i+1}.</b> ${esc(q)}</p><div class="opts">${[1,2,3,4,5].map(v=>`<label><input type="radio" name="q${i}" value="${v}" aria-label="${v}"><span>${v}</span></label>`).join('')}</div></fieldset>`).join('');
+function updS(){let sum=0,n=0;SUS.forEach((_,i)=>{const c=$(`input[name="q${i}"]:checked`);if(c){n++;const v=+c.value;sum+=i%2===0?v-1:5-v}});
+  if(n<10){$('#susScore').innerHTML='–<small> / 100</small>';$('#susNote').textContent=`${n} of 10 answered.`}
+  else{const sc=sum*2.5;$('#susScore').innerHTML=`${sc%1?sc.toFixed(1):sc}<small> / 100</small>`;$('#susNote').textContent=sc>=68?'Above 68, a score often cited as average (Tullis and Albert).':'Below 68, a score often cited as average (Tullis and Albert).'}}
+$('#sus').addEventListener('change',updS);
+$('#susReset').addEventListener('click',()=>{$$('#sus input').forEach(i=>i.checked=false);updS()});
+
+/* ---------- design system ---------- */
+const PAL=[['Charcoal','#101114','Ink and dark surfaces'],['Off-white','#F6F5F1','Page background'],['Electric blue','#476BFF','Large accents only'],['Deep blue','#2B4BDB','Buttons and links'],['Lavender','#C8B9FF','Soft surface'],['Grey','#8D9098','Decoration only']];
+$('#pal').innerHTML=PAL.map(p=>`<div class="sw"><i style="background:${p[1]}"></i><div><b>${p[0]}</b>${p[1]}<br><span class="mute">${p[2]}</span></div></div>`).join('');
+const PAIRS=[['Ink on off-white','#101114','#F6F5F1'],['Grey text on off-white','#5C5F69','#F6F5F1'],['White on deep blue','#FFFFFF','#2B4BDB'],['Deep blue on lavender','#1F38B0','#C8B9FF'],['White on electric blue','#FFFFFF','#476BFF']];
+$('#pairs').innerHTML=PAIRS.map(p=>{const r=ratio(p[1],p[2]);const lab=r>=4.5?'✓ Small text':r>=3?'Large text only':'✗ Fails';return `<li><span class="pv" style="background:${p[2]};color:${p[1]}">Aa</span><span>${p[0]}</span><span class="r">${r.toFixed(2)} : 1 · ${lab}</span></li>`}).join('');
+$('#ramp').innerHTML=[11,13,15,17,20,28,40,56,80].map(s=>`<span style="font-size:${Math.min(s,56)}px;line-height:1.1">${s}</span>`).join('');
+
+/* ---------- downloads ---------- */
+$('#dls').innerHTML=FILES.map((f,i)=>`<a class="tile dl" href="files/${esc(f.file)}" download="${esc(f.file)}" data-dl="${esc(f.file)}" data-i="${i}"${f.b64?` data-b64="${esc(f.b64)}"`:''}><span class="ext">${esc(f.ext)}</span><b>${esc(f.label)}</b><span class="d">${esc(f.desc)}</span><span class="st"><span>${esc(f.size)}</span><span class="go" id="st${i}">Download</span></span></a>`).join('');
+let DL=null;
+(async()=>{try{if(window.claude&&claude.use){DL=await claude.use('downloads');$('#dlNote').textContent=DL?'Each file asks you to confirm before it saves.':'Saving files is not available in this view. Open the page in a browser to download.'}}catch(e){DL=null}})();
+document.addEventListener('click',async e=>{
+  const a=e.target.closest('a[data-dl]');if(!a||!DL)return;e.preventDefault();
+  const st=$('#st'+a.dataset.i);st.textContent='Preparing…';
+  try{let b;if(a.dataset.b64){const r=await fetch(a.dataset.b64);if(!r.ok)throw {code:'fetch'};const bin=atob((await r.text()).trim());const u=new Uint8Array(bin.length);for(let k=0;k<bin.length;k++)u[k]=bin.charCodeAt(k);b=new Blob([u])}else{const r=await fetch(a.getAttribute('href'));if(!r.ok)throw {code:'fetch'};b=await r.blob()}await DL.save({filename:a.dataset.dl,data:b});st.textContent='Saved'}
+  catch(err){const c=err&&err.code;st.textContent=c==='declined'?'Not saved':c==='rate_limited'?'Try again shortly':'Could not save here'}
+  setTimeout(()=>{st.textContent='Download'},4000);
+});
+</script>
