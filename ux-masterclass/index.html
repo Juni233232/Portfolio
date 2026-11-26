@@ -210,13 +210,13 @@ img{max-width:100%;display:block}
 .marq{background:#080808;color:#f5f5f5;overflow:hidden;white-space:nowrap;padding:24px 0}
 .marq-in{display:inline-flex;align-items:center;will-change:transform}
 .rm .marq{overflow-x:auto;scrollbar-width:none}
-.marq-in span{font:400 clamp(40px,6vw,84px)/1 var(--display);padding-right:.5em}
+.marq-in span{font:400 clamp(40px,6vw,84px)/1 var(--display);padding-right:0}
 .marq-in span:nth-of-type(even){color:#8c8c8c}
-.marq-in i{width:44px;height:12px;margin-right:clamp(18px,2.4vw,36px);flex:none;background:radial-gradient(circle,currentColor 5px,transparent 5.6px) 0 0/16px 12px repeat-x;font-size:0}
+.marq-in i{width:44px;height:12px;margin:0 clamp(22px,2.6vw,40px);flex:none;background:radial-gradient(circle,currentColor 5px,transparent 5.6px) 0 0/16px 12px repeat-x;font-size:0}
 .marq.big{background:transparent;padding:0}
 .marq.big .marq-in span{font-size:clamp(96px,19vw,300px);line-height:1}
 .marq.big .marq-in span:nth-of-type(even){color:transparent;-webkit-text-stroke:1.5px #f5f5f5}
-.marq.big .marq-in i{width:64px;height:18px;background-size:24px 18px;background-image:radial-gradient(circle,currentColor 7.5px,transparent 8.2px)}
+.marq.big .marq-in i{width:64px;height:18px;margin:0 clamp(28px,3.4vw,56px);background-size:24px 18px;background-image:radial-gradient(circle,currentColor 7.5px,transparent 8.2px)}
 
 /* ---------- manifesto / outcomes ---------- */
 .mani-t{font:400 clamp(38px,6vw,92px)/1.02 var(--display);letter-spacing:.004em;margin-top:32px;max-width:1180px}
@@ -528,6 +528,67 @@ html.anim-off .row::before,html.anim-off .dl::before{transform:none!important;op
 #labs{--bg:#f0f0f0}
 #labs .card2,#labs .lab{--card2:#ffffff}
 .card.capstone .pill{background:#fff;color:#080808}
+
+/* ---------- presentation mode ---------- */
+.present-cta{display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px;margin-top:32px}
+.keys{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:14px;color:var(--mute)}
+.keys li{display:flex;align-items:center;gap:6px}
+kbd{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 7px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--fg);font:600 13px/1 var(--sans)}
+.vbar-r{display:flex;align-items:center;gap:10px}
+.vbar-r .btn{--btn-bg:#fff;--btn-fg:#080808;--hover-fill:#d7d7d7;--hover-fg:#080808}
+@media(max-width:520px){.vbar-r .btn{padding:0 14px;font-size:14px}}
+
+.show{position:fixed;inset:0;z-index:400;background:#000;color:#f5f5f5;opacity:0;transition:opacity .35s ease;outline:none;overflow:hidden;--np:min(420px,92vw)}
+.show.on{opacity:1}
+.show-stage{position:absolute;top:env(safe-area-inset-top,0px);right:env(safe-area-inset-right,0px);bottom:env(safe-area-inset-bottom,0px);left:env(safe-area-inset-left,0px);transition:opacity .35s ease,right .5s var(--ease),bottom .5s var(--ease)}
+.show-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .4s ease;user-select:none;-webkit-user-drag:none}
+.show-stage img.on{opacity:1}
+.show.black .show-stage{opacity:0}
+.show-black-hint{position:absolute;left:0;right:0;bottom:24px;text-align:center;font-size:13px;color:#555;opacity:0;transition:opacity .4s;pointer-events:none}
+.show.black .show-black-hint{opacity:1}
+.show-ui{position:absolute;inset:0;pointer-events:none;transition:opacity .45s ease}
+.show-ui>*{pointer-events:auto}
+.show.idle .show-ui{opacity:0}
+.show.idle .show-ui>*{pointer-events:none}
+.show.idle{cursor:none}
+.show-top,.show-bottom{position:absolute;left:0;right:0;display:flex;align-items:center;gap:12px;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.show-top{top:0;justify-content:space-between;padding-top:max(14px,env(safe-area-inset-top,0px));padding-bottom:28px;background:linear-gradient(rgba(0,0,0,.72),transparent)}
+.show-bottom{bottom:0;padding-bottom:max(14px,env(safe-area-inset-bottom,0px));padding-top:28px;background:linear-gradient(transparent,rgba(0,0,0,.72))}
+.show-top .eyebrow{margin-left:40px;color:#f5f5f5;max-width:50vw;overflow:hidden;text-overflow:ellipsis}
+.show-actions{display:flex;gap:8px}
+.s-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:44px;min-height:44px;padding:0 16px;border-radius:999px;background:rgba(255,255,255,.12);color:#fff;font:600 14px/1 var(--sans);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transition:background .25s,color .25s,scale .15s var(--ease)}
+.s-btn:active{scale:.94}
+@media(hover:hover){.s-btn:hover{background:#fff;color:#080808}}
+.s-btn[aria-pressed="true"]{background:#fff;color:#080808}
+.s-btn[disabled]{opacity:.3;pointer-events:none}
+.s-x{padding:0}
+.s-nav{width:52px;height:52px;padding:0}
+.show-prog{flex:1;display:flex;align-items:center;gap:14px;min-width:0}
+.show-prog #sCount{font:400 18px/1 var(--display);letter-spacing:.04em;white-space:nowrap}
+.show-bar{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden}
+.show-bar i{display:block;height:100%;background:#fff;transform-origin:left;transition:transform .5s var(--ease)}
+.show-jump{font:400 18px/1 var(--display);color:#fff;min-width:0;white-space:nowrap}
+.has-cursor .show,.has-cursor .show button{cursor:default}
+.has-cursor .show.idle,.has-cursor .show.idle button{cursor:none}
+.presenting .cur,.presenting .cur-ring,.presenting .prev{display:none!important}
+.show-notes{position:absolute;top:0;right:0;bottom:0;width:var(--np);background:#111;border-left:1px solid rgba(255,255,255,.1);padding:max(24px,env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) 24px 24px;overflow-y:auto;overscroll-behavior:contain;transform:translateX(102%);transition:transform .5s var(--ease);visibility:hidden}
+.show.notes-on .show-notes{transform:none;visibility:visible}
+.show.notes-on .show-stage{right:var(--np)}
+.show.notes-on .show-top,.show.notes-on .show-bottom{right:var(--np)}
+.show-notes .eyebrow{color:#f5f5f5}
+.show-notes h3{font:400 30px/1.02 var(--display);margin-top:18px}
+.show-notes h3 em{font-style:normal;color:#8c8c8c}
+#sNotesBody{display:grid;gap:12px;margin-top:16px;font-size:15px;line-height:1.6;color:rgba(245,245,245,.85)}
+@media(max-width:760px){
+  .show{--np:100%}
+  .show-notes{top:auto;left:0;width:auto;height:52%;border-left:0;border-top:1px solid rgba(255,255,255,.1);transform:translateY(102%);padding:20px max(18px,env(safe-area-inset-right,0px)) max(20px,env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px))}
+  .show.notes-on .show-stage{right:env(safe-area-inset-right,0px);bottom:52%}
+  .show.notes-on .show-top,.show.notes-on .show-bottom{right:0}
+  .show.notes-on .show-bottom{bottom:52%}
+  .show-top .eyebrow{display:none}
+  .s-btn{padding:0 12px;font-size:13px}
+}
+.rm .show,.rm .show-stage img,.rm .show-notes,.rm .show-ui{transition-duration:.01ms}
 </style>
 </head>
 <body>
@@ -604,6 +665,7 @@ html.anim-off .row::before,html.anim-off .dl::before{transform:none!important;op
         <div class="cta">
           <button class="btn" type="button" data-jump="units" data-mag><span>Start learning</span></button>
           <button class="btn btn-ghost" type="button" data-jump="slides" data-mag><span>Browse 50 slides</span></button>
+          <button class="btn btn-ghost" type="button" data-present="1" data-mag><span>Present</span></button>
         </div>
       </div>
       <ul class="stats" data-hero data-stagger aria-label="Course at a glance">
@@ -728,7 +790,13 @@ html.anim-off .row::before,html.anim-off .dl::before{transform:none!important;op
   <div class="wrap">
     <p class="eyebrow" data-rv>The full deck</p>
     <h2 class="h2" data-split>All 50 slides. <em>With notes.</em></h2>
-    <p class="lede" data-rv>Open any slide. Use the arrow keys to move and Escape to close.</p>
+    <p class="lede" data-rv>Open any slide to read its teaching notes, or present the deck to your class, one slide at a time.</p>
+    <div class="present-cta" data-rv>
+      <button class="btn" type="button" data-present="1" data-mag><span>Present slides</span></button>
+      <ul class="keys" aria-label="Presentation shortcuts">
+        <li><kbd>→</kbd> or clicker: next</li><li><kbd>F</kbd> full screen</li><li><kbd>B</kbd> black screen</li><li><kbd>N</kbd> your notes</li><li>Type <kbd>12</kbd> <kbd>Enter</kbd> to jump</li>
+      </ul>
+    </div>
     <div class="gal-bar" id="galBar" role="group" aria-label="Filter slides" data-stagger></div>
     <div class="grid" id="grid"></div>
   </div>
@@ -815,7 +883,8 @@ html.anim-off .row::before,html.anim-off .dl::before{transform:none!important;op
   <div class="vp" id="vp" role="dialog" aria-modal="true" aria-labelledby="vTitle" tabindex="-1" data-lenis-prevent>
     <div class="vbar">
       <p class="eyebrow" id="vCount"></p>
-      <button class="icon-btn" type="button" id="vClose" aria-label="Close slide viewer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <div class="vbar-r"><button class="btn btn-sm" type="button" id="vPresent"><span>Present from here</span></button>
+      <button class="icon-btn" type="button" id="vClose" aria-label="Close slide viewer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     </div>
     <div class="vimg"><img id="vImg" alt="" width="1280" height="720"></div>
     <div class="vnav">
@@ -829,6 +898,34 @@ html.anim-off .row::before,html.anim-off .dl::before{transform:none!important;op
       <details class="notes" id="vNotes"><summary>Teaching notes</summary><div id="vNotesBody"></div></details>
     </div>
   </div>
+</div>
+
+<div class="show" id="show" role="dialog" aria-modal="true" aria-label="Presentation" tabindex="-1" hidden data-lenis-prevent>
+  <div class="show-stage" id="sStage">
+    <img id="sImgA" alt="" width="1920" height="1080" decoding="async">
+    <img id="sImgB" alt="" width="1920" height="1080" decoding="async">
+  </div>
+  <p class="show-black-hint" aria-hidden="true">Screen blanked. Press B to return.</p>
+  <div class="show-ui">
+    <div class="show-top">
+      <span class="eyebrow" id="sTag"></span>
+      <div class="show-actions">
+        <button class="s-btn" type="button" id="sNotesBtn" aria-pressed="false">Notes</button>
+        <button class="s-btn" type="button" id="sFsBtn">Full screen</button>
+        <button class="s-btn s-x" type="button" id="sClose" aria-label="Exit presentation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+    </div>
+    <div class="show-bottom">
+      <button class="s-btn s-nav" type="button" id="sPrev" aria-label="Previous slide"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="show-prog"><span id="sCount" aria-live="polite"></span><div class="show-bar"><i id="sBar"></i></div><span class="show-jump" id="sJump" aria-live="polite"></span></div>
+      <button class="s-btn s-nav" type="button" id="sNext" aria-label="Next slide"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+  <aside class="show-notes" id="sNotes" aria-label="Teaching notes" aria-hidden="true">
+    <p class="eyebrow">Teaching notes</p>
+    <h3 id="sNotesTitle"></h3>
+    <div id="sNotesBody"></div>
+  </aside>
 </div>
 
 <script src="vendor/gsap.min.js"></script>
@@ -946,6 +1043,98 @@ document.addEventListener('keydown',e=>{
     if(e.shiftKey&&document.activeElement===a){z.focus();e.preventDefault()}else if(!e.shiftKey&&document.activeElement===z){a.focus();e.preventDefault()}else if(!vp.contains(document.activeElement)){a.focus();e.preventDefault()}}
 });
 (()=>{let x0=null;const el=$('.vimg');el.addEventListener('pointerdown',e=>{x0=e.clientX});el.addEventListener('pointerup',e=>{if(x0===null)return;const d=e.clientX-x0;x0=null;if(Math.abs(d)>50)show(cur+(d<0?1:-1))});el.addEventListener('pointercancel',()=>{x0=null})})();
+
+/* ================= PRESENTATION MODE =================
+   One slide at a time on a black stage, sized for a projector (1920 px images).
+   Keys: arrows, Page Up/Down and Space (most clickers), Home/End, number + Enter to jump,
+   F full screen, B or . black screen, N notes, Esc exit. Tap or click: left third back, rest forward. */
+const sEl=$('#show'),sImgs=[$('#sImgA'),$('#sImgB')];
+let sCur=0,sFront=0,sOpen=false,sIdle=null,sTok=0,sLast=null,sBuf='',sBufT=null;
+const hd=n=>`slides/${pad(n)}-hd.jpg`;
+const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
+const canFs=!!(document.fullscreenEnabled||document.webkitFullscreenEnabled);
+if(!canFs)$('#sFsBtn').hidden=true;
+function sPre(n){if(n>=1&&n<=50){const i=new Image();i.src=hd(n)}}
+function sGo(n){
+  n=Math.max(1,Math.min(50,n));if(n===sCur)return;sCur=n;
+  const s=byN(n),tok=++sTok,back=sImgs[1-sFront];
+  back.src=hd(n);back.alt=`Slide ${n}: ${s.title}`;
+  const done=()=>{if(tok!==sTok)return;back.classList.add('on');sImgs[sFront].classList.remove('on');sFront=1-sFront};
+  (back.decode?back.decode():Promise.resolve()).then(done,done);
+  $('#sCount').textContent=`${pad(n)} / 50`;$('#sTag').textContent=s.tag;
+  $('#sBar').style.transform=`scaleX(${n/50})`;
+  $('#sNotesTitle').innerHTML=twoTone(s);
+  $('#sNotesBody').innerHTML=s.notes.split(/\n\n+/).map(p=>`<p>${esc(p)}</p>`).join('');
+  $('#sNotes').scrollTop=0;
+  $('#sPrev').disabled=n===1;$('#sNext').disabled=n===50;
+  sPre(n+1);sPre(n+2);sPre(n-1);
+  try{history.replaceState(null,'','#present-'+n)}catch(e){}
+}
+function sWake(){sEl.classList.remove('idle');clearTimeout(sIdle);sIdle=setTimeout(()=>{if(sOpen)sEl.classList.add('idle')},2600)}
+function sBlack(on){sEl.classList.toggle('black',on===undefined?!sEl.classList.contains('black'):on)}
+function sNotes(on){on=on===undefined?!sEl.classList.contains('notes-on'):on;sEl.classList.toggle('notes-on',on);$('#sNotesBtn').setAttribute('aria-pressed',String(on));$('#sNotes').setAttribute('aria-hidden',String(!on))}
+function sFull(on){try{
+  if(on===undefined)on=!fsEl();
+  if(on){const r=sEl.requestFullscreen?sEl.requestFullscreen({navigationUI:'hide'}):(sEl.webkitRequestFullscreen&&sEl.webkitRequestFullscreen());if(r&&r.catch)r.catch(()=>{})}
+  else if(fsEl()){const r=(document.exitFullscreen||document.webkitExitFullscreen).call(document);if(r&&r.catch)r.catch(()=>{})}
+}catch(e){}}
+function sFsLabel(){$('#sFsBtn').textContent=fsEl()?'Exit full screen':'Full screen'}
+document.addEventListener('fullscreenchange',sFsLabel);document.addEventListener('webkitfullscreenchange',sFsLabel);
+function sOpenAt(n,trigger,full){
+  sLast=trigger||document.activeElement;
+  if(vw.classList.contains('on'))closeV();
+  sEl.hidden=false;void sEl.offsetWidth;sEl.classList.add('on');
+  sOpen=true;root.classList.add('presenting');hidePrev();
+  if(lenis)lenis.stop();document.body.style.overflow='hidden';
+  sCur=0;sGo(n);sBlack(false);sWake();
+  sEl.focus({preventScroll:true});
+  if(full&&canFs)sFull(true);
+}
+function sClose(){
+  if(!sOpen)return;sOpen=false;
+  if(fsEl())sFull(false);
+  sEl.classList.remove('on','idle','black');root.classList.remove('presenting');
+  setTimeout(()=>{if(!sOpen)sEl.hidden=true},400);
+  if(lenis)lenis.start();document.body.style.overflow='';
+  try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
+  if(sLast&&sLast.focus)sLast.focus({preventScroll:true});
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-present]');if(b){e.preventDefault();sOpenAt(+b.dataset.present||1,b,true)}});
+$('#vPresent').addEventListener('click',()=>sOpenAt(cur,$('#vPresent'),true));
+const sBtn=(id,fn)=>$(id).addEventListener('click',e=>{fn();sWake();if(e.detail)sEl.focus({preventScroll:true})});
+sBtn('#sPrev',()=>sGo(sCur-1));sBtn('#sNext',()=>sGo(sCur+1));sBtn('#sClose',sClose);
+sBtn('#sNotesBtn',()=>sNotes());sBtn('#sFsBtn',()=>sFull());
+sEl.addEventListener('pointermove',sWake);
+/* tap and swipe on the slide */
+(()=>{let x0=null,y0=null,t0=0;const st=$('#sStage');
+  st.addEventListener('pointerdown',e=>{x0=e.clientX;y0=e.clientY;t0=Date.now()});
+  st.addEventListener('pointerup',e=>{if(x0===null)return;const dx=e.clientX-x0,dy=e.clientY-y0;x0=null;sWake();
+    if(sEl.classList.contains('black')){sBlack(false);return}
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){sGo(sCur+(dx<0?1:-1));return}
+    if(Date.now()-t0<500&&Math.abs(dx)<10&&Math.abs(dy)<10){const r=st.getBoundingClientRect();sGo(sCur+((e.clientX-r.left)<r.width*.3?-1:1))}});
+  st.addEventListener('pointercancel',()=>{x0=null});
+})();
+document.addEventListener('keydown',e=>{
+  if(!sOpen)return;
+  const k=e.key,onBtn=e.target.closest&&e.target.closest('button');
+  if(e.metaKey||e.ctrlKey||e.altKey)return;
+  if(/^[0-9]$/.test(k)){sBuf=(sBuf+k).slice(-2);$('#sJump').textContent=`Go to ${sBuf}`;clearTimeout(sBufT);sBufT=setTimeout(()=>{sBuf='';$('#sJump').textContent=''},2000);e.preventDefault();return}
+  if(k==='Enter'&&sBuf){sGo(+sBuf);sBuf='';$('#sJump').textContent='';e.preventDefault();return}
+  const next=['ArrowRight','ArrowDown','PageDown'].includes(k)||((k===' '||k==='Enter')&&!onBtn);
+  const prev=['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(k);
+  if(next||prev){e.preventDefault();if(sEl.classList.contains('black')){sBlack(false);return}sGo(sCur+(next?1:-1));return}
+  if(k==='Home'){e.preventDefault();sGo(1);return}
+  if(k==='End'){e.preventDefault();sGo(50);return}
+  if(k==='Escape'){e.preventDefault();if(sEl.classList.contains('notes-on'))sNotes(false);else sClose();return}
+  if(k==='f'||k==='F'){e.preventDefault();sFull();return}
+  if(k==='b'||k==='B'||k==='.'||k==='w'||k==='W'){e.preventDefault();sBlack();return}
+  if(k==='n'||k==='N'){e.preventDefault();sNotes();sWake();return}
+  if(k==='F5'){e.preventDefault();return}
+  if(k==='Tab'){sWake();const f=$$('button:not([disabled]):not([hidden])',sEl).filter(b=>b.offsetParent!==null);if(!f.length)return;const a=f[0],z=f[f.length-1];
+    if(e.shiftKey&&(document.activeElement===a||document.activeElement===sEl)){z.focus();e.preventDefault()}else if(!e.shiftKey&&document.activeElement===z){a.focus();e.preventDefault()}}
+});
+/* open straight into a slide from a shared link, e.g. #present-12 */
+(()=>{const m=/^#present(?:-(\d{1,2}))?$/.exec(location.hash);if(m)setTimeout(()=>sOpenAt(+m[1]||1,null,false),50)})();
 
 /* ================= HOVER PREVIEW + CURSOR ================= */
 const prevBox=$('#prevBox'),prevImg=$('#prevImg');let prevOn=false,prevS=.8;
@@ -1147,7 +1336,7 @@ animateNumber=countTo;
 
 function intro(){
   document.body.dataset.ready='1';clearTimeout(failTimer);
-  document.body.style.overflow='';if(lenis)lenis.start();
+  if(!root.classList.contains('presenting')){document.body.style.overflow='';if(lenis)lenis.start()}
   $$('[data-stagger]').forEach(el=>[...el.children].forEach((c,i)=>c.style.setProperty('--i',i)));
   root.classList.add('hero-in');nav.classList.add('is-in');
   $$('[data-hero]').forEach((el,i)=>{el.style.setProperty('--d',(.3+i*.12).toFixed(2)+'s');el.classList.add('is-in')});

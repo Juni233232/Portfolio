@@ -71,6 +71,7 @@
         <div class="cta">
           <button class="btn" type="button" data-jump="units" data-mag><span>Start learning</span></button>
           <button class="btn btn-ghost" type="button" data-jump="slides" data-mag><span>Browse 50 slides</span></button>
+          <button class="btn btn-ghost" type="button" data-present="1" data-mag><span>Present</span></button>
         </div>
       </div>
       <ul class="stats" data-hero data-stagger aria-label="Course at a glance">
@@ -195,7 +196,13 @@
   <div class="wrap">
     <p class="eyebrow" data-rv>The full deck</p>
     <h2 class="h2" data-split>All 50 slides. <em>With notes.</em></h2>
-    <p class="lede" data-rv>Open any slide. Use the arrow keys to move and Escape to close.</p>
+    <p class="lede" data-rv>Open any slide to read its teaching notes, or present the deck to your class, one slide at a time.</p>
+    <div class="present-cta" data-rv>
+      <button class="btn" type="button" data-present="1" data-mag><span>Present slides</span></button>
+      <ul class="keys" aria-label="Presentation shortcuts">
+        <li><kbd>→</kbd> or clicker: next</li><li><kbd>F</kbd> full screen</li><li><kbd>B</kbd> black screen</li><li><kbd>N</kbd> your notes</li><li>Type <kbd>12</kbd> <kbd>Enter</kbd> to jump</li>
+      </ul>
+    </div>
     <div class="gal-bar" id="galBar" role="group" aria-label="Filter slides" data-stagger></div>
     <div class="grid" id="grid"></div>
   </div>
@@ -282,7 +289,8 @@
   <div class="vp" id="vp" role="dialog" aria-modal="true" aria-labelledby="vTitle" tabindex="-1" data-lenis-prevent>
     <div class="vbar">
       <p class="eyebrow" id="vCount"></p>
-      <button class="icon-btn" type="button" id="vClose" aria-label="Close slide viewer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <div class="vbar-r"><button class="btn btn-sm" type="button" id="vPresent"><span>Present from here</span></button>
+      <button class="icon-btn" type="button" id="vClose" aria-label="Close slide viewer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     </div>
     <div class="vimg"><img id="vImg" alt="" width="1280" height="720"></div>
     <div class="vnav">
@@ -296,4 +304,32 @@
       <details class="notes" id="vNotes"><summary>Teaching notes</summary><div id="vNotesBody"></div></details>
     </div>
   </div>
+</div>
+
+<div class="show" id="show" role="dialog" aria-modal="true" aria-label="Presentation" tabindex="-1" hidden data-lenis-prevent>
+  <div class="show-stage" id="sStage">
+    <img id="sImgA" alt="" width="1920" height="1080" decoding="async">
+    <img id="sImgB" alt="" width="1920" height="1080" decoding="async">
+  </div>
+  <p class="show-black-hint" aria-hidden="true">Screen blanked. Press B to return.</p>
+  <div class="show-ui">
+    <div class="show-top">
+      <span class="eyebrow" id="sTag"></span>
+      <div class="show-actions">
+        <button class="s-btn" type="button" id="sNotesBtn" aria-pressed="false">Notes</button>
+        <button class="s-btn" type="button" id="sFsBtn">Full screen</button>
+        <button class="s-btn s-x" type="button" id="sClose" aria-label="Exit presentation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+    </div>
+    <div class="show-bottom">
+      <button class="s-btn s-nav" type="button" id="sPrev" aria-label="Previous slide"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="show-prog"><span id="sCount" aria-live="polite"></span><div class="show-bar"><i id="sBar"></i></div><span class="show-jump" id="sJump" aria-live="polite"></span></div>
+      <button class="s-btn s-nav" type="button" id="sNext" aria-label="Next slide"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+  <aside class="show-notes" id="sNotes" aria-label="Teaching notes" aria-hidden="true">
+    <p class="eyebrow">Teaching notes</p>
+    <h3 id="sNotesTitle"></h3>
+    <div id="sNotesBody"></div>
+  </aside>
 </div>

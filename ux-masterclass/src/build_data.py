@@ -82,13 +82,15 @@ for i, pg in enumerate(pdf.pages, 1):
 assert len(slides) == 50
 json.dump(slides, open(os.path.join(HERE, 'slides.json'), 'w'), ensure_ascii=False, indent=0)
 
-# slide images: 1280 px for the viewer, 480 px thumbnails
+# slide images: 1920 px for presenting, 1280 px for the viewer, 480 px thumbnails
 tmp = tempfile.mkdtemp()
-subprocess.run(['pdftoppm', '-png', '-scale-to', '1280', PDF, os.path.join(tmp, 's')], check=True)
+subprocess.run(['pdftoppm', '-png', '-scale-to', '1920', PDF, os.path.join(tmp, 's')], check=True)
 out = os.path.join(SITE, 'slides')
 os.makedirs(out, exist_ok=True)
 for i in range(1, 51):
-    im = Image.open(os.path.join(tmp, f's-{i:02d}.png')).convert('RGB')
+    big = Image.open(os.path.join(tmp, f's-{i:02d}.png')).convert('RGB')
+    big.save(os.path.join(out, f'{i:02d}-hd.jpg'), quality=86, optimize=True, progressive=True)  # presentation mode
+    im = big.resize((1280, round(big.height * 1280 / big.width)), Image.LANCZOS)
     im.save(os.path.join(out, f'{i:02d}.jpg'), quality=84, optimize=True, progressive=True)
     t = im.resize((480, round(im.height * 480 / im.width)), Image.LANCZOS)
     t.save(os.path.join(out, f'{i:02d}-t.jpg'), quality=80, optimize=True)
