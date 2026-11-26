@@ -8,6 +8,15 @@ Static course site, served at `/ux-masterclass/`. Open `index.html`, or serve th
 - Content: `slides/` (50 slide images and thumbnails), `files/` (PPTX, PDF, contact sheet, references).
 - Reduced motion, missing scripts and no-JS all fall back to a fully visible static page.
 
+## Presenting in class
+Select **Present** (hero, Slides section, or "Present from here" in the slide viewer). Slides show one at a time on a black stage from 1920 px images.
+
+- Next: Right arrow, Down, Page Down, Space or Enter (most presentation clickers send Page Down / Page Up). Back: Left, Up, Page Up.
+- Type a slide number and press Enter to jump. Home and End go to the first and last slide.
+- F toggles full screen, B or . blanks the screen, N opens the teaching notes, Esc exits.
+- On touch screens, swipe, or tap the left third to go back and anywhere else to go forward.
+- A link such as `/ux-masterclass/#present-12` opens straight into slide 12.
+
 ## Rebuild
 Edit `src/style.css`, `src/body.html` or `src/app.js`, then:
 
