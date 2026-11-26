@@ -2,8 +2,8 @@ import json, os, shutil, subprocess, sys
 from pptx import Presentation
 from PIL import Image
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-SITE = os.path.join(ROOT, 'website')
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'ux-ui-presentation'))
+SITE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 SRC_IMG = sys.argv[1]  # dir with s-NN.jpg
 notes = json.load(open(os.path.join(ROOT, 'source/assets/notes.json')))
 

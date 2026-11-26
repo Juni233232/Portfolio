@@ -19,8 +19,4 @@ Install the free Inter font before presenting. To rebuild: `cd source && npm ins
 `source/audit5.py` checks the .pptx against the Apple design-system rules: no gradient fills, shadows only on device mockups, one typeface family, slide text on the type ramp.
 
 ## Website
-`website/` is a static course site built from the deck: hero with an interactive Gather phone prototype, six outcomes, five unit sections with all 50 topics and assignments, four labs (contrast checker, touch target sizer, Hick's law, SUS calculator), a 50-slide viewer with teaching notes, the design-system summary, downloads, references and verification.
-
-- Open `website/index.html` in a browser, or serve the `website/` folder (for example with GitHub Pages). Downloads are plain links in that mode.
-- `website/artifact.html` is the same page as a fragment for the Claude Artifact viewer, where files are saved through the downloads capability.
-- To rebuild after changing the deck: `python3 website/src/build_data.py <folder of s-NN.jpg renders>` then `python3 website/src/build_site.py`. Page markup lives in `website/src/template.html`.
+The course site now lives at `/ux-masterclass/` in the repository root (live at `/ux-masterclass/` on the portfolio domain). It is built from this deck: preloader, smooth scroll, a pinned sideways journey, split-text reveals, a hover preview on every topic, an interactive Gather prototype, four labs, a 50-slide viewer with teaching notes, downloads, references and verification. See `ux-masterclass/README.md`.
