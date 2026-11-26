@@ -1,95 +1,108 @@
-import json, os, shutil, subprocess, sys
-from pptx import Presentation
+"""Build slide images, slides.json and download files from the course deck PDF.
+
+Usage: python3 src/build_data.py path/to/deck.pdf
+Text (tag, two-part headline, subtitle) is read from the PDF itself. Speaker notes come from
+ux-ui-presentation/source/assets/notes.json, with sentences that described the earlier
+visuals replaced (see NOTE_FIXES).
+"""
+import json, os, re, shutil, subprocess, sys, tempfile
+import pdfplumber
 from PIL import Image
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'ux-ui-presentation'))
-SITE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-SRC_IMG = sys.argv[1]  # dir with s-NN.jpg
-notes = json.load(open(os.path.join(ROOT, 'source/assets/notes.json')))
+HERE = os.path.dirname(os.path.abspath(__file__))
+SITE = os.path.dirname(HERE)
+DECK_SRC = os.path.join(SITE, '..', 'ux-ui-presentation')
+PDF = sys.argv[1]
+PDF_NAME = 'UI-UX-Design-Understanding-the-Experience.pdf'
 
-IDEAS = {
-1:"One product, two screens: a phone and a browser. Gather will follow you through every unit.",
-2:"Six outcomes, from explaining UX and UI to building working mobile and web prototypes.",
-3:"When design works you do not notice it. When it fails, people blame themselves.",
-4:"Five units move from understanding, to strategy, research, craft and testing.",
-5:"UX asks how it works for a person. UI asks how it looks and responds.",
-6:"Design decides whether people finish the task or give up.",
-7:"Usability, usefulness, accessibility, clarity and satisfaction: five questions to ask of any product.",
-8:"Garrett's planes: Strategy, Scope, Structure, Skeleton, Surface. Decide the abstract first.",
-9:"Jakob, Fitts, Hick, Miller, Doherty and Peak-End: psychology you can apply on a screen.",
-10:"Discover, define, design, develop, test, launch and learn: UX has a job at every stage.",
-11:"A T-shaped designer goes deep in one skill and stays curious about the rest.",
-12:"Every confusing step loses some people. An illustrative funnel shows where.",
-13:"Audit an existing app: features, users, intentions, strengths and weaknesses, with evidence.",
-14:"Universal, inclusive and equity-focused design: three ways to open the door.",
-15:"Users need to succeed and the business needs to sustain. Good products serve both.",
-16:"Disability can be permanent, temporary or situational. Design can disable anyone.",
-17:"Five checks: readable text, contrast, keyboard, labels and touch targets.",
-18:"Empathise, define, ideate, prototype, test. Expect to loop back.",
-19:"Diverge to generate many options, then converge to choose with reasons.",
-20:"Map, sketch, decide, prototype, test: five days from question to evidence.",
-21:"Compare the same tasks across products to find gaps and chances.",
-22:"Assignment 2: find disadvantages, analyse competitors, propose solutions.",
-23:"A storyboard shows the sequence. A mood board sets tone and feeling.",
-24:"A journey map follows one person through a task, including how they feel.",
-25:"Process, functional, financial and support pain points. Fixing one often helps many people.",
-26:"A user flow shows steps and decisions from start to success, here for registering.",
-27:"Attitudinal or behavioural, qualitative or quantitative: pick the method that answers your question.",
-28:"An empathy map captures what people say, think, do and feel.",
-29:"Group users by behaviour, then write one persona grounded in what you found.",
-30:"Usability testing, heuristic review and field testing each catch different problems.",
-31:"Assignment 3: plan research, recruit, segment users and write a persona.",
-32:"Scale, contrast and weight tell people what matters first.",
-33:"Keep patterns consistent so the product feels like one thing, then vary with purpose.",
-34:"Type, colour, icons and layout are four decisions that shape every screen.",
-35:"Proximity, similarity, continuity, closure, figure-ground and common region.",
-36:"Early on sketches, in the middle on prototypes, late on the live product.",
-37:"A teaching read of a familiar music app home screen. Observations to test, not facts.",
-38:"A user story, its acceptance criteria and a use case, all written from the user's side.",
-39:"Group, label and link content so people can find it without thinking.",
-40:"Assignment 4: choose a method, map a flow, then wireframe at two fidelities.",
-41:"Name the problem, then state a hypothesis you can actually test.",
-42:"Map direct, indirect and alternative competitors, and spot four deceptive patterns.",
-43:"Low fidelity is fast and cheap to change. High fidelity looks real and tests detail.",
-44:"Four mobile screens carry Gather registration: home, detail, form, success.",
-45:"The same task redesigned for a wide screen with a different layout.",
-46:"Prototypes test behaviour: can a person finish the task?",
-47:"Give people real tasks, watch quietly, and record what happens.",
-48:"Critique with I like, I wish, What if. Prioritise by impact and effort, then iterate.",
-49:"Assignment 5, the capstone: wireframes, prototype, test, document and revise.",
-50:"From idea to experience: the whole process in one loop.",
+
+def clean(s):
+    return re.sub(r'\s+', ' ', s.replace('ﬁ', 'fi').replace('ﬂ', 'fl')).strip()
+
+
+def text_of(chars):
+    chars = sorted(chars, key=lambda c: (round(c['top'] / 4), c['x0']))
+    s, prev = '', None
+    for c in chars:
+        if prev is not None and (abs(c['top'] - prev['top']) > 3 or c['x0'] - prev['x1'] > c['size'] * .18):
+            s += ' '
+        s += c['text']
+        prev = c
+    return clean(s)
+
+
+# Headlines where tile words are set larger than the headline, read by eye from the slides
+TITLE_FIX = {1: ['UI/UX Design', 'Understanding the Experience'], 3: ['Everyday', 'Design Problems'],
+             6: ['Design', 'Decides'], 11: ['UX Design', 'Roles'], 28: ['Say. Think.', 'Do. Feel.']}
+SUB_FIX = {1: 'SVCB3003 UI and UX Design, a Visual Communication course. One product, Gather, follows you through every unit.',
+           30: 'Use a method that fits your people, setting and decision.'}
+TAG_FIX = {1: 'Course introduction'}
+
+# Note sentences that described visuals from the earlier deck design
+NOTE_FIXES = {
+    1: [("Point to the cover: the phone and the browser window are the same product, a university event registration platform we will call Gather.",
+         "Introduce the running example: a university event registration platform we will call Gather, designed for both phone and web.")],
+    6: [("The three schematic screens on the right show moments where UX is felt.",
+         "The three words on the right sum up what good design gives each group: clarity for people, trust for organisations and access for society.")],
+    10: [("Bottom row shows what Gather would produce at each stage.", "Each row gives one Gather example of UX work at that stage.")],
+    13: [("The hypothetical audit card on this slide shows the level of detail expected; the format and length of submission are set by the instructor.",
+          "Show one worked example of your own to set the level of detail expected; the format and length of submission are set by the instructor.")],
+    17: [("The ratios in the contrast card are calculated from this deck's own palette. ", ""),
+         ("Notice that white text on our electric blue reaches only 4.36:1, so we use it only for large, bold labels and use a deeper blue for small text.",
+          "Measure contrast with a checker rather than by eye: light grey text on white often looks fine but falls below the minimum.")],
+    18: [("The return arrow on the slide represents that loop, and you can jump to any stage when needed.",
+          "The slide states the rule: return to any stage as the evidence changes."),
+         ("The Gather row shows one small example per stage.", "Each row gives one small Gather example per mode.")],
+    22: [("The mini grid on this slide is a hypothetical illustration of format.",
+          "If you show an example grid, label it as a hypothetical illustration of format.")],
+    44: [("Check the screens against your flow and run the checklist on the right before moving to prototyping.",
+          "Check the screens against your flow before moving to prototyping.")],
 }
 
-def sanitize(s): return s.replace('—', ',').replace('–','-')
-
-pres = Presentation(os.path.join(ROOT, 'UX-UI-Design-Understanding-the-Experience.pptx'))
+notes = json.load(open(os.path.join(DECK_SRC, 'source/assets/notes.json')))
+pdf = pdfplumber.open(PDF)
 slides = []
-for i, s in enumerate(pres.slides, 1):
-    eb = ti = ''
-    for sh in s.shapes:
-        if sh.is_placeholder and sh.has_text_frame:
-            ty = str(sh.placeholder_format.type); t = sh.text_frame.text.strip().replace('\n', ' ')
-            if 'TITLE' in ty or 'CENTER' in ty: ti = t
-            elif 'BODY' in ty and not eb: eb = t
-    if i == 1: ti = 'UI/UX Design: Understanding the Experience'
-    slides.append({'n': i, 'eyebrow': eb.title() if False else eb, 'title': ti, 'idea': IDEAS[i], 'notes': sanitize(notes[str(i)])})
+for i, pg in enumerate(pdf.pages, 1):
+    ch = [c for c in pg.chars if c['text'].strip()]
+    tag = text_of([c for c in ch if 8.5 <= c['size'] <= 9.5 and c['top'] < 40])
+    big = max(c['size'] for c in ch if c['top'] < 200)
+    title = [c for c in ch if abs(c['size'] - big) < 1 and c['top'] < 200]
+    cols = {}
+    for c in title:
+        cols.setdefault(str(c['non_stroking_color']), []).append(c)
+    parts = [text_of(p) for p in sorted(cols.values(), key=lambda cs: min(c['top'] for c in cs))]
+    sub = text_of([c for c in ch if 12.5 <= c['size'] <= 13.5])
+    parts = TITLE_FIX.get(i, parts)
+    note = notes[str(i)].replace('—', ',').replace('–', '-')
+    for a, b in NOTE_FIXES.get(i, []):
+        assert a in note, (i, a[:40])
+        note = note.replace(a, b)
+    slides.append({'n': i, 'tag': TAG_FIX.get(i, tag), 't1': parts[0], 't2': ' '.join(parts[1:]),
+                   'title': ' '.join(parts), 'idea': SUB_FIX.get(i, sub), 'notes': note})
+assert len(slides) == 50
+json.dump(slides, open(os.path.join(HERE, 'slides.json'), 'w'), ensure_ascii=False, indent=0)
 
-# images
-os.makedirs(os.path.join(SITE, 'slides'), exist_ok=True)
+# slide images: 1280 px for the viewer, 480 px thumbnails
+tmp = tempfile.mkdtemp()
+subprocess.run(['pdftoppm', '-png', '-scale-to', '1280', PDF, os.path.join(tmp, 's')], check=True)
+out = os.path.join(SITE, 'slides')
+os.makedirs(out, exist_ok=True)
 for i in range(1, 51):
-    im = Image.open(os.path.join(SRC_IMG, f's-{i:02d}.jpg')).convert('RGB')
-    w = 1280; h = round(im.height * w / im.width)
-    im.resize((w, h), Image.LANCZOS).save(os.path.join(SITE, 'slides', f'{i:02d}.jpg'), quality=80, optimize=True, progressive=True)
-    w = 480; h = round(im.height * w / im.width)
-    im.resize((w, h), Image.LANCZOS).save(os.path.join(SITE, 'slides', f'{i:02d}-t.jpg'), quality=78, optimize=True)
+    im = Image.open(os.path.join(tmp, f's-{i:02d}.png')).convert('RGB')
+    im.save(os.path.join(out, f'{i:02d}.jpg'), quality=84, optimize=True, progressive=True)
+    t = im.resize((480, round(im.height * 480 / im.width)), Image.LANCZOS)
+    t.save(os.path.join(out, f'{i:02d}-t.jpg'), quality=80, optimize=True)
 
-# downloads
-os.makedirs(os.path.join(SITE, 'files'), exist_ok=True)
-for f in ['UX-UI-Design-Understanding-the-Experience.pptx', 'UX-UI-Design-Understanding-the-Experience.pdf',
-          'References-and-Verification-Notes.docx', 'References-and-Verification-Notes.md']:
-    shutil.copy(os.path.join(ROOT, f), os.path.join(SITE, 'files', f))
-Image.open(os.path.join(ROOT, 'UX-UI-Design-contact-sheet.png')).convert('RGB').save(
-    os.path.join(SITE, 'files', 'UX-UI-Design-contact-sheet.jpg'), quality=85, optimize=True)
-
-json.dump(slides, open(os.path.join(SITE, 'src', 'slides.json'), 'w'), ensure_ascii=False, indent=0)
-print('ok', len(slides))
+# contact sheet
+ims = [Image.open(os.path.join(out, f'{i:02d}-t.jpg')) for i in range(1, 51)]
+w, h = ims[0].size
+cols, g = 5, 16
+sheet = Image.new('RGB', (cols * w + (cols + 1) * g, 10 * h + 11 * g), '#d7d7d7')
+for k, im in enumerate(ims):
+    sheet.paste(im, (g + (k % cols) * (w + g), g + (k // cols) * (h + g)))
+files = os.path.join(SITE, 'files')
+os.makedirs(files, exist_ok=True)
+sheet.save(os.path.join(files, 'UI-UX-Design-contact-sheet.jpg'), quality=86, optimize=True)
+shutil.copy(PDF, os.path.join(files, PDF_NAME))
+shutil.rmtree(tmp)
+print('slides', len(slides))
