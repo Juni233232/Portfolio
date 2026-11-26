@@ -97,13 +97,41 @@ nav {
   padding-top:calc(24px + env(safe-area-inset-top));
   transition:padding .4s, background .4s;
 }
-nav.scrolled {
-  background:rgba(10,10,9,.8);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  padding:16px 48px;
-  border-bottom:1px solid var(--border);
+#nav-bar {
+  background:rgba(10,10,9,.34);
+  -webkit-backdrop-filter:blur(22px) saturate(180%);
+  backdrop-filter:blur(22px) saturate(180%);
+  border-bottom:1px solid rgba(240,237,228,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+  transition:padding .4s, background .5s, border-color .5s, box-shadow .5s;
 }
+nav.scrolled {
+  background:rgba(10,10,9,.58);
+  padding:16px 48px;
+  border-bottom:1px solid rgba(240,237,228,.12);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06), 0 12px 32px rgba(0,0,0,.25);
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
+  #nav-bar { background:rgba(10,10,9,.92); }
+}
+.nav-r { display:flex; align-items:center; gap:18px; }
+.nav-course {
+  display:inline-flex; align-items:center; gap:8px; min-height:40px; padding:0 16px;
+  border-radius:999px; border:1px solid rgba(240,237,228,.28);
+  font-size:12px; font-weight:600; letter-spacing:.4px; color:var(--cream);
+  background:rgba(240,237,228,.06);
+  transition:background .35s var(--ease), color .35s, border-color .35s, transform .35s var(--ease);
+}
+.nav-course i { width:6px; height:6px; border-radius:50%; background:var(--sand); animation:navPulse 2.2s ease-in-out infinite; }
+@keyframes navPulse { 50% { transform:scale(1.8); opacity:.35; } }
+.nav-course:hover { background:var(--cream); color:var(--ink); border-color:var(--cream); transform:translateY(-1px); }
+.nav-course:focus-visible { outline:1px solid var(--sand); outline-offset:3px; }
+@media (prefers-reduced-motion:reduce) { .nav-course i { animation:none; } }
+#nav-bar { column-gap:12px; }
+.nav-course, #nav-bar .logo { white-space:nowrap; }
+.lbl-short { display:none; }
+@media (max-width:380px) { #nav-bar .logo { font-size:16px; } .nav-course { padding:0 12px !important; } .nav-course i { display:none; } .lbl-full { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); } .lbl-short { display:inline; } }
+@media (max-width:480px) { .nav-r { gap:12px; } .nav-course { font-size:11px; padding:0 12px; gap:6px; min-height:36px; letter-spacing:0; } }
 .logo {
   font-family:var(--ser); font-size:18px; font-style:italic;
   color:var(--cream); letter-spacing:-.5px;
@@ -151,6 +179,7 @@ nav.scrolled {
 #mn.on .mn-item:nth-child(2){ transition-delay:.11s; }
 #mn.on .mn-item:nth-child(3){ transition-delay:.17s; }
 #mn.on .mn-item:nth-child(4){ transition-delay:.23s; }
+#mn.on .mn-item:nth-child(5){ transition-delay:.29s; }
 .mn-item:hover { color:var(--sand); font-style:italic; }
 .mn-item:focus-visible { outline:1px solid var(--sand); }
 .mn-foot {
@@ -457,6 +486,8 @@ nav.scrolled {
 
 .cover-end   { background:linear-gradient(135deg, #0d1020 0%, #24173b 52%, #0a0a09 100%); }
 .cover-mun   { background:linear-gradient(135deg, #1c0e12 0%, #3b1b1f 50%, #0a0a09 100%); }
+.cover-ux    { background:linear-gradient(135deg, #0b1233 0%, #2a2160 52%, #0a0a09 100%); }
+.cover-ux .cover-device { border-color:rgba(200,185,255,.5); }
 
 /* MUN cover layout fix — rein in the large metric + h4 so all three
    flex rows fit within the space-between container on every viewport */
@@ -781,16 +812,20 @@ footer {
   <a href="#top" class="logo" aria-label="Back to top">
     Arjun Swaminathan<sup>®</sup>
   </a>
-  <button id="mbtn" aria-label="Open navigation" aria-expanded="false" aria-controls="mn">
-    <span id="ms1"></span>
-    <span id="ms2"></span>
-  </button>
+  <div class="nav-r">
+    <a class="nav-course" href="ux-masterclass/"><i aria-hidden="true"></i><span class="lbl-full">UX Masterclass</span><span class="lbl-short" aria-hidden="true">UX Course</span> <span aria-hidden="true">↗</span></a>
+    <button id="mbtn" aria-label="Open navigation" aria-expanded="false" aria-controls="mn">
+      <span id="ms1"></span>
+      <span id="ms2"></span>
+    </button>
+  </div>
 </nav>
 
 <!-- ── FULLSCREEN MENU ── -->
 <nav id="mn" role="dialog" aria-label="Site navigation" aria-modal="true" aria-hidden="true">
   <a href="#top"     class="mn-item" tabindex="-1">Home</a>
   <a href="#work"    class="mn-item" tabindex="-1">Work</a>
+  <a href="ux-masterclass/" class="mn-item" tabindex="-1">UX Masterclass ↗</a>
   <a href="#about"   class="mn-item" tabindex="-1">About</a>
   <a href="#contact" class="mn-item" tabindex="-1">Contact</a>
   <div class="mn-foot">
@@ -868,7 +903,7 @@ footer {
 <section id="work" aria-label="Featured work">
   <div class="work-hd rv">
     <h2>Featured <em>Works©</em></h2>
-    <span class="work-hd-r">(02 projects)</span>
+    <span class="work-hd-r">(03 projects)</span>
   </div>
 
   <a class="proj rv" href="https://endtainment.framer.website/" target="_blank" rel="noopener noreferrer" aria-label="Open EN/D Event Framer prototype project link">
@@ -919,6 +954,33 @@ footer {
         <div class="cover-metric">
           <strong>521K</strong>
           <span>organic reach</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a class="proj rv" href="ux-masterclass/" aria-label="Open the UX Masterclass course website">
+    <div class="proj-info">
+      <p class="proj-num">(03)</p>
+      <div class="proj-body">
+        <span class="proj-tag">Course · Web</span>
+        <h3 class="proj-title">UX Masterclass — SVCB3003 Course Site</h3>
+        <p class="proj-desc">50-slide UI and UX course with interactive labs, a live Gather prototype and editorial scroll motion.</p>
+        <span class="proj-arrow" aria-hidden="true">↗</span>
+      </div>
+    </div>
+    <div class="proj-img" aria-hidden="true">
+      <div class="proj-cover cover-ux">
+        <div class="cover-meta"><span>Case 03</span><span>50 slides</span></div>
+        <div class="cover-end-row">
+          <div class="cover-stack">
+            <span class="cover-pill">Course site</span>
+            <h4>UX Masterclass</h4>
+            <p>Five units · Four labs · Live prototype</p>
+          </div>
+          <div class="cover-device">
+            <span></span>
+          </div>
         </div>
       </div>
     </div>

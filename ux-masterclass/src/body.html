@@ -66,7 +66,7 @@
     </div>
   </div>
   <div class="wrap">
-    <ul class="stats" data-hero aria-label="Course at a glance">
+    <ul class="stats" data-hero data-stagger aria-label="Course at a glance">
       <li class="stat"><b data-count="45">45</b><span>Instructional hours</span></li>
       <li class="stat"><b data-count="5">5</b><span>Units</span></li>
       <li class="stat"><b data-count="50">50</b><span>Slides</span></li>
@@ -101,7 +101,7 @@
       <p class="eyebrow" style="color:var(--mute)" data-rv>The learning journey</p>
       <h2 class="h2" data-split>Five units. One continuous <em>process.</em></h2>
     </div>
-    <p class="note" style="max-width:260px;color:var(--mute)" data-rv>Scroll sideways through the course. Select a unit to jump to its topics.</p>
+    <p class="note" id="jNote" style="max-width:260px;color:var(--mute)" data-rv>Scroll sideways through the course. Select a unit to jump to its topics.</p>
   </div>
   <div class="hs-track" id="hsTrack"></div>
   <div class="hs-bar" aria-hidden="true"><i id="hsBar"></i></div>
@@ -122,7 +122,7 @@
           <p>WCAG asks for 4.5:1 on body text and 3:1 on large text and interface parts.</p>
         </div>
         <div class="body">
-          <div class="chips" id="presets" role="group" aria-label="Colour presets"></div>
+          <div class="chips" id="presets" role="group" aria-label="Colour presets" data-stagger></div>
           <div class="row2">
             <div class="field"><label for="fgHex">Text colour</label><div class="pair"><input type="color" id="fgPick" aria-label="Pick text colour"><input type="text" id="fgHex" maxlength="7" autocomplete="off" spellcheck="false"></div></div>
             <div class="field"><label for="bgHex">Background</label><div class="pair"><input type="color" id="bgPick" aria-label="Pick background colour"><input type="text" id="bgHex" maxlength="7" autocomplete="off" spellcheck="false"></div></div>
@@ -177,7 +177,7 @@
 
       <article class="card spot lab full" data-rv aria-label="System Usability Scale statements" style="min-height:0">
         <div class="sus-scale" aria-hidden="true"><span>1 Strongly disagree</span><span>5 Strongly agree</span></div>
-        <div class="sus" id="sus"></div>
+        <div class="sus" id="sus" data-stagger></div>
       </article>
     </div>
   </div>
@@ -188,7 +188,7 @@
     <p class="eyebrow" data-rv>The full deck</p>
     <h2 class="h2" data-split>All 50 slides. With teaching <em>notes.</em></h2>
     <p class="lede" data-rv>Open any slide. Use the arrow keys to move and Escape to close.</p>
-    <div class="gal-bar" id="galBar" role="group" aria-label="Filter slides"></div>
+    <div class="gal-bar" id="galBar" role="group" aria-label="Filter slides" data-stagger></div>
     <div class="grid" id="grid"></div>
   </div>
 </section>
@@ -207,9 +207,9 @@
         <ul><li>Contrast of 4.5:1 for small text, 3:1 for large text.</li><li>Touch targets of at least 44 px.</li><li>Meaning is never carried by colour alone.</li><li>Visible labels, keyboard support and clear focus rings.</li></ul></article>
     </div>
     <h3 class="sub" data-rv>Palette</h3>
-    <div class="pal" id="pal" data-rv></div>
+    <div class="pal" id="pal" data-stagger></div>
     <h3 class="sub" data-rv>Contrast, computed</h3>
-    <ul class="pairs" id="pairs" data-rv></ul>
+    <ul class="pairs" id="pairs" data-stagger></ul>
   </div>
 </section>
 
@@ -267,7 +267,7 @@
   <div class="marq big" aria-hidden="true" id="marqB"><div class="marq-in">
     <span>Understand</span><i>✦</i><span>Empathise</span><i>✦</i><span>Prototype</span><i>✦</i><span>Test</span><i>✦</i>
   </div></div>
-  <div class="wrap foot-base"><span>SVCB3003 UI &amp; UX Design. Gather is a fictional product.</span><span>Deck and site generated with Claude.</span></div>
+  <div class="wrap foot-base" data-rv><span>SVCB3003 UI &amp; UX Design. Gather is a fictional product.</span><span>Deck and site generated with Claude.</span></div>
 </footer>
 
 <div class="vw" id="vw" aria-hidden="true">
