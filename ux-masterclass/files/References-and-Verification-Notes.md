@@ -43,28 +43,23 @@ References and verification notes for the SVCB3003 UI & UX Design presentation (
 # 4. Content integrity notes
 
 - No research findings, quotations, statistics or case-study results have been invented. Items that look like data are labelled as illustrative or hypothetical on the slide: the registration funnel shape (12), competitor ratings (21), the Aisha journey map, empathy map and persona (24, 28, 29), the issue matrix (48), the empty results log (47), and the "4 of 5 participants" success criterion (41), which is a planned criterion, not a result.
-- Contrast ratios on slide 17 are computed from this deck's own palette.
 - Familiar products (maps, chat, music apps) are shown as original simplified schematics for teaching, not official artwork. Observations on slide 37 are interpretations to test, not proven facts.
 - The six learning outcomes on slide 2 are written to match the brief; align the wording with the official course outline if it differs.
 - The "Gather" event registration platform and all its screens are original illustrations.
 
 # 5. Fonts
 
-The deck is set in Inter (free, from rsms.me/inter or Google Fonts). Install Inter before presenting so the layout matches the PDF exactly; otherwise PowerPoint substitutes another font and text may reflow.
+The current deck (Google Slides export, 50 pages, 720 x 405 pt) is set entirely in Anton, a free condensed typeface from Google Fonts, with Arial embedded as a fallback. Install Anton before editing a copy of the deck so text does not reflow.
 
+# 6. Design language of the current deck
 
-# 6. Design language
+- Monochrome: ink #080808, white #FFFFFF and tile grey #D7D7D7. Colour appears only inside the Gather mockups.
+- Condensed Anton headlines in two tones: the first line in ink, the second in light grey (#CDCDCD).
+- Grey rounded tiles with white pill labels, a three-dot marker and a pill tag on each slide, and the course code with slide number at top right.
+- Accessibility note: the light grey second line measures about 1.6:1 against white, below the WCAG 3:1 minimum for large text (SC 1.4.3). It reads as decoration rather than content, but if the second line carries meaning, a darker grey such as #6E6E6E (about 5:1) keeps the two-tone look and passes. The course website uses that darker grey.
+- An earlier version of the deck in an Apple-inspired style (Inter, electric blue, lavender) remains in the repository as a PowerPoint file with its generator source. It covers the same 50 topics in the same order.
 
-- The deck follows Apple's published design principles: clarity (legible type, restrained ornament), deference (the interface supports the content) and depth (layering, soft shadows, translucent materials). Source: Apple Human Interface Guidelines, Design principles (developer.apple.com/design/human-interface-guidelines).
-- Apple-style conventions used: large two-tone headlines with tight tracking, one accent blue, generous whitespace, large rounded bento tiles, frosted-glass panels, glow backgrounds on dark slides and a calm light/dark rhythm. These are design-language conventions observed on apple.com and keynotes, not Apple specifications.
-- Inter is used as the typeface because it is free and widely available; Apple's own SF Pro is not freely redistributable. To use SF Pro, change the two font names in source/lib.js (THEME) and rebuild.
-- Spacing system: 0.9 in side margins, 12-column grid with 0.3 in gutters, tile corner radius 0.3 in, content zone 4 in tall under a two-line headline.
+# 7. Course website
 
-# 7. Design-system compliance (Apple design skills)
-
-- Design-system rules applied (from rukkiecodes/claude-apple-design-system, built on getdesign.md/apple): one accent only; no shadows on cards, tiles or text; no decorative gradients; weights 400/600/700 only (500 never used); hairline 1 px card borders; a fixed type ramp (11, 13, 15, 17, 20, 28, 40, 56, 80 pt for slide text); a fixed corner-radius scale with pills for action-like controls; sections divided by surface change (white, off-white, charcoal, lavender).
-- The single allowed shadow is the soft drop under product imagery, applied only to the phone and browser mockups (19 shapes). Verified by source/audit5.py: 0 gradient fills, 19 shadows, one typeface family.
-- Palette decision: the course palette (charcoal, warm off-white, electric blue, lavender, grey) is kept as the token set. Electric blue is the one accent; lavender is a tint of it, not a second accent. Red, green and amber appear only for state (pass or fail, problem, status). Small blue text uses the deeper blue (6.7:1 on white) and small white-on-blue text avoids the lighter blue (4.36:1).
-- Apple HIG reviewer checks (dickwu/apple-design-skill, citing accessibility.md, typography.md and writing.md): minimum text size 11 pt for slide text, contrast 4.5:1 for text up to 17 pt, nothing conveyed by colour alone (pass/fail marks carry icons), sentence-case labels, verb-led button labels, no possessive-pronoun clutter. The skill also flags big-number-over-small-label hero patterns and numbered markers on non-sequences, so the oversized assignment numerals and the 1 to 5 numbering on the accessibility checks were removed.
-- Fluid-interfaces skill (emilkowalski/skills, apple-design): typography guidance applied (tight tracking on large headlines, near-zero on body, positive tracking only on small caps labels, tighter leading on headlines). Its gesture, spring and interruptible-animation rules apply to interactive web interfaces and were not applicable to a static deck.
-- Known trade-offs: PowerPoint cannot draw continuous (squircle) corners or true background blur, so large rounded corners and solid dark tiles stand in. Headlines use weight 700 (the adapted skill) rather than Apple's 600 so they stay safe if "Inter SemiBold" is not installed; labels and emphasis under 20 pt use "Inter SemiBold" and fall back to the default font if that face is missing.
+- The website shows the current deck's slides, headlines and subtitles, read directly from the PDF.
+- Speaker notes come from the earlier deck, which follows the same slide order. Sentences that described visuals no longer on the slides were rewritten (slides 1, 6, 10, 13, 17, 18, 22 and 44).

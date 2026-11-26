@@ -13,61 +13,53 @@ const ANIM=HAS&&!RM;
 let lenis=null;
 let revealNew=()=>{},animateNumber=(el,to,d,fmt)=>{el.dataset.v=to;el.textContent=fmt?fmt(to):Math.round(to)};
 
-/* ================= DATA ================= */
+/* ================= DATA (from the SVCB3003 deck) ================= */
 const OUTCOMES=[
- ['Unit 1','Explain what UX and UI are, and why both matter'],
- ['Units 1 and 2','Apply UX laws and accessibility practice'],
- ['Unit 2','Plan with design thinking and sprints'],
- ['Unit 3','Research users and build personas'],
- ['Unit 4','Use hierarchy, Gestalt, type and colour'],
+ ['Explain UX and UI','Understand the difference and why both matter.','Unit 1'],
+ ['Apply UX laws','Use psychology and accessibility in practical decisions.','Units 1 and 2'],
+ ['Plan the work','Use design thinking and design sprints.','Unit 2'],
+ ['Research users','Gather evidence and create personas.','Unit 3'],
+ ['Design the interface','Apply hierarchy, Gestalt, type and colour.','Unit 4'],
+ ['Make prototypes','Build and test mobile and web wireframes.','Units 4 and 5'],
 ];
-const CAPSTONE=['Units 4 and 5','Create mobile and web wireframes and working prototypes'];
 const GROUPS=[
- {id:'u0',tag:'Start here',name:'Welcome',line:'Why design matters, what you will learn, and how the five units fit together.',from:1,to:4},
- {id:'u1',unit:1,tag:'Unit 1',name:'Introduction of UX/UI design',line:'What UX and UI are, why they matter, and the planes and laws that explain good experiences.',from:5,to:12,a:13,
-  steps:[['Choose an existing application','Pick an app you can screenshot and use freely.'],['Identify its key features','List what it lets people do, screen by screen.'],['Describe the intended users','Who is it for? What goals and contexts?'],['Infer the design intentions','What problem is each choice solving?'],['Evaluate strengths and weaknesses','Support every judgement with evidence.']],
-  brief:'Look closely at one existing product, as a designer would. Back every judgement with evidence from the interface.'},
- {id:'u2',unit:2,tag:'Unit 2',name:'A strategy plan',line:'Design for everyone with accessibility, design thinking, sprints and competitive analysis.',from:14,to:21,a:22,
-  steps:[['Identify disadvantages in a product','Usability problems and unmet needs, with evidence.'],['Select relevant competitors','Direct rivals and indirect alternatives.'],['Perform a competitor analysis','Compare the same tasks on every product.'],['Find problems and opportunities','Where all fail users, where one excels.'],['Propose creative, user-focused solutions','Explain which user problem each solves.']],
-  brief:'Turn analysis of existing products into new, user-focused ideas. Start from evidence, not opinion.'},
- {id:'u3',unit:3,tag:'Unit 3',name:'Applied design fundamentals',line:'Understand people with storyboards, journeys, flows, research methods, empathy and personas.',from:23,to:30,a:31,
-  steps:[['Create a user research plan',''],['Recruit respondents',''],['Prepare questions and task scenarios',''],['Record the answers',''],['Segment users into high, moderate and low groups','Write the criteria before you recruit.'],['Develop a persona from the findings','Every goal and quote must trace to evidence.']],
-  brief:'Plan, run and analyse your own research. Evidence first, and no invented quotes.'},
- {id:'u4',unit:4,tag:'Unit 4',name:'Emphasis in UX design',line:'Make it clear with hierarchy, unity, type, colour, Gestalt, evaluation, stories and structure.',from:32,to:39,a:40,
-  steps:[['Choose a method','Card sorting, user flow, journey or route map.'],['Create a route map or user flow','Show the main task path and key decisions.'],['Design low-fidelity wireframes','Layout and priority in greys. Fast to change.'],['Design high-fidelity wireframes','Add type, colour, imagery and real content.'],['Walk through your own flow','Check that every screen supports the path.']],
-  brief:'Structure your idea, then design it at two levels of fidelity. Trace every wireframe back to a step in your flow.'},
- {id:'u5',unit:5,tag:'Unit 5',name:'User testing',line:'Prove it works with hypotheses, wireframes, prototypes, usability tests and iteration.',from:41,to:48,a:49,
-  steps:[['Create low- and high-fidelity wireframes','Mobile and web, for your proposed experience.'],['Build an interactive prototype','Link screens, add transitions and key states.'],['Conduct usability testing','Recruit users, set tasks, observe and measure.'],['Document your findings','Tasks, measures, observations and issues.'],['Revise the design from the evidence','Show which finding caused each change.']],
-  brief:'The capstone: build, test and revise a complete experience. A modest real test beats a polished fake one.'},
- {id:'u6',tag:'Wrap up',name:'From idea to experience',line:'The whole process in one loop.',from:50,to:50},
+ {id:'u0',tag:'Start here',name:'Welcome',desc:'Before the units',line:'Why design matters, what you will learn, and how the five units fit together.',from:1,to:4},
+ {id:'u1',unit:1,name:'Understand',desc:'Introduction to UX/UI design',line:'What UX and UI are, why they matter, and the planes and laws that explain good experiences.',from:5,to:12,a:13,
+  steps:[['Choose an app','Pick one you can use freely and screenshot.'],['List its features','What can someone do on each screen?'],['Describe the users','Who is it for? What are their goals and contexts?'],['Infer the intent','Which problem does each design choice solve?'],['Evaluate','Support strengths and weaknesses with evidence.']]},
+ {id:'u2',unit:2,name:'Plan',desc:'A strategy plan',line:'Design for everyone with accessibility, design thinking, sprints and competitive analysis.',from:14,to:21,a:22,
+  steps:[['Identify problems','Document usability problems and unmet needs.'],['Select competitors','Include direct competitors and indirect alternatives.'],['Compare tasks','Test the same tasks across all products.'],['Identify opportunities','Show where every product fails or one excels.'],['Propose solutions','Explain what user problem each idea solves.']]},
+ {id:'u3',unit:3,name:'Research',desc:'Applied design fundamentals and personas',line:'Understand people with storyboards, journeys, flows, research methods, empathy and personas.',from:23,to:30,a:31,
+  steps:[['Make a plan','Decide what you need to learn.'],['Recruit respondents','Find people relevant to the experience.'],['Write the protocol','Prepare questions and task scenarios.'],['Record answers','Document what people actually say and do.'],['Segment users','Define high, moderate and low engagement.'],['Build a persona','Base it on the findings.']]},
+ {id:'u4',unit:4,name:'Design',desc:'Emphasis in UX design, flows and wireframes',line:'Make it clear with hierarchy, unity, type, colour, Gestalt, evaluation, stories and structure.',from:32,to:39,a:40,
+  steps:[['Choose a method','Card sort, user flow, journey or route map.'],['Draw the path','Show the main task and key decisions.'],['Design low-fi','Explore layout and priority in greys.'],['Design high-fi','Add type, colour, imagery and real content.'],['Walk the flow','Check that every screen supports the path.']]},
+ {id:'u5',unit:5,name:'Test',desc:'Prototype, test and revise',line:'Prove it works with hypotheses, wireframes, prototypes, usability tests and iteration.',from:41,to:48,a:49,
+  steps:[['Wireframe','Create low- and high-fidelity mobile and web wireframes.'],['Prototype','Link screens, transitions and key interaction states.'],['Test with users','Recruit, assign tasks, observe and measure.'],['Document findings','Record tasks, measures, observations and issues.'],['Revise','Show which finding led to each change.']]},
+ {id:'u6',tag:'Wrap up',name:'Conclusion',desc:'From idea to experience',line:'The whole process in one loop, from research to a working prototype.',from:50,to:50},
 ];
 const byN=n=>SLIDES[n-1];
-function topic(s){if(s.n===1)return 'Course introduction';
-  let t=s.eyebrow.replace(/^(UNIT \d\s+·\s+|CONCLUSION\s+·\s+)/,'').toLowerCase();
-  t=t.charAt(0).toUpperCase()+t.slice(1);
-  return t.replace(/\bux\b/gi,'UX').replace(/\bui\b/gi,'UI').replace(/\bwcag\b/gi,'WCAG')}
+const twoTone=s=>`${esc(s.t1)}${s.t2?` <em>${esc(s.t2)}</em>`:''}`;
 
 /* ================= RENDER ================= */
-$('#outcomeCards').innerHTML=OUTCOMES.map((o,i)=>`<article class="card spot" data-rv><div style="display:flex;justify-content:space-between;align-items:baseline"><span class="n">${pad(i+1)}</span><span class="tag">${esc(o[0])}</span></div><p>${esc(o[1])}</p></article>`).join('')+
- `<article class="card spot capstone" data-rv><div style="display:grid;gap:14px"><div style="display:flex;gap:16px;align-items:baseline"><span class="n">06</span><span class="tag">${CAPSTONE[0]} · capstone</span></div><p>${CAPSTONE[1]}</p></div><button class="btn" type="button" data-open="49" data-mag><span>See the capstone</span></button></article>`;
+$('#outcomeCards').innerHTML=OUTCOMES.slice(0,5).map((o,i)=>`<article class="card spot out" data-rv><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span class="pill">${esc(o[0])}</span><span class="n">${pad(i+1)}</span></div><div><p class="ct" style="margin:0;color:inherit">${esc(o[1])}</p><p>${esc(o[2])}</p></div></article>`).join('')+
+ `<article class="card spot capstone" data-rv><div style="display:grid;gap:16px"><div style="display:flex;gap:14px;align-items:center"><span class="pill">${esc(OUTCOMES[5][0])}</span><span class="n">06 · capstone</span></div><p class="ct" style="margin:0;font:400 clamp(28px,3vw,44px)/1.02 var(--display);color:#fff">${esc(OUTCOMES[5][1])}</p><p style="margin:0">${esc(OUTCOMES[5][2])}. Practised in the final assignment.</p></div><button class="btn" type="button" data-open="49" data-mag><span>See the capstone</span></button></article>`;
 
-$('#hsTrack').innerHTML=GROUPS.filter(g=>g.unit).map(g=>`<button class="pan" type="button" data-jump="${g.id}" data-cursor="Open" data-rv><div class="pan-t"><span class="pan-big" aria-hidden="true">U${g.unit}</span><div><h3>${esc(g.name)}</h3><p>${esc(g.line)}</p><span class="more">${g.to-g.from+1} topics and an assignment <span aria-hidden="true">→</span></span></div></div><div class="pan-i" data-clip><img loading="lazy" decoding="async" width="1280" height="720" alt="" src="slides/${pad(g.from)}.jpg"></div></button>`).join('');
+$('#hsTrack').innerHTML=GROUPS.filter(g=>g.unit).map(g=>`<button class="pan" type="button" data-jump="${g.id}" data-cursor="Open" data-rv><div class="pan-t"><span class="pan-big" aria-hidden="true">0${g.unit}</span><div><h3>${esc(g.name)}<br><em>${esc(g.desc)}</em></h3><p>${esc(g.line)}</p><span class="more">${g.to-g.from+1} topics and an assignment <span aria-hidden="true">→</span></span></div></div><div class="pan-i" data-clip><img loading="lazy" decoding="async" width="1280" height="720" alt="" src="slides/${pad(g.from)}.jpg"></div></button>`).join('');
 
-$('#units').innerHTML=GROUPS.map(g=>{
-  const rows=[];for(let n=g.from;n<=g.to;n++){const s=byN(n);rows.push(`<button class="row" type="button" data-open="${n}" data-prev="${n}" data-cursor="View" data-rv><span class="rn">${pad(n)}</span><span><b>${esc(topic(s))}</b><span class="ri">${esc(s.idea)}</span></span><span class="ra" aria-hidden="true">↗</span></button>`)}
+$('#units').innerHTML=GROUPS.map((g,gi)=>{
+  const rows=[];for(let n=g.from;n<=g.to;n++){const s=byN(n);rows.push(`<button class="row" type="button" data-open="${n}" data-prev="${n}" data-cursor="View" data-rv><span class="rn">${pad(n)}</span><span><b>${esc(s.tag)}</b><span class="ri">${esc(s.idea)}</span></span><span class="ra" aria-hidden="true">↗</span></button>`)}
   let a='';
-  if(g.a){a=`<div class="assign" data-rv><div><p class="eyebrow">Assignment ${g.unit} of 5</p><h3>${esc(byN(g.a).title)}</h3><p>${esc(g.brief)}</p><button class="btn btn-sm" type="button" data-open="${g.a}" data-mag><span>View the slide and notes</span></button></div><ol class="steps" data-stagger>${g.steps.map(s=>`<li><span>${esc(s[0])}${s[1]?`<small>${esc(s[1])}</small>`:''}</span></li>`).join('')}</ol></div>`}
-  const count=g.to-g.from+1;
-  return `<section class="sec unit" id="${g.id}" style="${g.unit%2===0&&g.unit?'background:var(--ink2)':''}"><div class="wrap"><div class="u-side"><p class="eyebrow" data-rv>${g.tag}</p><h2 class="h2" data-split>${esc(g.name)}</h2><p class="lede" data-rv>${esc(g.line)}</p><p class="meta" data-rv>${count} ${count===1?'topic':'topics'} · ${g.to>g.from?'slides':'slide'} ${g.from}${g.to>g.from?'–'+g.to:''}${g.a?' · 1 assignment':''}</p></div><div><div class="rows">${rows.join('')}</div>${a}</div></div></section>`}).join('');
+  if(g.a){const s=byN(g.a);a=`<div class="assign" data-rv><div><p class="eyebrow">Unit ${g.unit} / Assignment</p><h3>${twoTone(s)}</h3><p>${esc(s.idea)}</p><button class="btn btn-sm" type="button" data-open="${g.a}" data-mag><span>View the slide and notes</span></button></div><ol class="steps" data-stagger>${g.steps.map(x=>`<li><span><b>${esc(x[0])}</b><small>${esc(x[1])}</small></span></li>`).join('')}</ol></div>`}
+  const count=g.to-g.from+1,light=gi%2===0;
+  return `<section class="sec unit${light?' light':''}" id="${g.id}"><div class="wrap"><div class="u-side"><p class="eyebrow" data-rv>${g.unit?`Unit ${g.unit} of 5`:g.tag}</p><h2 class="h2" data-split>${esc(g.name)}</h2><p class="u-desc" data-rv>${esc(g.desc)}</p><p class="lede" data-rv>${esc(g.line)}</p><p class="meta" data-rv><span>${count} ${count===1?'topic':'topics'}</span><span>${g.to>g.from?'Slides':'Slide'} ${g.from}${g.to>g.from?'–'+g.to:''}</span>${g.a?'<span>1 assignment</span>':''}</p></div><div><div class="rows">${rows.join('')}</div>${a}</div></div></section>`}).join('');
 
 /* gallery */
-const FILTERS=[['all','All 50',1,50],['u0','Welcome',1,4],['u1','Unit 1',5,13],['u2','Unit 2',14,22],['u3','Unit 3',23,31],['u4','Unit 4',32,40],['u5','Unit 5',41,49],['u6','Wrap up',50,50]];
+const FILTERS=[['all','All 50',1,50],['u0','Welcome',1,4],['u1','Understand',5,13],['u2','Plan',14,22],['u3','Research',23,31],['u4','Design',32,40],['u5','Test',41,49],['u6','Conclusion',50,50]];
 let filter='all';
 $('#galBar').innerHTML=FILTERS.map(x=>`<button class="chip" type="button" data-f="${x[0]}" aria-pressed="${x[0]===filter}">${x[1]}</button>`).join('');
 function renderGallery(){
   const f=FILTERS.find(x=>x[0]===filter);
   $$('#galBar .chip').forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.f===filter)));
-  $('#grid').innerHTML=SLIDES.filter(s=>s.n>=f[2]&&s.n<=f[3]).map(s=>`<button class="thumb" type="button" data-open="${s.n}" data-cursor="View" data-rv><span class="im" data-clip><img loading="lazy" decoding="async" width="480" height="270" src="slides/${pad(s.n)}-t.jpg" alt="Slide ${s.n}: ${esc(s.title)}"></span><span>${s.n}. ${esc(s.title)}</span></button>`).join('');
+  $('#grid').innerHTML=SLIDES.filter(s=>s.n>=f[2]&&s.n<=f[3]).map(s=>`<button class="thumb" type="button" data-open="${s.n}" data-cursor="View" data-rv><span class="im" data-clip><img loading="lazy" decoding="async" width="480" height="270" src="slides/${pad(s.n)}-t.jpg" alt="Slide ${s.n}: ${esc(s.title)}"></span><span class="tt2"><i>${pad(s.n)}</i><span>${esc(s.title)}</span></span></button>`).join('');
   revealNew($('#grid'));
 }
 renderGallery();
@@ -96,8 +88,8 @@ function show(n,first){
   const src=`slides/${pad(cur)}.jpg`,tok=++vTok;
   if(first){vImg.src=src}else{vImg.classList.add('sw-out');const t=new Image();const done=()=>{if(tok!==vTok)return;vImg.src=src;vImg.classList.remove('sw-out')};t.onload=done;t.onerror=done;t.src=src}
   vImg.alt=`Slide ${cur}: ${s.title}`;
-  $('#vCount').textContent=`Slide ${cur} of 50`;$('#vEye').textContent=s.eyebrow;
-  $('#vTitle').textContent=s.title;$('#vIdea').textContent=s.idea;
+  $('#vCount').textContent=`Slide ${pad(cur)} / 50`;$('#vEye').textContent=s.tag;
+  $('#vTitle').innerHTML=twoTone(s);$('#vIdea').textContent=s.idea;
   $('#vNotesBody').innerHTML=s.notes.split(/\n\n+/).map(p=>`<p>${esc(p)}</p>`).join('');
   $('#vPrev').disabled=cur===1;$('#vNext').disabled=cur===50;
   [cur-1,cur+1].forEach(k=>{if(k>=1&&k<=50){const i=new Image();i.src=`slides/${pad(k)}.jpg`}});
@@ -156,7 +148,7 @@ function qrSvg(){let r=[];const N=13;let s=7;const rnd=()=>(s=(s*9301+49297)%233
   return `<svg viewBox="0 0 ${N} ${N}" width="100%" height="100%" role="img" aria-label="Ticket QR code, illustration" shape-rendering="crispEdges">${r.map(c=>`<rect x="${c[0]}" y="${c[1]}" width="1" height="1" fill="#101114"/>`).join('')}</svg>`}
 const EVENTS=[['Design Week Keynote','Thu 14 Nov · 10:00 · Hall B','Free'],['Open Studio Night','Fri 15 Nov · 18:00 · Studio 2','Free'],['Film Society Screening','Sat 16 Nov · 19:30 · Cinema','Free']];
 const SCR=['home','detail','register','success'];
-const CAPS={home:['Usefulness','Students find events they care about.'],detail:['Clarity','One clear button per screen.'],register:['Usability','Register in two steps. Labels stay visible.'],success:['Satisfaction','Instant QR ticket, no guesswork.']};
+const CAPS={home:['Usefulness','Students can find relevant events.'],detail:['Clarity','One clear action per screen.'],register:['Usability','Register in two steps.'],success:['Satisfaction','An instant QR ticket.']};
 const NAMES={home:'Events',detail:'Event details',register:'Register',success:'Ticket'};
 $('#screens').innerHTML=`
 <section class="ps" data-s="home"><div class="ps-top"><b>Gather</b><span class="ps-av" aria-hidden="true">AR</span></div><div class="ps-search" aria-hidden="true">Search events</div><h4>This week</h4>
@@ -187,8 +179,8 @@ setPhone(0);
 const lum=h=>{const c=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4));return .2126*c[0]+.7152*c[1]+.0722*c[2]};
 const ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
 const validHex=h=>/^#[0-9a-fA-F]{6}$/.test(h);
-const PRE=[['White on electric blue','#FFFFFF','#476BFF'],['White on deep blue','#FFFFFF','#2B4BDB'],['Ink on paper','#101114','#F6F5F1'],['Grey text on paper','#5C5F69','#F6F5F1'],['Deep blue on lavender','#1F38B0','#C8B9FF']];
-let fg='#FFFFFF',bg='#476BFF';
+const PRE=[['Deck grey on white','#CDCDCD','#FFFFFF'],['Site grey on white','#6E6E6E','#FFFFFF'],['Ink on tile grey','#080808','#D7D7D7'],['White on ink','#FFFFFF','#080808'],['White on Gather blue','#FFFFFF','#2B4BDB']];
+let fg='#CDCDCD',bg='#FFFFFF';
 $('#presets').innerHTML=PRE.map((p,i)=>`<button class="chip" type="button" data-pre="${i}" aria-pressed="false">${p[0]}</button>`).join('');
 function updC(skipHex){
   const r=ratio(fg,bg);$('#sample').style.background=bg;$('#sample').style.color=fg;
@@ -223,9 +215,9 @@ $('#sus').addEventListener('change',updS);
 $('#susReset').addEventListener('click',()=>{$$('#sus input').forEach(i=>i.checked=false);updS()});
 
 /* ================= DESIGN SECTION ================= */
-const PAL=[['Ink','#0a0a09','Dark surfaces'],['Cream','#f0ede4','Light surfaces and text'],['Sand','#c9b99a','Portfolio accent'],['Electric blue','#476BFF','Large accents only'],['Deep blue','#2B4BDB','Buttons and links'],['Lavender','#C8B9FF','Assignments']];
-$('#pal').innerHTML=PAL.map(p=>`<div class="sw2"><i style="background:${p[1]}"></i><div><b>${p[0]}</b>${p[1]}<br>${p[2]}</div></div>`).join('');
-const PAIRS=[['Cream on ink','#f0ede4','#0a0a09'],['Grey text on ink','#a29e92','#0a0a09'],['Ink on sand','#0a0a09','#c9b99a'],['White on deep blue','#FFFFFF','#2B4BDB'],['Ink on lavender','#0a0a09','#C8B9FF'],['White on electric blue','#FFFFFF','#476BFF']];
+const PAL=[['Ink','#080808','Text and dark sections'],['White','#ffffff','Slides and light sections'],['Tile grey','#d7d7d7','Tiles behind content'],['Deck grey','#cdcdcd','Second headline line in the deck'],['Site grey','#6e6e6e','Second headline line on this site'],['Gather blue','#2B4BDB','Only inside the product mockups']];
+$('#pal').innerHTML=PAL.map(p=>`<div class="sw2"><i style="background:${p[1]}"></i><div><b>${p[0]}</b>${p[1].toUpperCase()}<br>${p[2]}</div></div>`).join('');
+const PAIRS=[['Ink on white','#080808','#ffffff'],['Ink on tile grey','#080808','#d7d7d7'],['Deck grey on white','#cdcdcd','#ffffff'],['Site grey on white','#6e6e6e','#ffffff'],['Grey on ink (dark sections)','#8c8c8c','#080808'],['White on Gather blue','#ffffff','#2B4BDB']];
 $('#pairs').innerHTML=PAIRS.map(p=>{const r=ratio(p[1],p[2]);const lab=r>=4.5?'✓ Small text':r>=3?'Large text only':'✗ Fails';return `<li><span class="pv" style="background:${p[2]};color:${p[1]}">Aa</span><span>${p[0]}</span><span class="r">${r.toFixed(2)} : 1 · ${lab}</span></li>`}).join('');
 
 /* ================= DOWNLOADS ================= */
@@ -378,10 +370,8 @@ if(GS){
   if(FINE){
     const pw=$('#phoneWrap'),hero=$('.hero');
     const rY=gsap.quickTo(pw,'rotationY',{duration:.9,ease:'power3'}),rX=gsap.quickTo(pw,'rotationX',{duration:.9,ease:'power3'});
-    const b1=gsap.quickTo('.b1','x',{duration:1.6,ease:'power3'}),b1y=gsap.quickTo('.b1','y',{duration:1.6,ease:'power3'});
-    const b2=gsap.quickTo('.b2','x',{duration:1.6,ease:'power3'}),b2y=gsap.quickTo('.b2','y',{duration:1.6,ease:'power3'});
-    hero.addEventListener('pointermove',e=>{const px=e.clientX/innerWidth-.5,py=e.clientY/innerHeight-.5;rY(px*20);rX(-py*14);b1(px*70);b1y(py*50);b2(-px*90);b2y(-py*60)});
-    hero.addEventListener('pointerleave',()=>{rY(0);rX(0);b1(0);b1y(0);b2(0);b2y(0)});
+    hero.addEventListener('pointermove',e=>{const px=e.clientX/innerWidth-.5,py=e.clientY/innerHeight-.5;rY(px*20);rX(-py*14)});
+    hero.addEventListener('pointerleave',()=>{rY(0);rX(0)});
     $$('[data-mag]').forEach(el=>{
       const xt=gsap.quickTo(el,'x',{duration:.7,ease:'elastic.out(1,.55)'}),yt=gsap.quickTo(el,'y',{duration:.7,ease:'elastic.out(1,.55)'});
       el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();xt((e.clientX-r.left-r.width/2)*.32);yt((e.clientY-r.top-r.height/2)*.4)});
