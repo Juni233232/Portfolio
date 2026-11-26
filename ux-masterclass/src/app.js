@@ -364,8 +364,10 @@ if(GS){
     return()=>noPin(true);
   });
   mm.add('(max-width: 899px)',()=>{noPin(false)});
-  gsap.to('.hero-stage',{yPercent:-12,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
-  gsap.to('.hero-copy',{yPercent:-6,opacity:.2,ease:'none',scrollTrigger:{trigger:'.hero',start:'30% top',end:'bottom top',scrub:true}});
+  /* hero parallax only when the phone sits beside the title; never fade text people are still reading */
+  mm.add('(min-width: 1061px)',()=>{
+    gsap.to('.hero-stage',{yPercent:-8,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+  });
   $$('.unit .u-side').forEach(el=>gsap.fromTo(el,{yPercent:0},{yPercent:-4,ease:'none',scrollTrigger:{trigger:el.closest('.unit'),start:'top bottom',end:'bottom top',scrub:true}}));
   if(FINE){
     const pw=$('#phoneWrap'),hero=$('.hero');
